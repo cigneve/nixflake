@@ -102,7 +102,7 @@
       nixosConfigurations = {
         cerulean = mkSystem nixos system "cerulean";
         trantor = mkSystem nixos system "trantor";
-        hyrule = mkSystem nixos system "hyrule";
+        babadir = mkSystem nixos system "babadir";
         aldhani = mkSystem nixos system "aldhani";
         corrin = mkSystem nixos "aarch64-linux" "corrin";
         iso = mkSystem nixos system "iso";

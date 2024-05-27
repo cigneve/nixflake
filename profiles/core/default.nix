@@ -8,7 +8,7 @@
   nix.package = pkgs.nixVersions.stable;
 
   i18n.defaultLocale = "en_US.UTF-8";
-  time.timeZone = lib.mkDefault "Asia/Tokyo";
+  time.timeZone = lib.mkDefault "Asia/Istanbul";
 
   environment = {
     systemPackages = with pkgs; [

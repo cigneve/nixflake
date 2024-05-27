@@ -26,7 +26,7 @@ in {
     ../../users/root
   ];
 
-  services.asusctl = {
+  services.asusd= {
     enable = true;
   };
   services.supergfxd = {

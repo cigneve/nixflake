@@ -59,6 +59,6 @@
   #   slirp4netns
   # ];
   environment.systemPackages = [pkgs.docker-compose];
-  users.users.speed.extraGroups = ["podman"];
+  users.users.baba.extraGroups = ["podman"];
   # TODO: or virtualisation.containers.users instead?
 }

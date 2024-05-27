@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   imports = [./zsh ./podman];
-  home-manager.users.speed = {
+  home-manager.users.baba = {
     imports = [./neovim ./tmux ./wezterm];
   };
 

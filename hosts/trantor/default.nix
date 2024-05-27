@@ -15,7 +15,7 @@ in {
     ../../profiles/graphical/games
     ../../profiles/graphical
     ../../profiles/misc/yubikey.nix
-    ../../users/speed
+    ../../users/baba
     ../../users/root
   ];
 

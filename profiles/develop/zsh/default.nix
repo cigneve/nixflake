@@ -29,7 +29,7 @@
     ];
   };
 
-  home-manager.users.speed = {
+  home-manager.users.baba = {
     programs.zsh = {
       enable = true;
       autosuggestion.enable = true;

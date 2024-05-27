@@ -76,7 +76,7 @@ in {
     pkgs.xdg-desktop-portal-gtk
   ];
 
-  home-manager.users.speed = {pkgs, ...}: {
+  home-manager.users.baba = {pkgs, ...}: {
     imports = [./waybar ./wlsunset];
 
     # rofi menu style

@@ -18,11 +18,11 @@
     kernel.sysctl."kernel.sysrq" = 1;
   };
 
-  users.users.speed.packages = with pkgs; [
+  users.users.baba.packages = with pkgs; [
     v4l-utils
   ];
 
-  home-manager.users.speed = {pkgs, ...}: {
+  home-manager.users.baba = {pkgs, ...}: {
     imports = [./misc/mpv];
 
     gtk = {

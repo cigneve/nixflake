@@ -100,11 +100,7 @@
 
     outputs = {
       nixosConfigurations = {
-        cerulean = mkSystem nixos system "cerulean";
-        trantor = mkSystem nixos system "trantor";
         babadir = mkSystem nixos system "babadir";
-        aldhani = mkSystem nixos system "aldhani";
-        corrin = mkSystem nixos "aarch64-linux" "corrin";
         iso = mkSystem nixos system "iso";
       };
 

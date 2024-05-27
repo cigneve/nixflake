@@ -76,12 +76,11 @@ in {
   # Disk formation
   # We imported the needed disk configuration from disko.nix
 
-  # Hibernation
-  swapDevices = [ { device = "/swapfile"; size = 8192; } ]; # 8GB swapfile for hibernation
   # Resume from encrypted volume's /swapfile
+  # swapDevices = [ { device = "/swap/swapfile";priority=0; } ]; 
   boot.resumeDevice = "/dev/mapper/cryptroot";
   # filefrag -v /swapfile | awk '{ if($1=="0:"){print $4} }'
-  boot.kernelParams = ["resume_offset=114857984" "mitigations=off"];
+  boot.kernelParams = ["resume_offset=1148" "mitigations=off"];
 
   hardware = {
     enableRedistributableFirmware = true;

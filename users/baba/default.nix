@@ -30,8 +30,8 @@ in {
       userEmail = email;
       signing = {
         # TODO: not me
-        # key = "F604E0EBDF3A34F2B9B472621238B9C4AD889640";
-        #   signByDefault = true;
+        key = "F604E0EBDF3A34F2B9B472621238B9C4AD889640";
+        signByDefault = true;
       };
       # TODO: sendemail config
     };

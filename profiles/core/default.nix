@@ -24,7 +24,7 @@
       powertop
       iputils
       jq
-      # moreutils
+      moreutils
       nmap
       sd
       ripgrep
@@ -61,6 +61,7 @@
 
   security.protectKernelImage = true;
 
+  # OOM Handling
   services.earlyoom.enable = true;
 
   users.mutableUsers = false;

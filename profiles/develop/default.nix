@@ -2,17 +2,44 @@
   imports = [./fish ./podman];
   home-manager.users.baba = {
     # TODO: zellij
-    imports = [ ./wezterm];
+    imports = [ 
+    ./wezterm
+    ];
+    programs.fzf = {
+      enable = true;
+
+      # fd > find
+      defaultOptions = ["--reverse" "--ansi"]; # FZF_DEFAULT_OPTS
+      defaultCommand = "fd ."; # FZF_DEFAULT_COMMAND
+      fileWidgetCommand = "fd ."; # FZF_CTRL_T_COMMAND
+      changeDirWidgetCommand = "fd --type d . $HOME"; # FZF_ALT_C_COMMAND
+    };
+
+    programs.atuin = {
+      enable = true;
+      enableFishIntegration = true;
+      settings = {
+        workspace = true;
+        # TODO: auto_sync etc
+        update_check = false;
+      };
+
+    };
+    programs.zoxide = {
+      enable = true;
+      enableFishIntegration = true;
+    };
+
   };
 
   # qmk rules
-  services.udev.extraRules = ''
-    # UDEV rules for Teensy USB devices
-    ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", ENV{ID_MM_DEVICE_IGNORE}="1"
-    ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789A]?", ENV{MTP_NO_PROBE}="1"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789ABCD]?", MODE:="0666"
-    KERNEL=="ttyACM*", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", MODE:="0666"
-  '';
+  # services.udev.extraRules = ''
+  #   # UDEV rules for Teensy USB devices
+  #   ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", ENV{ID_MM_DEVICE_IGNORE}="1"
+  #   ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789A]?", ENV{MTP_NO_PROBE}="1"
+  #   SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789ABCD]?", MODE:="0666"
+  #   KERNEL=="ttyACM*", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", MODE:="0666"
+  # '';
 
   environment = {
     sessionVariables = {
@@ -35,8 +62,11 @@
       rsync
       picocom
 
+      # The editor
       helix
-      lf
+
+      # Decide between wezterm or zellij
+      zellij
 
       dua # disk usage
       pass
@@ -67,13 +97,31 @@
       bandwhich
       jless
       xh
+
+      # FM
       xplr
+      lf
       bottom
+
+      # Archiving
+      bzip2
+      gzip
+      lrzip
+      p7zip
+      unzip
+      xz
+
+      # Misc
+      bat
+      eza
+      fd
+      fzf
+      procs
+      xdg-utils
     ];
 
     # TODO: mutt / aerc
   };
-
   documentation.dev.enable = true;
 
   # programs.mosh.enable = true;

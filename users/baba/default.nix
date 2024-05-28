@@ -73,7 +73,6 @@ in {
     # mkpasswd -m sha-512 <password>
     hashedPassword = "$y$j9T$9gXgYwkSGmkBZFHCL81gC1$FbetOSNYOC7rw546mRw6dZxlmgL.v0HDIZa/mWCbkQ0";
     openssh.authorizedKeys.keys = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINhYkvu/rVDYYlcM8Rq8HP3KPY2AX3mCvmyZ+/L1/yuh speed@hyrule.local"];
-    # shell = pkgs.zsh;
     # video is needed to control the backlight
     extraGroups = ["wheel" "input" "docker" "video"];
   };

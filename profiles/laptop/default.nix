@@ -16,6 +16,7 @@
   ];
 
   # remap caps to escape/ctrl on built-in keyboard.
+  # TODO: Convert S to meta/alt
   environment.etc."dual-function-keys.yaml".text = ''
     TIMING:
       TAP_MILLISEC: 200
@@ -31,6 +32,12 @@
       - KEY: KEY_CAPSLOCK
         TAP: KEY_ESC
         HOLD: KEY_LEFTCTRL
+      - KEY: KEY_A
+        TAP: KEY_A
+        HOLD: KEY_LEFTSHIFT
+      - KEY: KEY_S
+        TAP: KEY_S
+        HOLD: KEY_LEFTSHIFT
   '';
   services.interception-tools = {
     enable = true;

@@ -11,7 +11,7 @@
 with lib;
   buildLinux (args
     // rec {
-      version = "6.0";
+      version = "6.8";
 
       # modDirVersion needs to be x.y.z, will automatically add .0 if needed
       modDirVersion =

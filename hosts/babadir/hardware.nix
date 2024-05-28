@@ -37,7 +37,24 @@
   #   "surface_hid"
   # ];
 
+  boot.initrd.availableKernelModules =  [
+    "xhci_pci"
+    "nvme"
+    "sd_mod"
+    "dm_mod"
+    "dm_crypt"
+    "cryptd"
+    # required for keyboard support at init
+    # "intel_lpss"
+    # "intel_lpss_pci"
+    "8250_dw"
+    "surface_aggregator"
+    "surface_aggregator_registry"
+    "surface_hid_core"
+    "surface_hid"
+  ];
+
   boot.kernelModules = ["kvm-amd"];
 
-  hardware.cpu.intel.updateMicrocode = true;
+  hardware.cpu.amd.updateMicrocode = true;
 }

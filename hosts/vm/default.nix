@@ -7,7 +7,7 @@
   linuxPackages = pkgs.linuxPackagesFor kernel;
 in {
   imports = [
-    ./hardware.nix
+    # ./hardware.nix
     # Take an empty *readonly* snapshot of the root subvolume,
     # which we'll eventually rollback to on every boot.
     # sudo mount /dev/mapper/cryptroot -o subvol=root /mnt/root
@@ -42,8 +42,6 @@ in {
   # boot.loader.systemd-boot.enable = true;
   # boot.loader.systemd-boot.editor = false;
 
-  # use the custom kernel config
-  # boot.kernelPackages = linuxPackages;
 
   # use zstd compression instead of gzip for initramfs.
   # boot.initrd.compressor = "zstd";
@@ -62,7 +60,7 @@ in {
   # boot.loader.systemd-boot.editor = false;
 
   # use the custom kernel config
-  boot.kernelPackages = linuxPackages;
+  # boot.kernelPackages = linuxPackages;
 
   # use zstd compression instead of gzip for initramfs.
   boot.initrd.compressor = "zstd";

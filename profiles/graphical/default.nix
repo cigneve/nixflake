@@ -2,7 +2,7 @@
   pkgs,
   ...
 }: {
-  imports = [./pipewire.nix ./niri../develop ../network ./im];
+  imports = [./pipewire.nix ./sway ../develop ../network ./im];
 
   nixpkgs.overlays = [
     #nixpkgs-wayland.overlay
@@ -66,6 +66,7 @@
     paper-icon-theme
     firefox-wayland
     chromium
+    qutebrowser
 
     wf-recorder
     ffmpeg

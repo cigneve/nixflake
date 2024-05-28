@@ -63,8 +63,8 @@ in {
   # boot.loader.systemd-boot.editor = false;
 
   # use the custom kernel config
-  # boot.kernelPackages = linuxPackages;
-  boot.kernelPackages = pkgs.linuxPackages_zen;
+  boot.kernelPackages = linuxPackages;
+  # boot.kernelPackages = pkgs.linuxPackages_zen;
 
   # use zstd compression instead of gzip for initramfs.
   boot.initrd.compressor = "zstd";

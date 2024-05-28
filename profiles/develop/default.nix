@@ -1,7 +1,8 @@
 {pkgs, ...}: {
-  imports = [./zsh ./podman];
+  imports = [./fish ./podman];
   home-manager.users.baba = {
-    imports = [./neovim ./tmux ./wezterm];
+    # TODO: zellij
+    imports = [ ./wezterm];
   };
 
   # qmk rules
@@ -17,9 +18,9 @@
     sessionVariables = {
       PAGER = "less";
       LESS = "-iFJMRWX -z-4 -x4";
-      HELIX_RUNTIME = "$HOME/src/helix/runtime";
-      EDITOR = "$HOME/src/helix/target/release/hx";
-      VISUAL = "$HOME/src/helix/target/release/hx";
+      HELIX_RUNTIME = "${pkgs.helix}/lib/runtime";
+      EDITOR = "${pkgs.helix}/bin/hx";
+      VISUAL = "${pkgs.helix}/bin/hx";
       # TERMINAL = "alacritty";
       # BROWSER = "firefox-developer-edition";
     };
@@ -33,6 +34,9 @@
       wget
       rsync
       picocom
+
+      helix
+      lf
 
       dua # disk usage
       pass

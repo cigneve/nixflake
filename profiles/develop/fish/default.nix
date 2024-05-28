@@ -1,20 +1,22 @@
 {pkgs,
+lib,
 ...}: {
   users.defaultUserShell = pkgs.fish;
 
   environment.pathsToLink = ["/share/fish"];
+  programs.fish.enable = true;
 
   environment = {
 
     systemPackages = with pkgs; [
     ];
   };
-  home-manager.users.babadir = {
+  home-manager.users.baba = {
+    xdg.configFile."fish".source = ./.;
     programs.fish = {
-      enable = true;
-      plugins = with pkgs.fishPlugins; [ fishplugin-autopair ];
+      enable = lib.mkForce true;
+      # plugins = with pkgs.fishPlugins; [ autopair ];
 
-      xdg.configFile."fish".source = ./.;
 
       shellAbbrs = {
 

@@ -1,22 +1,21 @@
 {
   lib,
   inputs,
-  config,
   ...
 }: {
   require = [
-    #inputs.hardware.nixosModules.common-cpu-amd
-    #inputs.hardware.nixosModules.common-cpu-amd-pstate
+    inputs.hardware.nixosModules.common-cpu-amd
+    inputs.hardware.nixosModules.common-cpu-amd-pstate
     # inputs.hardware.nixosModules.common-gpu-nvidia
-    #inputs.hardware.nixosModules.common-pc-laptop
-    #inputs.hardware.nixosModules.common-pc-laptop-ssd
-    #inputs.hardware.nixosModules.asus-battery
+    inputs.hardware.nixosModules.common-pc-laptop
+    inputs.hardware.nixosModules.common-pc-laptop-ssd
+    inputs.hardware.nixosModules.asus-battery
   ];
 
   boot.kernelParams = ["cryptomgr.notests"];
 
   # Only load the crypto modules required instead of a blanket import.
-  boot.initrd.luks.cryptoModules = ["aes" "aes_generic" "cbc" "xts" "lrw" "sha1" "sha256" "sha512" "algif_skcipher"];
+  boot.initrd.luks.cryptoModules = ["aes"];
 
   # Load surface_aggregator / surface_hid at stage 1 so we can use the keyboard
   # during LUKS.
@@ -41,13 +40,24 @@
   #   "surface_hid"
   # ];
 
-  boot.initrd.availableKernelModules = lib.mkForce  [
+  boot.initrd.availableKernelModules =  [
     "xhci_pci"
     "nvme"
-    "ahci" "usbhid" "usb_storage" "sd_mod" "dm_mod" "dm_crypt" "cryptd" "atkbd" "i8042"
-
+    "sd_mod"
+    "dm_mod"
+    "md_mod"
+    "dm_crypt"
+    "cryptd"
+    # required for keyboard support at init
+    # "intel_lpss"
+    # "intel_lpss_pci"
+    "8250_dw"
+    # "surface_aggregator"
+    # "surface_aggregator_registry"
+    # "surface_hid_core"
+    # "surface_hid"
   ];
-  # boot.extraModulePackages = with config.boot.kernelPackages;[dm_mod];
+  boot.extraModulePackages = with config.boot.kernelPackages;[dm_mod];
   boot.kernelModules = ["kvm-amd"];
 
   hardware.cpu.amd.updateMicrocode = true;

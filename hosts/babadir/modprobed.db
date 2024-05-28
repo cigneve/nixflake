@@ -107,6 +107,7 @@ md4
 mei
 mei_hdcp
 mei_me
+md_mod
 mii
 mousedev
 msr

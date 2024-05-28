@@ -63,7 +63,7 @@ in {
 
   # use the custom kernel config
   # boot.kernelPackages = linuxPackages;
-  # boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_5_4;
 
   # use zstd compression instead of gzip for initramfs.
   boot.initrd.compressor = "zstd";

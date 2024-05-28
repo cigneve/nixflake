@@ -5,12 +5,12 @@
   ...
 }: {
   require = [
-    #inputs.hardware.nixosModules.common-cpu-amd
-    #inputs.hardware.nixosModules.common-cpu-amd-pstate
-    # inputs.hardware.nixosModules.common-gpu-nvidia
-    #inputs.hardware.nixosModules.common-pc-laptop
-    #inputs.hardware.nixosModules.common-pc-laptop-ssd
-    #inputs.hardware.nixosModules.asus-battery
+    inputs.hardware.nixosModules.common-cpu-amd
+    inputs.hardware.nixosModules.common-cpu-amd-pstate
+     # inputs.hardware.nixosModules.common-gpu-nvidia
+    inputs.hardware.nixosModules.common-pc-laptop
+    inputs.hardware.nixosModules.common-pc-laptop-ssd
+    # inputs.hardware.nixosModules.asus-battery
   ];
 
   boot.kernelParams = ["cryptomgr.notests"];

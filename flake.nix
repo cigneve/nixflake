@@ -10,6 +10,9 @@
 
     hardware.url = "github:NixOS/nixos-hardware";
 
+    niri.url = "github:YaLTeR/niri";
+    niri.inputs.nixpkgs.follows = "nixpkgs";
+
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -22,6 +25,7 @@
     nixos,
     nixpkgs,
     hardware,
+    niri,
     disko,
     mobile-nixos,
   }: let

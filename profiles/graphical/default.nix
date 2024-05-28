@@ -2,7 +2,7 @@
   pkgs,
   ...
 }: {
-  imports = [./pipewire.nix ./sway ../develop ../network ./im];
+  imports = [./pipewire.nix ./niri../develop ../network ./im];
 
   nixpkgs.overlays = [
     #nixpkgs-wayland.overlay
@@ -89,6 +89,7 @@
       fira-code
       fira-code-symbols
       fira-mono
+      cascadia-code
       fira
       libertine
       roboto

@@ -47,9 +47,9 @@
   in_ergodox = "12951:18804:ZSA_Technology_Labs_ErgoDox_EZ_Keyboard";
   in_mouse = "1133:16518:Logitech_G703_LS";
   out_laptop = "eDP-1";
-  # out_monitor = "DP-1";
+  out_monitor = "DP-1";
   # out_monitor = "Goldstar Company Ltd LG HDR 4K 0x0000EEB5";
-  out_monitor = "Dell Inc. DELL P2721Q 2SLCVF3";
+  # out_monitor = "Dell Inc. DELL P2721Q 2SLCVF3";
   # Theme colors
   # bg = "#281733";
   # fg = "#eff1f5";
@@ -220,10 +220,10 @@ in {
 
         input = {
           "type:touchpad" = _touchpad;
-          "${in_touchpad}" = { pointer_accel = "0.3"; };
+          # "${in_touchpad}" = { pointer_accel = "0.3"; };
           "${in_keyboard}" = _keyboard;
           "1:1:AT_Translated_Set_2_keyboard" = _keyboard;
-          "2362:628:PIXA3854:00_093A:0274_Touchpad" = { pointer_accel = "-0.2"; };
+          # "2362:628:PIXA3854:00_093A:0274_Touchpad" = { pointer_accel = "-0.2"; };
           "${in_mouse}" = {
             accel_profile = "adaptive";
             pointer_accel = "-0.2";

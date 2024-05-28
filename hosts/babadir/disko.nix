@@ -40,15 +40,15 @@
                     extraArgs = ["-L" "nixos"]; # -f ?
                     subvolumes = {
                       # TODO: consider autodefrag and commit=120
-                      "/root" = {
+                      "@root" = {
                         mountpoint = "/";
                         mountOptions = ["compress=zstd:1" "noatime"];
                       };
-                      "/home" = {
+                      "@home" = {
                         mountpoint = "/home";
                         mountOptions = ["compress=zstd:1" "noatime"];
                       };
-                      "/swap" = {
+                      "@swap" = {
                         mountpoint = "/swap";
                         mountOptions = ["compress=zstd:1" "noatime"];
                         swap = {
@@ -58,15 +58,15 @@
                           };
                         };
                       };
-                      "/nix" = {
+                      "@nix" = {
                         mountpoint = "/nix";
                         mountOptions = ["compress=zstd:1" "noatime"];
                       };
-                      "/persist" = {
+                      "@persist" = {
                         mountpoint = "/persist";
                         mountOptions = ["compress=zstd:1" "noatime"];
                       };
-                      "/log" = {
+                      "@log" = {
                         mountpoint = "/var/log";
                         mountOptions = ["compress=zstd:1" "noatime"];
                       };

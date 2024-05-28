@@ -28,6 +28,7 @@ in {
 
   services.asusd= {
     enable = true;
+    enableUserService = true;
   };
   services.supergfxd = {
     enable = true;
@@ -62,8 +63,8 @@ in {
   # boot.loader.systemd-boot.editor = false;
 
   # use the custom kernel config
-  boot.kernelPackages = linuxPackages;
-  # boot.kernelPackages = pkgs.linuxPackages_5_4;
+  # boot.kernelPackages = linuxPackages;
+  boot.kernelPackages = pkgs.linuxPackages_zen;
 
   # use zstd compression instead of gzip for initramfs.
   boot.initrd.compressor = "zstd";
@@ -81,10 +82,10 @@ in {
   # swapDevices = [ { device = "/swap/swapfile";priority=0; } ]; 
   boot.resumeDevice = "/dev/mapper/cryptroot";
   # filefrag -v /swapfile | awk '{ if($1=="0:"){print $4} }'
-  boot.kernelParams = ["resume_offset=1148" "mitigations=off"];
+  boot.kernelParams = ["resume_offset=269568" "mitigations=off"];
 
   hardware = {
-    enableRedistributableFirmware = true;
+    enableAllFirmware = true;
     firmware = [pkgs.wireless-regdb];
   };
 

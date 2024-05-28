@@ -15,7 +15,7 @@
     linuxManualConfig {
       inherit (linux) stdenv version modDirVersion src;
       inherit lib;
-      configfile = ./kernel.config;
+      # configfile = ./kernel.config;
       kernelPatches = [
       ]; # TODO: pass through kernelPatches
       allowImportFromDerivation = true;

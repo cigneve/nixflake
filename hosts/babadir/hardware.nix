@@ -46,6 +46,7 @@
     "nvme"
     "ahci" "usbhid" "usb_storage" "sd_mod" "dm_mod" "dm_crypt" "cryptd" "atkbd" "i8042"
 
+
   ];
   # boot.extraModulePackages = with config.boot.kernelPackages;[dm_mod];
   boot.kernelModules = ["kvm-amd"];

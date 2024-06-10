@@ -65,8 +65,9 @@
       # The editor
       helix
 
-      # Decide between wezterm or zellij
+      # Decide between wezterm or zellij+foot
       zellij
+      foot
 
       dua # disk usage
       pass

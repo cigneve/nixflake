@@ -9,11 +9,6 @@
   ...
 }: let
   #linux = pkgs.linuxKernel.kernels.linux_6_9;
-  g14_patches = fetchGit {
-    url = "https://gitlab.com/dragonn/linux-g14";
-    ref = "6.9";
-    rev = "52ac92f9b6085f3b2c7edac93dec412dbe9c01b4";
-  };
    #linux = pkgs.linuxPackages_6_8;
    linux = pkgs.callPackage ./linux-6.0.nix {};
 

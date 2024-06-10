@@ -25,6 +25,7 @@ with lib;
 
       src = fetchurl {
         url = "mirror://kernel/linux/kernel/v6.x/linux-${version}.tar.xz";
+	# sha256 = "";
 	sha256 = "JPoB+5icej4oRT8Rd5kWhxN2bhGcU4HawwEV8Y8mgUk=";
       };
     }

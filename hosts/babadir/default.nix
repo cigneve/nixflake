@@ -4,9 +4,10 @@
   ...
 }: let
   kernel = pkgs.callPackage ./kernel.nix {};
+  # kernel = pkgs.callPackage ./linux-6.0.nix {};
   g14_patches = fetchGit {
     url = "https://gitlab.com/dragonn/linux-g14";
-    ref = "origin/6.9";
+    ref = "6.9";
     rev = "52ac92f9b6085f3b2c7edac93dec412dbe9c01b4";
   };
  #linuxPackages = pkgs.linuxPackages_6_9;
@@ -51,41 +52,12 @@ in {
   boot.loader.systemd-boot.enable = true;
   # boot.loader.systemd-boot.editor = false;
 
-  # use the custom kernel config
-  boot.kernelPackages = linuxPackages;
-
-  # use zstd compression instead of gzip for initramfs.
-  boot.initrd.compressor = "zstd";
-
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  # btrfs
-  boot.initrd.supportedFilesystems = ["btrfs"];
-  services.btrfs.autoScrub.enable = true;
-
-  # Disk 
-  ## We imported the needed disk configuration from disko.nix
-
-  ## Resume from encrypted volume's /swapfile
-  # swapDevices = [ { device = "/swap/swapfile";priority=0; } ]; 
-  boot.resumeDevice = "/dev/nvme0n1p2";
-  # filefrag -v /swapfile | awk '{ if($1=="0:"){print $4} }'
-  boot.kernelParams = ["resume_offset=269568" "mitigations=off"];
-
-  hardware = {
-    enableAllFirmware = true;
-    firmware = [pkgs.wireless-regdb];
-  };
-
-  # nix.maxJobs = lib.mkDefault 8;
-  # nix.systemFeatures = [ "gccarch-haswell" ];
-
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 
 
  # All kernel patches for g14
- boot.kernelPatches = map (patch: {inherit patch; }) [
-  "${g14_patches}/0001-acpi-proc-idle-skip-dummy-wait.patch"
+ boot.kernelPatches = (map (patch: {inherit patch; }) [
+"${g14_patches}/0001-acpi-proc-idle-skip-dummy-wait.patch"
+  # "${g14_patches}/0001-acpi-proc-idle-skip.patch"
  "${g14_patches}/v4-0001-platform-x86-asus-wmi-add-support-for-2024-ROG-Mi.patch"
  "${g14_patches}/v4-0002-platform-x86-asus-wmi-add-support-for-Vivobook-GP.patch"
  "${g14_patches}/v4-0003-platform-x86-asus-wmi-add-support-variant-of-TUF-.patch"
@@ -133,7 +105,7 @@ in {
  "${g14_patches}/0001-platform-x86-asus-wmi-Support-2023-ROG-X16-tablet-mo.patch"
  "${g14_patches}/amd-tablet-sfh.patch"
 
-  #builtins.fetchurl {url="https://raw.githubusercontent.com/cachyos/kernel-patches/master/6.9/sched/0001-sched-ext.patch";sha256="";}
+  # builtins.fetchurl {url="https://raw.githubusercontent.com/cachyos/kernel-patches/master/6.9/sched/0001-sched-ext.patch";sha256="";}
 
  "${g14_patches}/0003-hid-asus-add-USB_DEVICE_ID_ASUSTEK_DUO_KEYBOARD.patch"
  "${g14_patches}/0005-asus-wmi-don-t-error-out-if-platform_profile-already.patch"
@@ -147,51 +119,83 @@ in {
 # Dummy patch for adding G14 kernel configurations
 [{
    name = "g14-dummy";
-   patch = "null";
-   extraConfig = ''
-                  PINCTRL_AMD y 
-                  X86_AMD_PSTATE y 
-                  AMD_PMC m
+   patch = null;
+   extraStructuredConfig = {
+                  PINCTRL_AMD= lib.kernel.yes; 
+                  X86_AMD_PSTATE= lib.kernel.yes; 
+                  AMD_PMC= lib.kernel.module;
 
-                  MODULE_COMPRESS_NONE  n
-                  MODULE_COMPRESS_ZSTD y 
+                  MODULE_COMPRESS_NONE = lib.kernel.no;
+                  MODULE_COMPRESS_ZSTD= lib.kernel.yes; 
 
-                  LRU_GEN y 
-                  LRU_GEN_ENABLED y 
-                  LRU_GEN_STATS n 
-                  NR_LRU_GENS 7
-                  TIERS_PER_GEN 4
+                  LRU_GEN= lib.kernel.yes; 
+                  LRU_GEN_ENABLED= lib.kernel.yes; 
+                  LRU_GEN_STATS= lib.kernel.no; 
+                  # NR_LRU_GENS= 7;
+                  # TIERS_PER_GEN= 4;
 
-                  INFINIBAND  n
-                  DRM_NOUVEAU  n
-                  PCMCIA_WL3501  n
-                  PCMCIA_RAYCS  n
-                  IWL3945  n
-                  IWL4965  n
-                  IPW2200  n
-                  IPW2100  n
-                  FB_NVIDIA  n
-                  SENSORS_ASUS_EC  n
-                  SENSORS_ASUS_WMI_EC n 
+                  INFINIBAND = lib.mkDefault lib.kernel.no;
+                  DRM_NOUVEAU = lib.kernel.no;
+                  PCMCIA_WL3501 = lib.kernel.no;
+                  PCMCIA_RAYCS = lib.kernel.no;
+                  IWL3945 = lib.kernel.no;
+                  IWL4965 = lib.kernel.no;
+                  IPW2200 = lib.kernel.no;
+                  IPW2100 = lib.kernel.no;
+                  FB_NVIDIA = lib.kernel.no;
+                  SENSORS_ASUS_EC = lib.kernel.no;
+                  SENSORS_ASUS_WMI_EC= lib.kernel.no; 
 
-                  RAPIDIO  n
-                  CDROM  m
-                  PARIDE  n
+                  RAPIDIO = lib.kernel.no;
+                  CDROM = lib.kernel.module;
+                  PARIDE = lib.kernel.no;
 
-                  CMDLINE_BOOL  y
-                  CMDLINE makepkgplaceholderyolo
-                  CMDLINE_OVERRIDE n 
+                  CMDLINE_BOOL = lib.kernel.yes;
+                  CMDLINE= lib.kernel.module;
+                  CMDLINE_OVERRIDE= lib.kernel.no; 
 
-                  EFI_HANDOVER_PROTOCOL  y
-                  EFI_STUB y 
+                  EFI_HANDOVER_PROTOCOL = lib.kernel.yes;
+                  EFI_STUB= lib.kernel.yes; 
 
-                  HW_RANDOM_TPM n 
+                  HW_RANDOM_TPM= lib.kernel.no; 
 
-                  SCHED_CLASS_EXT y
-                 '';
-   }]
+                  SCHED_CLASS_EXT= lib.kernel.yes;
+                 };
+ }
+]
+  );
 
-;
+  # use the custom kernel config
+  boot.kernelPackages = linuxPackages;
+
+  # use zstd compression instead of gzip for initramfs.
+  boot.initrd.compressor = "zstd";
+
+  boot.loader.efi.canTouchEfiVariables = true;
+
+  # btrfs
+  boot.initrd.supportedFilesystems = ["btrfs"];
+  services.btrfs.autoScrub.enable = true;
+
+  # Disk 
+  ## We imported the needed disk configuration from disko.nix
+
+  ## Resume from encrypted volume's /swapfile
+  # swapDevices = [ { device = "/swap/swapfile";priority=0; } ]; 
+  boot.resumeDevice = "/dev/nvme0n1p2";
+  # filefrag -v /swapfile | awk '{ if($1=="0:"){print $4} }'
+  boot.kernelParams = ["resume_offset=269568" "mitigations=off"];
+
+  hardware = {
+    enableAllFirmware = true;
+    firmware = [pkgs.wireless-regdb];
+  };
+
+  # nix.maxJobs = lib.mkDefault 8;
+  # nix.systemFeatures = [ "gccarch-haswell" ];
+
+  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+
   # Track list of enabled modules for localmodconfig generation.
   environment.systemPackages = [pkgs.modprobed-db
   pkgs.asusctl pkgs.supergfxctl

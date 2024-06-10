@@ -143,53 +143,53 @@ in {
   #builtins.fetchurl {url="https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/master/more-uarches-for-kernel-6.8-rc4%2B.patch";sha256="";}
 
 ]
-#  ++ 
-# # Dummy patch for adding G14 kernel configurations
-# [{
-#    name = "g14-dummy";
-#    patch = "null";
-#    extraConfig = ''
-#                   PINCTRL_AMD y 
-#                   X86_AMD_PSTATE y 
-#                   AMD_PMC m
+ ++ 
+# Dummy patch for adding G14 kernel configurations
+[{
+   name = "g14-dummy";
+   patch = "null";
+   extraConfig = ''
+                  PINCTRL_AMD y 
+                  X86_AMD_PSTATE y 
+                  AMD_PMC m
 
-#                   MODULE_COMPRESS_NONE  n
-#                   MODULE_COMPRESS_ZSTD y 
+                  MODULE_COMPRESS_NONE  n
+                  MODULE_COMPRESS_ZSTD y 
 
-#                   LRU_GEN y 
-#                   LRU_GEN_ENABLED y 
-#                   LRU_GEN_STATS n 
-#                   NR_LRU_GENS 7
-#                   TIERS_PER_GEN 4
+                  LRU_GEN y 
+                  LRU_GEN_ENABLED y 
+                  LRU_GEN_STATS n 
+                  NR_LRU_GENS 7
+                  TIERS_PER_GEN 4
 
-#                   INFINIBAND  n
-#                   DRM_NOUVEAU  n
-#                   PCMCIA_WL3501  n
-#                   PCMCIA_RAYCS  n
-#                   IWL3945  n
-#                   IWL4965  n
-#                   IPW2200  n
-#                   IPW2100  n
-#                   FB_NVIDIA  n
-#                   SENSORS_ASUS_EC  n
-#                   SENSORS_ASUS_WMI_EC n 
+                  INFINIBAND  n
+                  DRM_NOUVEAU  n
+                  PCMCIA_WL3501  n
+                  PCMCIA_RAYCS  n
+                  IWL3945  n
+                  IWL4965  n
+                  IPW2200  n
+                  IPW2100  n
+                  FB_NVIDIA  n
+                  SENSORS_ASUS_EC  n
+                  SENSORS_ASUS_WMI_EC n 
 
-#                   RAPIDIO  n
-#                   CDROM  m
-#                   PARIDE  n
+                  RAPIDIO  n
+                  CDROM  m
+                  PARIDE  n
 
-#                   CMDLINE_BOOL  y
-#                   CMDLINE makepkgplaceholderyolo
-#                   CMDLINE_OVERRIDE n 
+                  CMDLINE_BOOL  y
+                  CMDLINE makepkgplaceholderyolo
+                  CMDLINE_OVERRIDE n 
 
-#                   EFI_HANDOVER_PROTOCOL  y
-#                   EFI_STUB y 
+                  EFI_HANDOVER_PROTOCOL  y
+                  EFI_STUB y 
 
-#                   HW_RANDOM_TPM n 
+                  HW_RANDOM_TPM n 
 
-#                   SCHED_CLASS_EXT y
-#                  '';
-#    }]
+                  SCHED_CLASS_EXT y
+                 '';
+   }]
 
 ;
   # Track list of enabled modules for localmodconfig generation.

@@ -145,6 +145,8 @@ in {
       playerctl
     ];
 
+    xdg.configFile."niri/config.kdl".source = ./niri.kdl;
+    
               # wayland.windowManager.sway = {
               #   enable = true;
               #   systemd.enable = true;

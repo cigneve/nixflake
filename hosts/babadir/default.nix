@@ -6,7 +6,7 @@
   kernel = pkgs.callPackage ./kernel.nix {};
   g14_patches = fetchGit {
     url = "https://gitlab.com/dragonn/linux-g14";
-    ref = "origin/6.8";
+    ref = "origin/6.9";
     rev = "52ac92f9b6085f3b2c7edac93dec412dbe9c01b4";
   };
  #linuxPackages = pkgs.linuxPackages_6_9;
@@ -39,39 +39,20 @@ in {
   services.supergfxd = {
     enable = true;
   };
+
+  services.power-profiles-daemon.enable = true;
+  systemd.services.power-profiles-daemon = {
+    enable = true;
+    wantedBy = [ "multi-user.target" ];
+  };
+
   networking.firewall.enable = lib.mkForce false;
-
-  # nvme0n1p1 = efi
-  # nvme0n1p2 = vfat
-  # nvme0n1p3 = ntfs
-  # nvme0n1p4 = ext4
-
-  # boot.loader.systemd-boot.enable = true;
-  # boot.loader.systemd-boot.editor = false;
-
-  # use the custom kernel config
-  # boot.kernelPackages = linuxPackages;
-
-  # use zstd compression instead of gzip for initramfs.
-  # boot.initrd.compressor = "zstd";
-
-  # boot.loader.efi.canTouchEfiVariables = true;
-
-  # Setup root as encrypted LUKS volume
-
-  
-  # nvme0n1p1 = efi
-  # nvme0n1p2 = vfat
-  # nvme0n1p3 = ntfs
-  # nvme0n1p4 = ext4
 
   boot.loader.systemd-boot.enable = true;
   # boot.loader.systemd-boot.editor = false;
 
   # use the custom kernel config
   boot.kernelPackages = linuxPackages;
-  #  linux_kernel = ./linux-6
-  # boot.kernelPackages = pkgs.linuxPackages_zen;
 
   # use zstd compression instead of gzip for initramfs.
   boot.initrd.compressor = "zstd";
@@ -82,12 +63,12 @@ in {
   boot.initrd.supportedFilesystems = ["btrfs"];
   services.btrfs.autoScrub.enable = true;
 
-  # Disk formation
-  # We imported the needed disk configuration from disko.nix
+  # Disk 
+  ## We imported the needed disk configuration from disko.nix
 
-  # Resume from encrypted volume's /swapfile
+  ## Resume from encrypted volume's /swapfile
   # swapDevices = [ { device = "/swap/swapfile";priority=0; } ]; 
-  boot.resumeDevice = "/dev/mapper/cryptroot";
+  boot.resumeDevice = "/dev/nvme0n1p2";
   # filefrag -v /swapfile | awk '{ if($1=="0:"){print $4} }'
   boot.kernelParams = ["resume_offset=269568" "mitigations=off"];
 
@@ -100,10 +81,11 @@ in {
   # nix.systemFeatures = [ "gccarch-haswell" ];
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
- boot.kernelPatches = map (patch: {inherit patch; }) [
-       
-  "${g14_patches}/0001-acpi-proc-idle-skip-dummy-wait.patch"
 
+
+ # All kernel patches for g14
+ boot.kernelPatches = map (patch: {inherit patch; }) [
+  "${g14_patches}/0001-acpi-proc-idle-skip-dummy-wait.patch"
  "${g14_patches}/v4-0001-platform-x86-asus-wmi-add-support-for-2024-ROG-Mi.patch"
  "${g14_patches}/v4-0002-platform-x86-asus-wmi-add-support-for-Vivobook-GP.patch"
  "${g14_patches}/v4-0003-platform-x86-asus-wmi-add-support-variant-of-TUF-.patch"
@@ -160,58 +142,56 @@ in {
 
   #builtins.fetchurl {url="https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/master/more-uarches-for-kernel-6.8-rc4%2B.patch";sha256="";}
 
-];
- # Dummy patch for adding G14 kernel configurations
-#]
-#
-# 
-#
-#   name = "g14-dummy";
-#   patch = "null";
-#   extraConfig = ''
-#                  PINCTRL_AMD y 
-#                  X86_AMD_PSTATE y 
-#                  AMD_PMC m
-#
-#                  MODULE_COMPRESS_NONE  n
-#                  MODULE_COMPRESS_ZSTD y 
-#
-#                  LRU_GEN y 
-#                  LRU_GEN_ENABLED y 
-#                  LRU_GEN_STATS n 
-#                  NR_LRU_GENS 7
-#                  TIERS_PER_GEN 4
-#
-#                  INFINIBAND  n
-#                  DRM_NOUVEAU  n
-#                  PCMCIA_WL3501  n
-#                  PCMCIA_RAYCS  n
-#                  IWL3945  n
-#                  IWL4965  n
-#                  IPW2200  n
-#                  IPW2100  n
-#                  FB_NVIDIA  n
-#                  SENSORS_ASUS_EC  n
-#                  SENSORS_ASUS_WMI_EC n 
-#
-#                  RAPIDIO  n
-#                  CDROM  m
-#                  PARIDE  n
-#
-#                  CMDLINE_BOOL  y
-#                  CMDLINE makepkgplaceholderyolo
-#                  CMDLINE_OVERRIDE n 
-#
-#                  EFI_HANDOVER_PROTOCOL  y
-#                  EFI_STUB y 
-#
-#                  HW_RANDOM_TPM n 
-#
-#                  SCHED_CLASS_EXT y
-#                 '';
-# }
-#
+]
+#  ++ 
+# # Dummy patch for adding G14 kernel configurations
+# [{
+#    name = "g14-dummy";
+#    patch = "null";
+#    extraConfig = ''
+#                   PINCTRL_AMD y 
+#                   X86_AMD_PSTATE y 
+#                   AMD_PMC m
 
+#                   MODULE_COMPRESS_NONE  n
+#                   MODULE_COMPRESS_ZSTD y 
+
+#                   LRU_GEN y 
+#                   LRU_GEN_ENABLED y 
+#                   LRU_GEN_STATS n 
+#                   NR_LRU_GENS 7
+#                   TIERS_PER_GEN 4
+
+#                   INFINIBAND  n
+#                   DRM_NOUVEAU  n
+#                   PCMCIA_WL3501  n
+#                   PCMCIA_RAYCS  n
+#                   IWL3945  n
+#                   IWL4965  n
+#                   IPW2200  n
+#                   IPW2100  n
+#                   FB_NVIDIA  n
+#                   SENSORS_ASUS_EC  n
+#                   SENSORS_ASUS_WMI_EC n 
+
+#                   RAPIDIO  n
+#                   CDROM  m
+#                   PARIDE  n
+
+#                   CMDLINE_BOOL  y
+#                   CMDLINE makepkgplaceholderyolo
+#                   CMDLINE_OVERRIDE n 
+
+#                   EFI_HANDOVER_PROTOCOL  y
+#                   EFI_STUB y 
+
+#                   HW_RANDOM_TPM n 
+
+#                   SCHED_CLASS_EXT y
+#                  '';
+#    }]
+
+;
   # Track list of enabled modules for localmodconfig generation.
   environment.systemPackages = [pkgs.modprobed-db
   pkgs.asusctl pkgs.supergfxctl

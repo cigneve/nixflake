@@ -29,23 +29,3 @@ with lib;
       };
     }
     // (args.argsOverride or {}))
-#pkgs.linux_6_9.override {
-#  argsOverride = rec {
-#   src = fetchurl {
-#     url = "mirror://kernel/linux/kernel/v6.x/linux-${version}.tar.xz";
-#     sha256 = "";
-#   };
-#   version = "6.9.3";
-#   modDirVersion = "6.9.3";
-#
-# };
-#}
-#
-#
-#
-#
-#
-#
-#
-#
-#

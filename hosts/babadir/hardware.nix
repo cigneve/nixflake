@@ -6,14 +6,22 @@
 }: {
   require = [
     inputs.hardware.nixosModules.common-cpu-amd
+    # inputs.hardware.nixosModules.asus-zephyrus-ga401
     inputs.hardware.nixosModules.common-cpu-amd-pstate
-     # inputs.hardware.nixosModules.common-gpu-nvidia
+    inputs.hardware.nixosModules.common-gpu-nvidia
     inputs.hardware.nixosModules.common-pc-laptop
     inputs.hardware.nixosModules.common-pc-laptop-ssd
     # inputs.hardware.nixosModules.asus-battery
   ];
 
+  hardware.nvidia.prime = {amdgpuBusId = "PCI:4:0:0";nvidiaBusId = "PCI:1:0:0";};
+
   boot.kernelParams = ["cryptomgr.notests"];
+
+  # hardware.nvidia.powerManagement = {
+  #   enable = true;
+  #   finegrained = true;
+  # };
 
   # Only load the crypto modules required instead of a blanket import.
   boot.initrd.luks.cryptoModules = ["aes" "aes_generic" "cbc" "xts" "lrw" "sha1" "sha256" "sha512" "algif_skcipher"];

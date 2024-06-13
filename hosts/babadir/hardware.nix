@@ -53,10 +53,17 @@
     "xhci_pci"
     "nvme"
     "ahci" "usbhid" "usb_storage" "sd_mod" "dm_mod" "dm_crypt" "cryptd" "atkbd" "i8042"
+    "rt18xxxu"
+    "rt18xxxu_core"
+    "ice_switch"
+    "acx"
+    "ice_main"
+    "ton"
+    "ufshcd"
 
 
   ];
-  # boot.extraModulePackages = with config.boot.kernelPackages;[dm_mod];
+  # boot.extraModulePackages = with boot.kernelPackages;[dm_mod];
   boot.kernelModules = ["kvm-amd"];
 
   hardware.cpu.amd.updateMicrocode = true;

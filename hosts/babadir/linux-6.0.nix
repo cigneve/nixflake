@@ -12,8 +12,18 @@ pkgs,
 with lib;
   buildLinux (args
     // rec {
-      version = "6.9";
-      modDirVersion = "6.9.0";
+
+      # Temporary Hack
+      # features = {
+      #    iwlwifi = true;
+      #    efiBootStub = true;
+      #    needsCifsUtils = true;
+      #    netfilterRPFilter = true;
+      #    ia32Emulation = true;
+      # };
+
+      version = "6.9.3";
+      modDirVersion = "6.9.3";
       # modDirVersion needs to be x.y.z, will automatically add .0 if needed
 #      modDirVersion =
 #        if (modDirVersionArg == null)
@@ -26,7 +36,7 @@ with lib;
       src = fetchurl {
         url = "mirror://kernel/linux/kernel/v6.x/linux-${version}.tar.xz";
 	# sha256 = "";
-	sha256 = "JPoB+5icej4oRT8Rd5kWhxN2bhGcU4HawwEV8Y8mgUk=";
+	sha256 = "wyHEZAE2h3T8I29XCVsgWl2ldBX5pgCAGJAvn9Xt364=";
       };
     }
     // (args.argsOverride or {}))

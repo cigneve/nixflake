@@ -12,11 +12,11 @@
    #linux = pkgs.linuxPackages_6_8;
    linux = pkgs.callPackage ./linux-6.0.nix {};
 
- # kernel =
-  #  linuxManualConfig {
-    #  inherit (linux) stdenv version modDirVersion src;
-   #   inherit lib;
-     # configfile = ./kernel.config;
+ kernel =
+   linuxManualConfig {
+   inherit (linux) stdenv version modDirVersion src;
+   inherit lib;
+ configfile = ./g14kernel.config;
        #+ 
 #{
 #    name = "g14-dummy";
@@ -62,10 +62,9 @@
 #
 #                   SCHED_CLASS_EXT y
 #                  '';
-#  }
+ };
   # TODO: pass through kernelPatches
   #    allowImportFromDerivation = true;
-   # };
   #pkgs.overlays = [(final: super: {makeModulesClosure = x: super.makeModulesClosure (x // {allowMissing = true; } );})];
   passthru = {
     # TODO: confirm all these stil apply

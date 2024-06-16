@@ -4,10 +4,17 @@
   ...
 }: let
   kernel = pkgs.callPackage ./kernel.nix {};
-  linuxPackages = pkgs.linuxPackagesFor kernel;
+  # kernel = pkgs.callPackage ./linux-6.0.nix {};
+  g14_patches = fetchGit {
+    url = "https://gitlab.com/dragonn/linux-g14";
+    ref = "6.9";
+    rev = "52ac92f9b6085f3b2c7edac93dec412dbe9c01b4";
+  };
+ #linuxPackages = pkgs.linuxPackages_6_9;
+ linuxPackages = pkgs.linuxPackagesFor kernel;
 in {
   imports = [
-    # ./hardware.nix
+    ./hardware.nix
     # Take an empty *readonly* snapshot of the root subvolume,
     # which we'll eventually rollback to on every boot.
     # sudo mount /dev/mapper/cryptroot -o subvol=root /mnt/root
@@ -21,47 +28,19 @@ in {
     ../../profiles/network # sets up wireless
     ../../profiles/graphical/games
     ../../profiles/graphical
-    ../../profiles/misc/yubikey.nix
+    # ../../profiles/misc/yubikey.nix
     ../../users/baba
     ../../users/root
   ];
 
-  services.asusd= {
-    enable = true;
-  };
-  services.supergfxd = {
-    enable = true;
-  };
   networking.firewall.enable = lib.mkForce false;
-
-  # nvme0n1p1 = efi
-  # nvme0n1p2 = vfat
-  # nvme0n1p3 = ntfs
-  # nvme0n1p4 = ext4
-
-  # boot.loader.systemd-boot.enable = true;
-  # boot.loader.systemd-boot.editor = false;
-
-
-  # use zstd compression instead of gzip for initramfs.
-  # boot.initrd.compressor = "zstd";
-
-  # boot.loader.efi.canTouchEfiVariables = true;
-
-  # Setup root as encrypted LUKS volume
-
-  
-  # nvme0n1p1 = efi
-  # nvme0n1p2 = vfat
-  # nvme0n1p3 = ntfs
-  # nvme0n1p4 = ext4
 
   boot.loader.systemd-boot.enable = true;
   # boot.loader.systemd-boot.editor = false;
 
+
   # use the custom kernel config
-  # boot.kernelPackages = linuxPackages;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = linuxPackages;
 
   # use zstd compression instead of gzip for initramfs.
   boot.initrd.compressor = "zstd";
@@ -72,17 +51,17 @@ in {
   boot.initrd.supportedFilesystems = ["btrfs"];
   services.btrfs.autoScrub.enable = true;
 
-  # Disk formation
-  # We imported the needed disk configuration from disko.nix
+  # Disk 
+  ## We imported the needed disk configuration from disko.nix
 
-  # Resume from encrypted volume's /swapfile
+  ## Resume from encrypted volume's /swapfile
   # swapDevices = [ { device = "/swap/swapfile";priority=0; } ]; 
-  boot.resumeDevice = "/dev/mapper/cryptroot";
+  boot.resumeDevice = "/dev/nvme0n1p2";
   # filefrag -v /swapfile | awk '{ if($1=="0:"){print $4} }'
-  boot.kernelParams = ["resume_offset=1148" "mitigations=off"];
+  boot.kernelParams = ["resume_offset=269568" "mitigations=off"];
 
   hardware = {
-    enableRedistributableFirmware = true;
+    enableAllFirmware = true;
     firmware = [pkgs.wireless-regdb];
   };
 
@@ -102,5 +81,5 @@ in {
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.05"; # Did you read the comment?
+  system.stateVersion = "24.05"; # Did you read the comment?
 }

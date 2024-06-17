@@ -8,14 +8,14 @@
   nix.package = pkgs.nixVersions.stable;
 
   i18n.defaultLocale = "en_US.UTF-8";
-  time.timeZone = lib.mkDefault "Asia/Istanbul";
+  time.timeZone = lib.mkDefault "Europe/Istanbul";
 
   environment = {
     systemPackages = with pkgs; [
       binutils
       coreutils
+      moreutils
       curl
-      direnv
       dnsutils
       dosfstools
       fd
@@ -24,7 +24,6 @@
       powertop
       iputils
       jq
-      moreutils
       nmap
       sd
       ripgrep

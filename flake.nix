@@ -8,6 +8,9 @@
     home.url = "github:rycee/home-manager";
     home.inputs.nixpkgs.follows = "nixpkgs";
 
+    nixos-wsl.url = "github:nix-community/NixOS-WSL";
+    nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
+    
     hardware.url = "github:NixOS/nixos-hardware";
 
 
@@ -23,6 +26,7 @@
     nixos,
     nixpkgs,
     hardware,
+    nixos-wsl,
     disko,
     mobile-nixos,
   }: let
@@ -54,7 +58,7 @@
 
         modules = let
           inherit (home.nixosModules) home-manager;
-
+          inherit (nixos-wsl.nixosModules) wsl;
           core = ./profiles/core;
 
           global = {
@@ -91,6 +95,7 @@
         in
           flakeModules
           ++ [
+            wsl
             core
             global
             local
@@ -103,6 +108,7 @@
       nixosConfigurations = {
         babadir = mkSystem nixos system "babadir";
         iso = mkSystem nixos system "iso";
+        wsl = mkSystem nixos system "wsl";
       };
 
       nixosModules = {};

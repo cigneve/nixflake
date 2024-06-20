@@ -49,18 +49,18 @@
   #   "surface_hid"
   # ];
 
-  boot.initrd.availableKernelModules = lib.mkForce  [
+  boot.initrd.availableKernelModules = [
     "xhci_pci"
     "nvme"
     "ahci" "usbhid" "usb_storage" "sd_mod" "dm_mod" "dm_crypt" "cryptd" "atkbd" "i8042"
-    "rt18xxxu"
-    "rt18xxxu_core"
-    "ice_switch"
-    "acx"
-    "ice_main"
-    "ton"
-    "ufshcd"
-
+    # "rt18xxxu"
+    # "rt18xxxu_core"
+    # "ice_switch"
+    # "acx"
+    # "ice_main"
+    # "ton"
+    # "ufshcd"
+    # "rtl8821ae"
 
   ];
   # boot.extraModulePackages = with boot.kernelPackages;[dm_mod];

@@ -1,6 +1,8 @@
-# snowflake
+<h4 align="center"> Nix flakes</h4>
 
-Deterministic NixOS configuration for all my devices.
+Forked from <https://github.com/archseer/snowflake>
+
+NixOS configurations for **wsl**, **vm**, and **Zephyrus G14**.
 
 # Setup
 

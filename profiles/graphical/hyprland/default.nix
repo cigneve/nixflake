@@ -269,7 +269,7 @@ $color15 = rgba(c3dde7ee)
 
           bind = , Print, exec, grim -g "$(slurp)" - | wl-copy
           bind = SHIFT, Print, exec, grim -g "$(slurp)"
-          bindr = SUPER,,exec,pkill waybar -10
+          bind = SUPER,B,exec,pkill waybar -10
 
           # Functional keybinds
           bind =,XF86AudioMicMute,exec,wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle

@@ -44,12 +44,12 @@
     v4l-utils
   ];
 
-  home-manager.users.baba = {pkgs, ...}: {
+  home-manager.users.baba = {
     imports = [./misc/mpv];
 
-    gtk = {
+    gtk = pkgs.lib.mkDefault {
       enable = true;
-      font.name = "Roboto 10"
+      font.name = "Roboto 10";
       theme = {
         package = pkgs.pop-gtk-theme;
         name = "Pop";

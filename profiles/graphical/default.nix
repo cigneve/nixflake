@@ -87,6 +87,7 @@
     # manpages
     pop-gtk-theme
     nwg-look
+    glib
     paper-icon-theme
     firefox-wayland
     chromium

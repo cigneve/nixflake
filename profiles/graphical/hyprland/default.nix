@@ -218,7 +218,7 @@ $color15 = rgba(c3dde7ee)
           animations {
               enabled = yes
 
-              # bezier = ease,0.4,0.02,0.21,1
+              bezier = ease,0.4,0.02,0.21,1
 
               animation = windows, 1, 3.5, ease, slide
               animation = windowsOut, 1, 3.5, ease, slide

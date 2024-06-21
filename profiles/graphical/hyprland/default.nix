@@ -170,7 +170,7 @@ $color15 = rgba(c3dde7ee)
           exec-once = udiskie
 
           source = ~/.config/hypr/colors
-          # exec = pkill waybar & sleep 0.5 && waybar
+          exec = pkill waybar & sleep 0.5 && waybar
           # exec-once = swww init & sleep 0.5 && exec wallpaper_random
           # exec-once = wallpaper_random
 

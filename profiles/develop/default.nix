@@ -3,7 +3,8 @@
   home-manager.users.baba = {
     # TODO: zellij
     imports = [ 
-    ./wezterm
+    # ./wezterm
+    ./helix
     ];
     programs.fzf = {
       enable = true;

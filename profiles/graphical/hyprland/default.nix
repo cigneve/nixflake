@@ -200,21 +200,25 @@ $color15 = rgba(c3dde7ee)
           decoration {
 
               rounding = 10
-              # blur = true
+              blur = false
               # blur_size = 3
               # blur_passes = 1
               # blur_new_optimizations = true
 
-              drop_shadow = true
-              shadow_range = 4
-              shadow_render_power = 3
-              col.shadow = rgba(1a1a1aee)
+              drop_shadow = false
+              # shadow_range = 4
+              # shadow_render_power = 3
+              # col.shadow = rgba(1a1a1aee)
+          }
+
+          misc {
+            vfr = false
           }
 
           animations {
               enabled = yes
 
-              bezier = ease,0.4,0.02,0.21,1
+              # bezier = ease,0.4,0.02,0.21,1
 
               animation = windows, 1, 3.5, ease, slide
               animation = windowsOut, 1, 3.5, ease, slide

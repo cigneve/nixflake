@@ -256,7 +256,7 @@ binds {
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Mod+T { spawn "foot"; }
-    Mod+D { spawn "rofi -show drun"; }
+    Mod+D { spawn "rofi" "-show" "drun"; }
     Super+Alt+L { spawn "swaylock"; }
 
     // You can also use a shell:

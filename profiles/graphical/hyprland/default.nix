@@ -152,17 +152,16 @@ $color15 = rgba(c3dde7ee)
           monitor=eDP-1,preferred,auto,auto
 
           # Fix slow startup
-          exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
-          exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP 
+          # exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+          # exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP 
 
           # Autostart
 
-          exec-once = hyprctl setcursor Bibata-Modern-Classic 24
-          exec-once = dunst
+          # exec-once = hyprctl setcursor Bibata-Modern-Classic 24
 
           source = ~/.config/hypr/colors
-          exec = pkill waybar & sleep 0.5 && waybar
-          exec-once = swww init & sleep 0.5 && exec wallpaper_random
+          # exec = pkill waybar & sleep 0.5 && waybar
+          # exec-once = swww init & sleep 0.5 && exec wallpaper_random
           # exec-once = wallpaper_random
 
           # Set en layout at startup
@@ -186,8 +185,8 @@ $color15 = rgba(c3dde7ee)
 
           general {
 
-              gaps_in = 5
-              gaps_out = 20
+              gaps_in = 1
+              gaps_out = 3
               border_size = 2
               col.active_border = rgba(33ccffee) rgba(00ff99ee) 45deg
               col.inactive_border = rgba(595959aa)
@@ -198,10 +197,10 @@ $color15 = rgba(c3dde7ee)
           decoration {
 
               rounding = 10
-              blur = true
-              blur_size = 3
-              blur_passes = 1
-              blur_new_optimizations = true
+              # blur = true
+              # blur_size = 3
+              # blur_passes = 1
+              # blur_new_optimizations = true
 
               drop_shadow = true
               shadow_range = 4
@@ -250,15 +249,15 @@ $color15 = rgba(c3dde7ee)
           #windowrule=pin,^(firefox)$
 
           $mod = SUPER
+          $term = foot
           bind = $mod, G, fullscreen,
 
 
           bind = $mod, RETURN, exec, $term
-          bind = $mod, L, exec, firefox 
           bind = $mod, Q, killactive,
           bind = $mod, M, exit,
           bind = $mod, V, togglefloating,
-          bind = $mod, w, exec, rofi -show drun
+          bind = $mod, d, exec, rofi -show drun
           bind = $mod, P, pseudo, # dwindle
           bind = $mod, J, togglesplit, # dwindle
 

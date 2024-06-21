@@ -43,6 +43,8 @@ in {
     xwayland.enable = true;
   };
 
+  users.users.baba.packages = [pkgs.swaybg];
+
   home-manager.users.baba = {pkgs, ...}: {
     packages = [pkgs.swaybg];
     imports = [./waybar ./wlsunset];

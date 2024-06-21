@@ -36,7 +36,6 @@ in {
     pkgs.xdg-desktop-portal-gtk
     # Screencasting support
     pkgs.xdg-desktop-portal-gnome
-    pkgs.gnome-keyring
   ];
 
   home-manager.users.baba = {pkgs, ...}: {

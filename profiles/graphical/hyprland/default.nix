@@ -149,7 +149,7 @@ $color15 = rgba(c3dde7ee)
 
         extraConfig = ''
           # Monitor
-          monitor=eDP-1,preferred,auto,auto
+          monitor=eDP-1,preferred,auto,2.0
 
           # Fix slow startup
           # exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
@@ -266,14 +266,15 @@ $color15 = rgba(c3dde7ee)
 
           bind = , Print, exec, grim -g "$(slurp)" - | wl-copy
           bind = SHIFT, Print, exec, grim -g "$(slurp)"
+          bindr = SUPER,,exec,pkill waybar -10
 
           # Functional keybinds
           bind =,XF86AudioMicMute,exec,wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
-          bindr =,XF86MonBrightnessDown,exec,light -U 10
-          bindr =,XF86MonBrightnessUp,exec,light -A 10
+          binde =,XF86MonBrightnessDown,exec,light -U 10
+          binde =,XF86MonBrightnessUp,exec,light -A 10
           bind =,XF86AudioMute,exec,pamixer -t
-          bindr =,XF86AudioLowerVolume,exec,wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-
-          bindr =,XF86AudioRaiseVolume,exec,wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+
+          binde =,XF86AudioLowerVolume,exec,wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-
+          binde =,XF86AudioRaiseVolume,exec,wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+
           bind =,XF86AudioPlay,exec,playerctl play-pause
           bind =,XF86AudioPause,exec,playerctl play-pause
 

@@ -267,15 +267,14 @@ $color15 = rgba(c3dde7ee)
           # Switch Keyboard Layouts
           # bind = $mod, SPACE, exec, hyprctl switchxkblayout teclado-gamer-husky-blizzard next
 
-          bind = , Print, exec, grim -g "$(slurp)" - | wl-copy
-          bind = SHIFT, Print, exec, grim -g "$(slurp)"
           bind = SUPER,B,exec,pkill waybar -10
 
           # Functional keybinds
-          bind =,XF86AudioMicMute,exec,wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+          bind = ,code:133&code:62&code:39,exec,grim -g "$(slurp)" - | wl-copy
+          bind =,XF86AudioMicMute,exec,wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
           binde =,XF86MonBrightnessDown,exec,light -U 10
           binde =,XF86MonBrightnessUp,exec,light -A 10
-          bind =,XF86AudioMute,exec,pamixer -t
+          bind =,XF86AudioMute,exec,wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
           binde =,XF86AudioLowerVolume,exec,wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-
           binde =,XF86AudioRaiseVolume,exec,wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+
           bind =,XF86AudioPlay,exec,playerctl play-pause
@@ -286,10 +285,10 @@ $color15 = rgba(c3dde7ee)
           bind = SUPER,Tab,bringactivetotop,
 
           # Move focus with mod + arrow keys
-          bind = $mod, left, movefocus, l
-          bind = $mod, right, movefocus, r
-          bind = $mod, up, movefocus, u
-          bind = $mod, down, movefocus, d
+          bind = $mod, h, movefocus, l
+          bind = $mod, l, movefocus, r
+          bind = $mod, k, movefocus, u
+          bind = $mod, j, movefocus, d
 
           # Switch workspaces with mod + [0-9]
           bind = $mod, 1, workspace, 1

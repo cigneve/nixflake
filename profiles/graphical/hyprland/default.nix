@@ -160,6 +160,7 @@ $color15 = rgba(c3dde7ee)
           # Autostart
 
           # exec-once = hyprctl setcursor Bibata-Modern-Classic 24
+          exec-once = swaybg -c 000000
 
           source = ~/.config/hypr/colors
           # exec = pkill waybar & sleep 0.5 && waybar

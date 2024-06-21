@@ -15,13 +15,7 @@
 in {
   imports = [
     ./hardware.nix
-    # Take an empty *readonly* snapshot of the root subvolume,
-    # which we'll eventually rollback to on every boot.
-    # sudo mount /dev/mapper/cryptroot -o subvol=root /mnt/root
-    # btrfs subvolume snapshot -r /mnt/root /mnt/root-blank
-
     # sudo nix run github:nix-community/disko --extra-experimental-features flakes --extra=experimental-features nix-command -- --mode disko --flake github:archseer/snowflake#trantor
-    # --arg disks ["/dev/nvme0p1"] not necessary?
     ./disko.nix
     ../../profiles/zram # Use zram for swap
     ../../profiles/laptop

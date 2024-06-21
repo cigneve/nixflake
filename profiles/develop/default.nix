@@ -102,6 +102,7 @@
       # FM
       xplr
       lf
+      yazi
       bottom
 
       # Archiving

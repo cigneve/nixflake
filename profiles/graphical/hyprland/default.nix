@@ -145,8 +145,7 @@ $color15 = rgba(c3dde7ee)
 '';
     wayland.windowManager.hyprland = {
         enable = true;
-        systemdIntegration = true;
-        nvidiaPatches = true;
+        systemd.enable = true;
 
         extraConfig = ''
           # Monitor
@@ -170,11 +169,11 @@ $color15 = rgba(c3dde7ee)
 
           # Input config
           input {
-              kb_layout = en,us
-              kb_variant =
-              kb_model =
-              kb_options =
-              kb_rules =
+              # kb_layout = en,us
+              # kb_variant =
+              # kb_model =
+              # kb_options =
+              # kb_rules =
 
               follow_mouse = 1
 

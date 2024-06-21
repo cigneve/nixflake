@@ -63,6 +63,7 @@
     # libsForQt5.qtstyleplugins
     # manpages
     pop-gtk-theme
+    nwg-look
     paper-icon-theme
     firefox-wayland
     chromium
@@ -110,6 +111,15 @@
           <test name="family"><string>Helvetica</string></test>
           <edit name="family" mode="assign" binding="strong">
             <string>Inter</string>
+          </edit>
+        </match>
+
+        <match target="pattern">
+          <test name="family" qual="any">
+            <string>monospace</string>
+          </test>
+          <edit binding="strong" mode="prepend" name="family">
+            <string>Cascadia Code</string>
           </edit>
         </match>
       </fontconfig>

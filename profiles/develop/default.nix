@@ -5,6 +5,7 @@
     imports = [ 
     # ./wezterm
     ./helix
+    ./foot
     ];
     programs.fzf = {
       enable = true;

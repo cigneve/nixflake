@@ -158,9 +158,16 @@ $color15 = rgba(c3dde7ee)
           # exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP 
 
           # Autostart
+          # TODO: make these wm agnostic
 
           # exec-once = hyprctl setcursor Bibata-Modern-Classic 24
+
+
           exec-once = swaybg -c 000000
+
+          exec-once = copyq
+
+          exec-once = udiskie
 
           source = ~/.config/hypr/colors
           # exec = pkill waybar & sleep 0.5 && waybar

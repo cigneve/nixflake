@@ -200,7 +200,7 @@ $color15 = rgba(c3dde7ee)
           decoration {
 
               rounding = 10
-              blur = false
+              # blur = false
               # blur_size = 3
               # blur_passes = 1
               # blur_new_optimizations = true

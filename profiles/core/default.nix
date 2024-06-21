@@ -41,8 +41,8 @@
     optimise.automatic = true;
     settings = {
       cores = 0;
-      auto-optimise-store = true;
-      sandbox = true;
+      # auto-optimise-store = true;
+      # sandbox = true;
       allowed-users = ["@wheel"];
       trusted-users = ["root" "@wheel"];
     };

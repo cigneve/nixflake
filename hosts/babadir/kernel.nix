@@ -8,9 +8,9 @@
 #  kernelPatches,
   ...
 }: let
-  #linux = pkgs.linuxKernel.kernels.linux_6_9;
+   linux = pkgs.linuxKernel.kernels.linux_xanmod_latest;
    #linux = pkgs.linuxPackages_6_8;
-   linux = pkgs.callPackage ./linux-6.0.nix {};
+   # linux = pkgs.callPackage ./linux-6.0.nix {};
 
  kernel =
    linuxManualConfig {

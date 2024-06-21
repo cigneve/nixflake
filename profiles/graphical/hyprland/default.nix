@@ -152,7 +152,7 @@ $color15 = rgba(c3dde7ee)
 
         extraConfig = ''
           # Monitor
-          monitor=eDP-1,preferred,auto,2.0
+          monitor=eDP-1,preferred,auto,2
 
           # Fix slow startup
           # exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP

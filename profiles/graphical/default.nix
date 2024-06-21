@@ -49,6 +49,7 @@
 
     gtk = {
       enable = true;
+      font.name = "Roboto 10"
       theme = {
         package = pkgs.pop-gtk-theme;
         name = "Pop";
@@ -56,6 +57,18 @@
       iconTheme = {
         package = pkgs.paper-icon-theme;
         name = "Paper";
+      };
+
+      gtk3.extraConfig = {
+        Settings = ''
+          gtk-application-prefer-dark-theme=1
+        '';
+      };
+
+      gtk4.extraConfig = {
+        Settings = ''
+          gtk-application-prefer-dark-theme=1
+        '';
       };
       # TODO: gtk-cursor-theme-name..
     };
@@ -86,7 +99,7 @@
     # libsForQt5.qtstyleplugins
     # manpages
     pop-gtk-theme
-    nwg-look
+    # nwg-look
     glib
     paper-icon-theme
     firefox-wayland

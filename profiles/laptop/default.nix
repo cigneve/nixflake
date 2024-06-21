@@ -25,9 +25,6 @@
       - KEY: KEY_CAPSLOCK
         TAP: KEY_ESC
         HOLD: KEY_LEFTCTRL
-      - KEY: KEY_A
-        TAP: KEY_A
-        HOLD: KEY_LEFTSHIFT
   '';
   services.interception-tools = {
     enable = true;

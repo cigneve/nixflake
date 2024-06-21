@@ -2,7 +2,7 @@
   pkgs,
   ...
 }: {
-  imports = [./niri ./pipewire.nix ../develop ./im];
+  imports = [./hyprland ./pipewire.nix ../develop ./im];
 
   nixpkgs.overlays = [
     #nixpkgs-wayland.overlay

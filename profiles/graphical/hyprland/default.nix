@@ -280,7 +280,7 @@ $color15 = rgba(c3dde7ee)
           bind = SUPER,B,exec,pkill waybar -10
 
           # Functional keybinds
-          bind = ,code:133&code:62&code:39,exec,grim -g "$(slurp)" - | wl-copy
+          bind = SUPER_SHIFT,S,exec,grim -g "$(slurp)" - | wl-copy
           bind =,XF86AudioMicMute,exec,wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
           binde =,XF86MonBrightnessDown,exec,light -U 10
           binde =,XF86MonBrightnessUp,exec,light -A 10

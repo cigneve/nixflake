@@ -153,6 +153,15 @@ $color15 = rgba(c3dde7ee)
           # Monitor
           monitor=eDP-1,preferred,auto,2
 
+          env = LIBVA_DRIVER_NAME,nvidia
+          env = XDG_SESSION+TYPE,wayland
+          env = GBM_BACKEND,nvidia-drm
+          env = __GLX_VENDOR_LIBRARY_NAME,nvidia
+
+          cursor {
+            no_hardware_cursors = true
+          }
+          
           # Fix slow startup
           # exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
           # exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP 

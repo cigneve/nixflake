@@ -7,44 +7,24 @@ lib,
   programs.fish.enable = true;
 
   environment = {
-
     systemPackages = with pkgs; [
     ];
   };
   home-manager.users.baba = {
-    xdg.configFile."fish".source = ./. ;
-    # xdg.configFile."fish/fish_variables".source = ./fish_variables;
+    # xdg.configFile."fish".source = ./.;
     # xdg.configFile."fish/functions".source = ./functions;
+    # package = [pkgs.fishPlugins.autopair];
     programs.fish = {
       enable = lib.mkForce true;
-      # plugins = with pkgs.fishPlugins; [ autopair ];
-
+      plugins = [
+        {
+          name = "autopair";
+          src = pkgs.fishPlugins.autopair;
+        }
+      ];
+      shellInit = builtins.readFile ./config.fish;
 
       shellAbbrs = {
-
-
-        v = "$EDITOR";
-        c = "cargo";
-
-        cat = "${pkgs.bat}/bin/bat";
-
-        df = "df -h";
-        du = "du -h";
-
-        g = "${pkgs.git}/bin/git";
-
-        e = "v $(fzf)";
-
-        l = "eza -lahgF --group-directories-first";
-        # --time-style=long-iso
-        ll = "eza -F";
-        exa = "exa";
-
-        # j stands for jump
-        j = "z";
-
-        open = "${pkgs.xdg-utils}/bin/xdg-open";
-        ps = "${pkgs.procs}/bin/procs";
       };
 
     };

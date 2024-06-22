@@ -198,8 +198,8 @@ $color15 = rgba(c3dde7ee)
               gaps_in = 1
               gaps_out = 3
               border_size = 2
-              col.active_border = rgba(33ccffee) rgba(00ff99ee) 45deg
-              col.inactive_border = rgba(595959aa)
+              col.active_border = rgba(e3c0a8ff)
+              col.inactive_border = rgba(595959ff)
 
               layout = dwindle
           }

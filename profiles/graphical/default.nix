@@ -47,13 +47,27 @@
   home-manager.users.baba = {
     imports = [./misc/mpv];
 
+    dconf.settings = {
+      "org/gnome/desktop/interface" = {
+        color-scheme = "prefer-dark";
+      };
+    };
+    
+    qt = {
+      enable = true;
+      platformTheme = "gnome";
+      style = {
+        name = "gtk2";
+        package = pkgs.libsForQt5.breeze-qt5;
+      };
+    };
+
     gtk = pkgs.lib.mkDefault {
       enable = true;
       font.name = "Roboto 10";
       theme = {
-        package = pkgs.pop-gtk-theme;
-        name = "Pop";
-      };
+        name = "Adwaita-dark";
+        package = pkgs.gnome.gnome-themes-extra;      };
       iconTheme = {
         package = pkgs.paper-icon-theme;
         name = "Paper";

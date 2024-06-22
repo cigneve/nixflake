@@ -55,7 +55,7 @@
     
     qt = {
       enable = true;
-      platformTheme = "gnome";
+      platformTheme.name = "adwaita";
       style = {
         name = "gtk2";
         package = pkgs.libsForQt5.breeze-qt5;

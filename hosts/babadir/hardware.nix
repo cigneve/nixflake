@@ -16,7 +16,7 @@
 
   hardware.nvidia.prime = {amdgpuBusId = "PCI:65:0:0";nvidiaBusId = "PCI:1:0:0";};
 
-  boot.kernelParams = ["cryptomgr.notests"];
+  boot.kernelParams = ["cryptomgr.notests" "quiet"];
 
   # hardware.nvidia.powerManagement = {
   #   enable = true;

@@ -20,19 +20,21 @@
 @define-color color14 #D08770;
 @define-color color15 #8FBCBB;
 @define-color color15 #b4b0f8;
+@define-color midnight #5A5977;
 
 * {
     border: none;
     border-radius: 0;
-    font-family: "Font Awesome", Inter UI, Roboto, Helvetica, Arial, sans-serif;
+    font-family: "Font Awesome", Roboto;
+    font-weight: 500;
     font-size: 15px;
     min-height: 0;
+    color: @midnight;
 }
 
 window#waybar {
     background: rgba(43, 48, 59, 0.3);
     border-bottom: 3px solid transparent;
-    color: white;
 
     background: rgba(40, 23, 51, .125);
     background: rgba(40, 23, 51, .325);
@@ -43,7 +45,6 @@ window#waybar {
 #workspaces button {
     padding: 0 .75rem;
     margin: 0 .25rem;
-    color: white;
     border-bottom: 3px solid transparent;
 }
 
@@ -55,7 +56,6 @@ window#waybar {
 #workspaces button.focused {
     background: rgba(100, 114, 125, 0.2);
     border-bottom: 3px solid @color15;
-    color: white;
 }
 
 #mode {
@@ -70,16 +70,13 @@ window#waybar {
 
 #clock {
     background-color: transparent;
-    color: white;
     font-weight: 500;
 }
 
 #battery {
-    color: white;
 }
 
 #battery.charging {
-    color: white;
 }
 
 @keyframes blink {
@@ -95,7 +92,6 @@ window#waybar {
 
 #battery.critical:not(.charging) {
     background: #f53c3c;
-    color: white;
     animation-name: blink;
     animation-duration: 0.875s;
     animation-timing-function: ease-in-out;
@@ -106,28 +102,23 @@ window#waybar {
 #cpu {
     background: transparent;
     /* border-bottom: 3px solid @color5; */
-    color: white;
 }
 
 #memory {
     background: transparent;
     /* border-bottom: 3px solid @color7; */
-    color: white;
 }
 
 #network {
     background: transparent;
-    color: white
 }
 
 #network.disconnected {
     background: transparent;
-    color: crimson;
 }
 
 #pulseaudio {
     background: transparent;
-    color: white;
 }
 
 #pulseaudio.muted {

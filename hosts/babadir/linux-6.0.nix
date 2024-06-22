@@ -22,8 +22,8 @@ with lib;
       #    ia32Emulation = true;
       # };
 
-      version = "6.9.3";
-      modDirVersion = "6.9.3";
+      version = "6.9.5";
+      modDirVersion = "6.9.5";
       # modDirVersion needs to be x.y.z, will automatically add .0 if needed
 #      modDirVersion =
 #        if (modDirVersionArg == null)
@@ -36,7 +36,7 @@ with lib;
       src = fetchurl {
         url = "mirror://kernel/linux/kernel/v6.x/linux-${version}.tar.xz";
 	# sha256 = "";
-	sha256 = "wyHEZAE2h3T8I29XCVsgWl2ldBX5pgCAGJAvn9Xt364=";
+	sha256 = "pR+0q1ADphSb2b9MGMmx8PSUXCclSQlasVS50QUvlbE=";
       };
     }
     // (args.argsOverride or {}))

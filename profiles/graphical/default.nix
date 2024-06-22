@@ -10,7 +10,7 @@
 
   hardware.opengl.enable = true;
   # For Vulkan
-  hardware.opengl.driSupport = true;
+  # hardware.opengl.driSupport = true;
 
 
   security.polkit.enable = true;

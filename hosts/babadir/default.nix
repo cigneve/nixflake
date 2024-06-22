@@ -10,7 +10,7 @@
     ref = "6.9";
     rev = "52ac92f9b6085f3b2c7edac93dec412dbe9c01b4";
   };
- linuxPackages = pkgs.linuxPackages_latest;
+ linuxPackages = pkgs.linuxPackages_testing;
  # linuxPackages = pkgs.linuxPackagesFor kernel;
 in {
   imports = [

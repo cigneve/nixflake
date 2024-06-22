@@ -52,6 +52,8 @@
   boot.initrd.availableKernelModules = [
     "xhci_pci"
     "nvme"
+    "thunderbolt"
+    "rtsx_pci_sdmmc"
     "ahci" "usbhid" "usb_storage" "sd_mod" "dm_mod" "dm_crypt" "cryptd" "atkbd" "i8042"
     # "rt18xxxu"
     # "rt18xxxu_core"

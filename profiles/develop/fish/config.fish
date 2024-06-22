@@ -8,6 +8,20 @@ set -gx GOBIN $HOME/go/bin
 set -gx EDITOR hx
 set -gx FZF_CTRL_T_COMMAND $EDITOR
 
+abbr -a v "$EDITOR"
+abbr -a c cargo
+abbr -a cat bat
+abbr -a df "df -h"
+abbr -a du "du -h"
+abbr -a g git
+abbr -a l "eza -lahgF --group-directories-first"
+# --time-style=long-iso
+abbr -a ll "eza -F"
+# abbr -a exa exa
+# j stands for jump
+abbr -a j z
+abbr -a open xdg-open
+abbr -a ps procs
 
 # git prompt settings
 set -g __fish_git_prompt_show_informative_status 1

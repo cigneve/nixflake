@@ -1,0 +1,76 @@
+From 5f020a184eb708a4e68602acc0102d0d8fb790bd Mon Sep 17 00:00:00 2001
+From: Guido Cella <guido@guidocella.xyz>
+Date: Mon, 1 Apr 2024 08:50:49 +0200
+Subject: [PATCH] allow switching to the configured tag when a window opens
+
+Add a rule option to switch to the configured tag when a window opens,
+then switch back when it closes.
+---
+ config.def.h |  6 +++---
+ dwl.c        | 11 +++++++++++
+ 2 files changed, 14 insertions(+), 3 deletions(-)
+
+diff --git a/config.def.h b/config.def.h
+index 8847e58..1e2ae93 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -21,10 +21,10 @@ static const float fullscreen_bg[]         = {0.1f, 0.1f, 0.1f, 1.0f}; /* You ca
+ static int log_level = WLR_ERROR;
+ 
+ static const Rule rules[] = {
+-	/* app_id             title       tags mask     isfloating   monitor */
++	/* app_id             title       tags mask     switchtotag   isfloating   monitor */
+ 	/* examples: */
+-	{ "Gimp_EXAMPLE",     NULL,       0,            1,           -1 }, /* Start on currently visible tags floating, not tiled */
+-	{ "firefox_EXAMPLE",  NULL,       1 << 8,       0,           -1 }, /* Start on ONLY tag "9" */
++	{ "Gimp_EXAMPLE",     NULL,       0,            0,            1,           -1 }, /* Start on currently visible tags floating, not tiled */
++	{ "firefox_EXAMPLE",  NULL,       1 << 8,       1,            0,           -1 }, /* Start on ONLY tag "9" */
+ };
+ 
+ /* layout(s) */
+diff --git a/dwl.c b/dwl.c
+index 39ce68c..9a77a5f 100644
+--- a/dwl.c
++++ b/dwl.c
+@@ -138,6 +138,7 @@ typedef struct {
+ 	unsigned int bw;
+ 	uint32_t tags;
+ 	int isfloating, isurgent, isfullscreen;
++	int switchtotag;
+ 	uint32_t resize; /* configure serial of a pending resize */
+ } Client;
+ 
+@@ -226,6 +227,7 @@ typedef struct {
+ 	const char *id;
+ 	const char *title;
+ 	uint32_t tags;
++	bool switchtotag;
+ 	int isfloating;
+ 	int monitor;
+ } Rule;
+@@ -468,6 +470,11 @@ applyrules(Client *c)
+ 				if (r->monitor == i++)
+ 					mon = m;
+ 			}
++			if (r->switchtotag) {
++				c->switchtotag = selmon->tagset[selmon->seltags];
++				mon->seltags ^= 1;
++				mon->tagset[selmon->seltags] = r->tags & TAGMASK;
++			}
+ 		}
+ 	}
+ 	setmon(c, mon, newtags);
+@@ -2694,6 +2701,10 @@ unmapnotify(struct wl_listener *listener, void *data)
+ 	wlr_scene_node_destroy(&c->scene->node);
+ 	printstatus();
+ 	motionnotify(0, NULL, 0, 0, 0, 0);
++	if (c->switchtotag) {
++		Arg a = { .ui = c->switchtotag };
++		view(&a);
++	}
+ }
+ 
+ void
+-- 
+2.44.0
+

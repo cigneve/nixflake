@@ -1,0 +1,212 @@
+From b8f39c0710eb3cfdf4c619f532222d356ec58140 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?J=C3=A9r=C3=B4me?= <git@jeromecst.com>
+Date: Fri, 17 May 2024 23:06:19 +0200
+Subject: [PATCH] stacker
+
+---
+ config.def.h |  10 +++++
+ dwl.c        | 104 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 114 insertions(+)
+
+diff --git a/config.def.h b/config.def.h
+index 8f498d2..44cbcd8 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -120,10 +120,20 @@ static const char *menucmd[] = { "wmenu-run", NULL };
+ static const Key keys[] = {
+ 	/* Note that Shift changes certain key codes: c -> C, 2 -> at, etc. */
+ 	/* modifier                  key                 function        argument */
++	{ MODKEY,                    XKB_KEY_q,          focusto,        {.i = 0} },
++	{ MODKEY,                    XKB_KEY_w,          focusto,        {.i = 1} },
++	{ MODKEY,                    XKB_KEY_e,          focusto,        {.i = 2} },
++	{ MODKEY,                    XKB_KEY_r,          focusto,        {.i = -1} },
++	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_Q,          swapstack,      {.i = 0} },
++	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_W,          swapstack,      {.i = 1} },
++	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_E,          swapstack,      {.i = 2} },
++	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_R,          swapstack,      {.i = -1} },
+ 	{ MODKEY,                    XKB_KEY_p,          spawn,          {.v = menucmd} },
+ 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_Return,     spawn,          {.v = termcmd} },
+ 	{ MODKEY,                    XKB_KEY_j,          focusstack,     {.i = +1} },
+ 	{ MODKEY,                    XKB_KEY_k,          focusstack,     {.i = -1} },
++	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_J,          relativeswap,   {.i = +1} },
++	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_K,          relativeswap,   {.i = -1} },
+ 	{ MODKEY,                    XKB_KEY_i,          incnmaster,     {.i = +1} },
+ 	{ MODKEY,                    XKB_KEY_d,          incnmaster,     {.i = -1} },
+ 	{ MODKEY,                    XKB_KEY_h,          setmfact,       {.f = -0.05f} },
+diff --git a/dwl.c b/dwl.c
+index bf763df..be88c6d 100644
+--- a/dwl.c
++++ b/dwl.c
+@@ -279,6 +279,7 @@ static void destroysessionlock(struct wl_listener *listener, void *data);
+ static void destroysessionmgr(struct wl_listener *listener, void *data);
+ static Monitor *dirtomon(enum wlr_direction dir);
+ static void focusclient(Client *c, int lift);
++static void focusto(const Arg *arg);
+ static void focusmon(const Arg *arg);
+ static void focusstack(const Arg *arg);
+ static Client *focustop(Monitor *m);
+@@ -308,6 +309,7 @@ static void pointerfocus(Client *c, struct wlr_surface *surface,
+ 		double sx, double sy, uint32_t time);
+ static void printstatus(void);
+ static void quit(const Arg *arg);
++static void relativeswap(const Arg *arg);
+ static void rendermon(struct wl_listener *listener, void *data);
+ static void requestdecorationmode(struct wl_listener *listener, void *data);
+ static void requeststartdrag(struct wl_listener *listener, void *data);
+@@ -327,6 +329,8 @@ static void setsel(struct wl_listener *listener, void *data);
+ static void setup(void);
+ static void spawn(const Arg *arg);
+ static void startdrag(struct wl_listener *listener, void *data);
++static void swapstack(const Arg *arg);
++static void relativeswap(const Arg *arg);
+ static void tag(const Arg *arg);
+ static void tagmon(const Arg *arg);
+ static void tile(Monitor *m);
+@@ -343,9 +347,11 @@ static void urgent(struct wl_listener *listener, void *data);
+ static void view(const Arg *arg);
+ static void virtualkeyboard(struct wl_listener *listener, void *data);
+ static void virtualpointer(struct wl_listener *listener, void *data);
++static Client *nextvisible(int i, struct wl_list *from, Monitor *m);
+ static Monitor *xytomon(double x, double y);
+ static void xytonode(double x, double y, struct wlr_surface **psurface,
+ 		Client **pc, LayerSurface **pl, double *nx, double *ny);
++static void wl_list_swap(struct wl_list *a, struct wl_list *b);
+ static void zoom(const Arg *arg);
+ 
+ /* variables */
+@@ -1308,6 +1314,21 @@ focusclient(Client *c, int lift)
+ 	client_activate_surface(client_surface(c), 1);
+ }
+ 
++void
++focusto(const Arg *arg)
++{
++	Client *c, *sel = focustop(selmon);
++	int i;
++	if (!sel || (sel->isfullscreen && !client_has_children(sel)))
++		return;
++
++	i = arg->i > -1 ? arg->i + 1 : arg->i;
++
++	c = nextvisible(i, &clients, selmon);
++	if (c)
++		focusclient(c , 1);
++}
++
+ void
+ focusmon(const Arg *arg)
+ {
+@@ -1951,6 +1972,24 @@ quit(const Arg *arg)
+ 	wl_display_terminate(dpy);
+ }
+ 
++void
++relativeswap(const Arg *arg)
++{
++	Client *trgt, *sel = focustop(selmon);
++
++	if (!sel || !selmon)
++		return;
++
++	trgt = nextvisible(arg->i, &sel->link, selmon);
++	if (!trgt || trgt == sel)
++		return;
++
++	wl_list_swap(&sel->link, &trgt->link);
++
++	focusclient(sel, 1);
++	arrange(selmon);
++}
++
+ void
+ rendermon(struct wl_listener *listener, void *data)
+ {
+@@ -2548,6 +2587,26 @@ startdrag(struct wl_listener *listener, void *data)
+ 	LISTEN_STATIC(&drag->icon->events.destroy, destroydragicon);
+ }
+ 
++void
++swapstack(const Arg *arg)
++{
++	Client *trgt, *sel = focustop(selmon);
++	int i;
++
++	if (!sel || !selmon)
++		return;
++
++	i = arg->i > -1 ? arg->i + 1 : arg->i;
++	trgt = nextvisible(i, &clients, selmon);
++	if (!trgt || trgt == sel)
++		return;
++
++	wl_list_swap(&sel->link, &trgt->link);
++
++	focusclient(sel, 1);
++	arrange(selmon);
++}
++
+ void
+ tag(const Arg *arg)
+ {
+@@ -2858,6 +2917,28 @@ virtualpointer(struct wl_listener *listener, void *data)
+ 		wlr_cursor_map_input_to_output(cursor, &pointer.base, event->suggested_output);
+ }
+ 
++Client *
++nextvisible(int i, struct wl_list *from, Monitor *m)
++{
++	Client *c;
++	if (i >= 0){
++		wl_list_for_each(c, from, link) {
++			// if (VISIBLEON(c , m) && &c->link != from && i--)
++			if (VISIBLEON(c , m)) {
++				if (--i == 0)
++					return c;
++			}
++		}
++	} else if (i < 0) {
++		wl_list_for_each_reverse(c, from, link) {
++			if (VISIBLEON(c , m))
++				if (++i == 0)
++					return c;
++		}
++	}
++	return NULL;
++}
++
+ Monitor *
+ xytomon(double x, double y)
+ {
+@@ -2865,6 +2946,29 @@ xytomon(double x, double y)
+ 	return o ? o->data : NULL;
+ }
+ 
++void
++wl_list_swap(struct wl_list *a, struct wl_list *b)
++{
++	struct wl_list *prev_a = a->prev;
++	struct wl_list *prev_b = b->prev;
++
++	if (prev_b == a) {
++		wl_list_remove(a);
++		wl_list_insert(b, a);
++		return;
++	}
++	if (prev_a == b) {
++		wl_list_remove(b);
++		wl_list_insert(a, b);
++		return;
++	}
++	wl_list_remove(a);
++	wl_list_insert(prev_b, a);
++
++	wl_list_remove(b);
++	wl_list_insert(prev_a, b);
++}
++
+ void
+ xytonode(double x, double y, struct wlr_surface **psurface,
+ 		Client **pc, LayerSurface **pl, double *nx, double *ny)
+-- 
+2.45.1
+

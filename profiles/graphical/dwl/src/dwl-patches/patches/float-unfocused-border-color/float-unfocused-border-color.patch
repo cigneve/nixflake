@@ -1,0 +1,60 @@
+From 591c031a4d8e62acfef4ef41816c1fbbb8b1473a Mon Sep 17 00:00:00 2001
+From: yuki <yukiat@proton.me>
+Date: Fri, 7 Jun 2024 11:44:37 +0800
+Subject: [PATCH] Added float-unfocused-border-color patch.
+
+---
+ config.def.h |  1 +
+ dwl.c        | 11 ++++++++---
+ 2 files changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/config.def.h b/config.def.h
+index a784eb4..8131af5 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -11,6 +11,7 @@ static const float rootcolor[]             = COLOR(0x222222ff);
+ static const float bordercolor[]           = COLOR(0x444444ff);
+ static const float focuscolor[]            = COLOR(0x005577ff);
+ static const float urgentcolor[]           = COLOR(0xff0000ff);
++static const float floatcolor[]            = COLOR(0xff0000ff);
+ /* This conforms to the xdg-protocol. Set the alpha to zero to restore the old behavior */
+ static const float fullscreen_bg[]         = {0.1f, 0.1f, 0.1f, 1.0f}; /* You can also use glsl colors */
+ 
+diff --git a/dwl.c b/dwl.c
+index 6f041a0..777c0e1 100644
+--- a/dwl.c
++++ b/dwl.c
+@@ -632,6 +632,7 @@ buttonpress(struct wl_listener *listener, void *data)
+ 			/* Drop the window off on its new monitor */
+ 			selmon = xytomon(cursor->x, cursor->y);
+ 			setmon(grabc, selmon, 0);
++			grabc = NULL;
+ 			return;
+ 		} else {
+ 			cursor_mode = CurNormal;
+@@ -1348,9 +1349,8 @@ focusclient(Client *c, int lift)
+ 		/* Don't deactivate old client if the new one wants focus, as this causes issues with winecfg
+ 		 * and probably other clients */
+ 		} else if (old_c && !client_is_unmanaged(old_c) && (!c || !client_wants_focus(c))) {
+-			client_set_border_color(old_c, bordercolor);
+-
+-			client_activate_surface(old, 0);
++			client_set_border_color(old_c, old_c->isfloating ? floatcolor : bordercolor);
++			client_activate_surface(old, 0);
+ 		}
+ 	}
+ 	printstatus();
+@@ -2218,6 +2218,11 @@ setfloating(Client *c, int floating)
+ 	wlr_scene_node_reparent(&c->scene->node, layers[c->isfullscreen ||
+ 			(p && p->isfullscreen) ? LyrFS
+ 			: c->isfloating ? LyrFloat : LyrTile]);
++ 	if (!grabc && floating)
++			for (int i = 0; i < 4; i++) {
++				wlr_scene_rect_set_color(c->border[i], floatcolor);
++				wlr_scene_node_lower_to_bottom(&c->border[i]->node);
++			}
+ 	arrange(c->mon);
+ 	printstatus();
+ }
+-- 
+2.45.2

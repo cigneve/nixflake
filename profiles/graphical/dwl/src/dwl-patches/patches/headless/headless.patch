@@ -1,0 +1,130 @@
+From 2e1123af5c7ae4354ec997d59cb36143fb2fdd27 Mon Sep 17 00:00:00 2001
+From: wochap <gean.marroquin@gmail.com>
+Date: Mon, 8 Apr 2024 10:23:40 -0500
+Subject: [PATCH] feat: implement headless backend
+
+---
+ config.def.h |  1 +
+ dwl.c        | 58 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 59 insertions(+)
+
+diff --git a/config.def.h b/config.def.h
+index db0babc..f0a2080 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -141,6 +141,7 @@ static const Key keys[] = {
+ 	{ MODKEY,                    XKB_KEY_period,     focusmon,       {.i = WLR_DIRECTION_RIGHT} },
+ 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_less,       tagmon,         {.i = WLR_DIRECTION_LEFT} },
+ 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_greater,    tagmon,         {.i = WLR_DIRECTION_RIGHT} },
++	{ MODKEY|WLR_MODIFIER_CTRL|WLR_MODIFIER_SHIFT, XKB_KEY_M, create_output, {0} },
+ 	TAGKEYS(          XKB_KEY_1, XKB_KEY_exclam,                     0),
+ 	TAGKEYS(          XKB_KEY_2, XKB_KEY_at,                         1),
+ 	TAGKEYS(          XKB_KEY_3, XKB_KEY_numbersign,                 2),
+diff --git a/dwl.c b/dwl.c
+index ef27a1d..79a63b0 100644
+--- a/dwl.c
++++ b/dwl.c
+@@ -12,7 +12,10 @@
+ #include <unistd.h>
+ #include <wayland-server-core.h>
+ #include <wlr/backend.h>
++#include <wlr/backend/headless.h>
+ #include <wlr/backend/libinput.h>
++#include <wlr/backend/multi.h>
++#include <wlr/backend/wayland.h>
+ #include <wlr/render/allocator.h>
+ #include <wlr/render/wlr_renderer.h>
+ #include <wlr/types/wlr_compositor.h>
+@@ -58,6 +61,9 @@
+ #include <xcb/xcb.h>
+ #include <xcb/xcb_icccm.h>
+ #endif
++#if WLR_HAS_X11_BACKEND
++#include <wlr/backend/x11.h>
++#endif
+ 
+ #include "util.h"
+ 
+@@ -327,6 +333,8 @@ static Monitor *xytomon(double x, double y);
+ static void xytonode(double x, double y, struct wlr_surface **psurface,
+ 		Client **pc, LayerSurface **pl, double *nx, double *ny);
+ static void zoom(const Arg *arg);
++static void _create_output(struct wlr_backend *backend, void *data);
++static void create_output(const Arg *arg);
+ 
+ /* variables */
+ static const char broken[] = "broken";
+@@ -335,6 +343,7 @@ static int locked;
+ static void *exclusive_focus;
+ static struct wl_display *dpy;
+ static struct wlr_backend *backend;
++static struct wlr_backend *headless_backend;
+ static struct wlr_scene *scene;
+ static struct wlr_scene_tree *layers[NUM_LAYERS];
+ static struct wlr_scene_tree *drag_icon;
+@@ -2321,6 +2330,16 @@ setup(void)
+ 	cursor_shape_mgr = wlr_cursor_shape_manager_v1_create(dpy, 1);
+ 	LISTEN_STATIC(&cursor_shape_mgr->events.request_set_shape, setcursorshape);
+ 
++	/**
++	 * Initialize headless backend
++	 */ 
++	headless_backend = wlr_headless_backend_create(dpy);
++	if (!headless_backend) {
++		die("Failed to create secondary headless backend");
++	} else {
++		wlr_multi_backend_add(backend, headless_backend);
++	}
++
+ 	/*
+ 	 * Configures a seat, which is a single "seat" at which a user sits and
+ 	 * operates the computer. This conceptually includes up to one keyboard,
+@@ -2746,6 +2765,45 @@ zoom(const Arg *arg)
+ 	arrange(selmon);
+ }
+ 
++void 
++_create_output(struct wlr_backend *_backend, void *data) 
++{
++	bool *done = data;
++	if (*done) {
++		return;
++	}
++
++	if (wlr_backend_is_wl(_backend)) {
++		wlr_wl_output_create(_backend);
++		*done = true;
++	} else if (wlr_backend_is_headless(_backend)) {
++		wlr_headless_add_output(_backend, 1920, 1080);
++		*done = true;
++	}
++#if WLR_HAS_X11_BACKEND
++	else if (wlr_backend_is_x11(backend)) {
++		wlr_x11_output_create(backend);
++		*done = true;
++	}
++#endif
++}
++
++void
++create_output(const Arg *arg)
++{
++	bool done = false;
++
++	if (!wlr_backend_is_multi(backend)) {
++		die("Expected a multi backend");
++	}
++
++	wlr_multi_for_each_backend(backend, _create_output, &done);
++
++	if (!done) {
++		die("Can only create outputs for Wayland, X11 or headless backends");
++	}
++}
++
+ #ifdef XWAYLAND
+ void
+ activatex11(struct wl_listener *listener, void *data)
+-- 
+2.43.2
+

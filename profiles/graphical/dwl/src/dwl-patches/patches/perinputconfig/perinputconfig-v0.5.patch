@@ -1,0 +1,173 @@
+From 9388faea3c4648aa99c01b9e4ce9287237b28b38 Mon Sep 17 00:00:00 2001
+From: nullsystem <nullsystem.aongp@slmail.me>
+Date: Mon, 1 Apr 2024 21:23:39 +0100
+Subject: [PATCH] Backport perinputconfig to v0.5
+
+- Array replaced singular variables for configuration
+- Only applies to enable-state, acceleration profile, and speed
+- Like EX: Rules, requires NULL/default set at the end
+- Keyboards can now also set by name
+---
+ config.def.h | 37 +++++++++++++++++++++++--------------
+ dwl.c        | 49 ++++++++++++++++++++++++++++++++++++++++++++++---
+ 2 files changed, 69 insertions(+), 17 deletions(-)
+
+diff --git a/config.def.h b/config.def.h
+index db0babc..861a937 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -46,12 +46,13 @@ static const MonitorRule monrules[] = {
+ };
+ 
+ /* keyboard */
+-static const struct xkb_rule_names xkb_rules = {
+-	/* can specify fields: rules, model, layout, variant, options */
++/* NOTE: Always include a fallback rule at the end (name as NULL) */
++static const KeyboardRule kbrules[] = {
++	/* name       rules model layout   variant options */
+ 	/* example:
+-	.options = "ctrl:nocaps",
++	{ "keyboard", NULL, NULL, "us,de", NULL,   "ctrl:nocaps" },
+ 	*/
+-	.options = NULL,
++	{ NULL,       NULL, NULL, NULL,    NULL,   NULL },
+ };
+ 
+ static const int repeat_rate = 25;
+@@ -81,23 +82,31 @@ LIBINPUT_CONFIG_CLICK_METHOD_CLICKFINGER
+ static const enum libinput_config_click_method click_method = LIBINPUT_CONFIG_CLICK_METHOD_BUTTON_AREAS;
+ 
+ /* You can choose between:
++LIBINPUT_CONFIG_TAP_MAP_LRM -- 1/2/3 finger tap maps to left/right/middle
++LIBINPUT_CONFIG_TAP_MAP_LMR -- 1/2/3 finger tap maps to left/middle/right
++*/
++static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TAP_MAP_LRM;
++
++/*
++send_events_mode: You can choose between:
+ LIBINPUT_CONFIG_SEND_EVENTS_ENABLED
+ LIBINPUT_CONFIG_SEND_EVENTS_DISABLED
+ LIBINPUT_CONFIG_SEND_EVENTS_DISABLED_ON_EXTERNAL_MOUSE
+-*/
+-static const uint32_t send_events_mode = LIBINPUT_CONFIG_SEND_EVENTS_ENABLED;
+ 
+-/* You can choose between:
++accel_profile: You can choose between:
+ LIBINPUT_CONFIG_ACCEL_PROFILE_FLAT
+ LIBINPUT_CONFIG_ACCEL_PROFILE_ADAPTIVE
++
++NOTE: Always include a fallback rule at the end (name as NULL)
+ */
+-static const enum libinput_config_accel_profile accel_profile = LIBINPUT_CONFIG_ACCEL_PROFILE_ADAPTIVE;
+-static const double accel_speed = 0.0;
+-/* You can choose between:
+-LIBINPUT_CONFIG_TAP_MAP_LRM -- 1/2/3 finger tap maps to left/right/middle
+-LIBINPUT_CONFIG_TAP_MAP_LMR -- 1/2/3 finger tap maps to left/middle/right
+-*/
+-static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TAP_MAP_LRM;
++static const InputRule inputrules[] = {
++	/* name                 send_events_mode                        accel_profile                       accel_speed*/
++	/* examples:
++	{ "SynPS/2 Synaptics TouchPad", LIBINPUT_CONFIG_SEND_EVENTS_DISABLED, LIBINPUT_CONFIG_ACCEL_PROFILE_FLAT, 0.0 },
++	{ "TPPS/2 IBM TrackPoint", LIBINPUT_CONFIG_SEND_EVENTS_ENABLED, LIBINPUT_CONFIG_ACCEL_PROFILE_ADAPTIVE, 0.0 },
++	*/
++	{ NULL, LIBINPUT_CONFIG_SEND_EVENTS_ENABLED, LIBINPUT_CONFIG_ACCEL_PROFILE_FLAT, 0.0 },
++};
+ 
+ /* If you want to use the windows key for MODKEY, use WLR_MODIFIER_LOGO */
+ #define MODKEY WLR_MODIFIER_ALT
+diff --git a/dwl.c b/dwl.c
+index ef27a1d..a35f480 100644
+--- a/dwl.c
++++ b/dwl.c
+@@ -226,6 +226,22 @@ typedef struct {
+ 	struct wl_listener destroy;
+ } SessionLock;
+ 
++typedef struct {
++	const char *name;
++	uint32_t send_events_mode;
++	enum libinput_config_accel_profile accel_profile;
++	double accel_speed;
++} InputRule;
++
++typedef struct {
++	const char *name;
++	const char *rules;
++	const char *model;
++	const char *layout;
++	const char *variant;
++	const char *options;
++} KeyboardRule;
++
+ /* function declarations */
+ static void applybounds(Client *c, struct wlr_box *bbox);
+ static void applyrules(Client *c);
+@@ -766,11 +782,31 @@ createidleinhibitor(struct wl_listener *listener, void *data)
+ void
+ createkeyboard(struct wlr_keyboard *keyboard)
+ {
++	struct xkb_rule_names xkb_rules;
++	struct libinput_device *libinput_device = NULL;
+ 	struct xkb_context *context;
+ 	struct xkb_keymap *keymap;
++	const KeyboardRule *krule = NULL;
++	const char *device_name = "";
+ 	Keyboard *kb = keyboard->data = ecalloc(1, sizeof(*kb));
+ 	kb->wlr_keyboard = keyboard;
+ 
++	if (wlr_input_device_is_libinput(&keyboard->base)
++			&& (libinput_device = wlr_libinput_get_device_handle(&keyboard->base))) {
++		device_name = libinput_device_get_name(libinput_device);
++	}
++	for (krule = kbrules; krule < END(kbrules); krule++) {
++		if (!krule->name || strstr(device_name, krule->name))
++			break;
++	}
++	if (krule) {
++		xkb_rules.rules = krule->rules;
++		xkb_rules.model = krule->model;
++		xkb_rules.layout = krule->layout;
++		xkb_rules.variant = krule->variant;
++		xkb_rules.options = krule->options;
++	}
++
+ 	/* Prepare an XKB keymap and assign it to the keyboard. */
+ 	context = xkb_context_new(XKB_CONTEXT_NO_FLAGS);
+ 	keymap = xkb_keymap_new_from_names(context, &xkb_rules,
+@@ -989,10 +1025,17 @@ createnotify(struct wl_listener *listener, void *data)
+ void
+ createpointer(struct wlr_pointer *pointer)
+ {
++	const InputRule *irule;
+ 	if (wlr_input_device_is_libinput(&pointer->base)) {
+ 		struct libinput_device *libinput_device = (struct libinput_device*)
+ 			wlr_libinput_get_device_handle(&pointer->base);
+ 
++		const char *device_name = libinput_device_get_name(libinput_device);
++		for (irule = inputrules; irule < END(inputrules); irule++) {
++			if (!irule->name || strstr(device_name, irule->name))
++				break;
++		}
++
+ 		if (libinput_device_config_tap_get_finger_count(libinput_device)) {
+ 			libinput_device_config_tap_set_enabled(libinput_device, tap_to_click);
+ 			libinput_device_config_tap_set_drag_enabled(libinput_device, tap_and_drag);
+@@ -1019,11 +1062,11 @@ createpointer(struct wlr_pointer *pointer)
+ 			libinput_device_config_click_set_method (libinput_device, click_method);
+ 
+ 		if (libinput_device_config_send_events_get_modes(libinput_device))
+-			libinput_device_config_send_events_set_mode(libinput_device, send_events_mode);
++			libinput_device_config_send_events_set_mode(libinput_device, irule->send_events_mode);
+ 
+ 		if (libinput_device_config_accel_is_available(libinput_device)) {
+-			libinput_device_config_accel_set_profile(libinput_device, accel_profile);
+-			libinput_device_config_accel_set_speed(libinput_device, accel_speed);
++			libinput_device_config_accel_set_profile(libinput_device, irule->accel_profile);
++			libinput_device_config_accel_set_speed(libinput_device, irule->accel_speed);
+ 		}
+ 	}
+ 
+-- 
+2.44.0
+

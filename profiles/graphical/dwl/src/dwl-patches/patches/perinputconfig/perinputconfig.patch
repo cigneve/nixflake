@@ -1,0 +1,295 @@
+From c268707811fb5d8244115f23a0430f024e4e11a9 Mon Sep 17 00:00:00 2001
+From: nullsystem <nullsystem.aongp@slmail.me>
+Date: Sat, 8 Jun 2024 11:30:34 +0100
+Subject: [PATCH] perinputconfig - 2024-06-08 Update
+
+* Array replaced singular variables for configuration
+* Only applies to enable-state, acceleration profile, and speed
+* Like EX: Rules, requires NULL/default set at the end
+* Keyboards can now also set by name
+---
+ config.def.h | 36 +++++++++++++---------
+ dwl.c        | 87 +++++++++++++++++++++++++++++++++++++++++++---------
+ 2 files changed, 95 insertions(+), 28 deletions(-)
+
+diff --git a/config.def.h b/config.def.h
+index a784eb4..c733137 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -49,12 +49,13 @@ static const MonitorRule monrules[] = {
+ };
+ 
+ /* keyboard */
+-static const struct xkb_rule_names xkb_rules = {
+-	/* can specify fields: rules, model, layout, variant, options */
++/* NOTE: Always include a fallback rule at the end (name as NULL) */
++static const KeyboardRule kbrules[] = {
++	/* name       rules model layout   variant options */
+ 	/* example:
+-	.options = "ctrl:nocaps",
++	{ "keyboard", NULL, NULL, "us,de", NULL,   "ctrl:nocaps" },
+ 	*/
+-	.options = NULL,
++	{ NULL,       NULL, NULL, NULL,    NULL,   NULL },
+ };
+ 
+ static const int repeat_rate = 25;
+@@ -84,24 +85,31 @@ LIBINPUT_CONFIG_CLICK_METHOD_CLICKFINGER
+ static const enum libinput_config_click_method click_method = LIBINPUT_CONFIG_CLICK_METHOD_BUTTON_AREAS;
+ 
+ /* You can choose between:
++LIBINPUT_CONFIG_TAP_MAP_LRM -- 1/2/3 finger tap maps to left/right/middle
++LIBINPUT_CONFIG_TAP_MAP_LMR -- 1/2/3 finger tap maps to left/middle/right
++*/
++static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TAP_MAP_LRM;
++
++/*
++send_events_mode: You can choose between:
+ LIBINPUT_CONFIG_SEND_EVENTS_ENABLED
+ LIBINPUT_CONFIG_SEND_EVENTS_DISABLED
+ LIBINPUT_CONFIG_SEND_EVENTS_DISABLED_ON_EXTERNAL_MOUSE
+-*/
+-static const uint32_t send_events_mode = LIBINPUT_CONFIG_SEND_EVENTS_ENABLED;
+ 
+-/* You can choose between:
++accel_profile: You can choose between:
+ LIBINPUT_CONFIG_ACCEL_PROFILE_FLAT
+ LIBINPUT_CONFIG_ACCEL_PROFILE_ADAPTIVE
+-*/
+-static const enum libinput_config_accel_profile accel_profile = LIBINPUT_CONFIG_ACCEL_PROFILE_ADAPTIVE;
+-static const double accel_speed = 0.0;
+ 
+-/* You can choose between:
+-LIBINPUT_CONFIG_TAP_MAP_LRM -- 1/2/3 finger tap maps to left/right/middle
+-LIBINPUT_CONFIG_TAP_MAP_LMR -- 1/2/3 finger tap maps to left/middle/right
++NOTE: Always include a fallback rule at the end (name as NULL)
+ */
+-static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TAP_MAP_LRM;
++static const InputRule inputrules[] = {
++	/* name                 send_events_mode                        accel_profile                       accel_speed*/
++	/* examples:
++	{ "SynPS/2 Synaptics TouchPad", LIBINPUT_CONFIG_SEND_EVENTS_DISABLED, LIBINPUT_CONFIG_ACCEL_PROFILE_FLAT, 0.0 },
++	{ "TPPS/2 IBM TrackPoint", LIBINPUT_CONFIG_SEND_EVENTS_ENABLED, LIBINPUT_CONFIG_ACCEL_PROFILE_ADAPTIVE, 0.0 },
++	*/
++	{ NULL, LIBINPUT_CONFIG_SEND_EVENTS_ENABLED, LIBINPUT_CONFIG_ACCEL_PROFILE_FLAT, 0.0 },
++};
+ 
+ /* If you want to use the windows key for MODKEY, use WLR_MODIFIER_LOGO */
+ #define MODKEY WLR_MODIFIER_ALT
+diff --git a/dwl.c b/dwl.c
+index 6f041a0..0673a05 100644
+--- a/dwl.c
++++ b/dwl.c
+@@ -240,6 +240,22 @@ typedef struct {
+ 	struct wl_listener destroy;
+ } SessionLock;
+ 
++typedef struct {
++	const char *name;
++	uint32_t send_events_mode;
++	enum libinput_config_accel_profile accel_profile;
++	double accel_speed;
++} InputRule;
++
++typedef struct {
++	const char *name;
++	const char *rules;
++	const char *model;
++	const char *layout;
++	const char *variant;
++	const char *options;
++} KeyboardRule;
++
+ /* function declarations */
+ static void applybounds(Client *c, struct wlr_box *bbox);
+ static void applyrules(Client *c);
+@@ -259,7 +275,7 @@ static void commitnotify(struct wl_listener *listener, void *data);
+ static void createdecoration(struct wl_listener *listener, void *data);
+ static void createidleinhibitor(struct wl_listener *listener, void *data);
+ static void createkeyboard(struct wlr_keyboard *keyboard);
+-static KeyboardGroup *createkeyboardgroup(void);
++static KeyboardGroup *createkeyboardgroup(struct xkb_rule_names *new_xkb_rules);
+ static void createlayersurface(struct wl_listener *listener, void *data);
+ static void createlocksurface(struct wl_listener *listener, void *data);
+ static void createmon(struct wl_listener *listener, void *data);
+@@ -396,7 +412,7 @@ static struct wlr_session_lock_v1 *cur_lock;
+ static struct wl_listener lock_listener = {.notify = locksession};
+ 
+ static struct wlr_seat *seat;
+-static KeyboardGroup *kb_group;
++static struct wl_list kb_groups;
+ static struct wlr_surface *held_grab;
+ static unsigned int cursor_mode;
+ static Client *grabc;
+@@ -671,6 +687,8 @@ checkidleinhibitor(struct wlr_surface *exclude)
+ void
+ cleanup(void)
+ {
++	KeyboardGroup *kb_group;
++
+ #ifdef XWAYLAND
+ 	wlr_xwayland_destroy(xwayland);
+ 	xwayland = NULL;
+@@ -683,7 +701,8 @@ cleanup(void)
+ 	wlr_xcursor_manager_destroy(cursor_mgr);
+ 	wlr_output_layout_destroy(output_layout);
+ 
+-	destroykeyboardgroup(&kb_group->destroy, NULL);
++	wl_list_for_each(kb_group, &kb_groups, link)
++		destroykeyboardgroup(&kb_group->destroy, NULL);
+ 
+ 	wl_display_destroy(dpy);
+ 	/* Destroy after the wayland display (when the monitors are already destroyed)
+@@ -803,6 +822,30 @@ createidleinhibitor(struct wl_listener *listener, void *data)
+ void
+ createkeyboard(struct wlr_keyboard *keyboard)
+ {
++	KeyboardGroup *kb_group;
++	const char *device_name = "";
++	const KeyboardRule *krule = NULL;
++	struct libinput_device *device = NULL;
++
++	if (wlr_input_device_is_libinput(&keyboard->base)
++			&& (device = wlr_libinput_get_device_handle(&keyboard->base))) {
++		device_name = libinput_device_get_name(device);
++	}
++	for (krule = kbrules; krule < END(kbrules); krule++) {
++		if (!krule->name || strstr(device_name, krule->name))
++			break;
++	}
++	if (krule) {
++		struct xkb_rule_names xkb_rules;
++		xkb_rules.rules = krule->rules;
++		xkb_rules.model = krule->model;
++		xkb_rules.layout = krule->layout;
++		xkb_rules.variant = krule->variant;
++		xkb_rules.options = krule->options;
++		kb_group = createkeyboardgroup(&xkb_rules);
++	} else
++		wl_list_for_each(kb_group, &kb_groups, link);
++
+ 	/* Set the keymap to match the group keymap */
+ 	wlr_keyboard_set_keymap(keyboard, kb_group->wlr_group->keyboard.keymap);
+ 
+@@ -811,11 +854,16 @@ createkeyboard(struct wlr_keyboard *keyboard)
+ }
+ 
+ KeyboardGroup *
+-createkeyboardgroup(void)
++createkeyboardgroup(struct xkb_rule_names *new_xkb_rules)
+ {
+ 	KeyboardGroup *group = ecalloc(1, sizeof(*group));
+ 	struct xkb_context *context;
+ 	struct xkb_keymap *keymap;
++	struct xkb_rule_names xkb_rules;
++
++	memset(&xkb_rules, 0, sizeof(struct xkb_rule_names));
++	if (new_xkb_rules)
++		xkb_rules = *new_xkb_rules;
+ 
+ 	group->wlr_group = wlr_keyboard_group_create();
+ 	group->wlr_group->data = group;
+@@ -845,6 +893,9 @@ createkeyboardgroup(void)
+ 	 * all of them. Set this combined wlr_keyboard as the seat keyboard.
+ 	 */
+ 	wlr_seat_set_keyboard(seat, &group->wlr_group->keyboard);
++
++	wl_list_init(&group->destroy.link);
++	wl_list_insert(&kb_groups, &group->link);
+ 	return group;
+ }
+ 
+@@ -1042,9 +1093,15 @@ createnotify(struct wl_listener *listener, void *data)
+ void
+ createpointer(struct wlr_pointer *pointer)
+ {
++	const InputRule *irule;
+ 	struct libinput_device *device;
+ 	if (wlr_input_device_is_libinput(&pointer->base)
+ 			&& (device = wlr_libinput_get_device_handle(&pointer->base))) {
++		const char *device_name = libinput_device_get_name(device);
++		for (irule = inputrules; irule < END(inputrules); irule++) {
++			if (!irule->name || strstr(device_name, irule->name))
++				break;
++		}
+ 
+ 		if (libinput_device_config_tap_get_finger_count(device)) {
+ 			libinput_device_config_tap_set_enabled(device, tap_to_click);
+@@ -1072,11 +1129,11 @@ createpointer(struct wlr_pointer *pointer)
+ 			libinput_device_config_click_set_method (device, click_method);
+ 
+ 		if (libinput_device_config_send_events_get_modes(device))
+-			libinput_device_config_send_events_set_mode(device, send_events_mode);
++			libinput_device_config_send_events_set_mode(device, irule->send_events_mode);
+ 
+ 		if (libinput_device_config_accel_is_available(device)) {
+-			libinput_device_config_accel_set_profile(device, accel_profile);
+-			libinput_device_config_accel_set_speed(device, accel_speed);
++			libinput_device_config_accel_set_profile(device, irule->accel_profile);
++			libinput_device_config_accel_set_speed(device, irule->accel_speed);
+ 		}
+ 	}
+ 
+@@ -1277,7 +1334,6 @@ destroykeyboardgroup(struct wl_listener *listener, void *data)
+ 	wl_list_remove(&group->key.link);
+ 	wl_list_remove(&group->modifiers.link);
+ 	wl_list_remove(&group->destroy.link);
+-	free(group);
+ }
+ 
+ Monitor *
+@@ -1467,6 +1523,7 @@ inputdevice(struct wl_listener *listener, void *data)
+ 	 * available. */
+ 	struct wlr_input_device *device = data;
+ 	uint32_t caps;
++	KeyboardGroup *group;
+ 
+ 	switch (device->type) {
+ 	case WLR_INPUT_DEVICE_KEYBOARD:
+@@ -1485,8 +1542,11 @@ inputdevice(struct wl_listener *listener, void *data)
+ 	 * there are no pointer devices, so we always include that capability. */
+ 	/* TODO do we actually require a cursor? */
+ 	caps = WL_SEAT_CAPABILITY_POINTER;
+-	if (!wl_list_empty(&kb_group->wlr_group->devices))
+-		caps |= WL_SEAT_CAPABILITY_KEYBOARD;
++	wl_list_for_each(group, &kb_groups, link)
++		if (!wl_list_empty(&group->wlr_group->devices)) {
++			caps |= WL_SEAT_CAPABILITY_KEYBOARD;
++			break;
++		}
+ 	wlr_seat_set_capabilities(seat, caps);
+ }
+ 
+@@ -2431,6 +2491,7 @@ setup(void)
+ 	 */
+ 	wl_list_init(&clients);
+ 	wl_list_init(&fstack);
++	wl_list_init(&kb_groups);
+ 
+ 	xdg_shell = wlr_xdg_shell_create(dpy, 6);
+ 	LISTEN_STATIC(&xdg_shell->events.new_surface, createnotify);
+@@ -2514,8 +2575,7 @@ setup(void)
+ 	LISTEN_STATIC(&seat->events.request_start_drag, requeststartdrag);
+ 	LISTEN_STATIC(&seat->events.start_drag, startdrag);
+ 
+-	kb_group = createkeyboardgroup();
+-	wl_list_init(&kb_group->destroy.link);
++	createkeyboardgroup(NULL);
+ 
+ 	output_mgr = wlr_output_manager_v1_create(dpy);
+ 	LISTEN_STATIC(&output_mgr->events.apply, outputmgrapply);
+@@ -2857,10 +2917,9 @@ virtualkeyboard(struct wl_listener *listener, void *data)
+ {
+ 	struct wlr_virtual_keyboard_v1 *kb = data;
+ 	/* virtual keyboards shouldn't share keyboard group */
+-	KeyboardGroup *group = createkeyboardgroup();
++	KeyboardGroup *group = createkeyboardgroup(NULL);
+ 	/* Set the keymap to match the group keymap */
+ 	wlr_keyboard_set_keymap(&kb->keyboard, group->wlr_group->keyboard.keymap);
+-	LISTEN(&kb->keyboard.base.events.destroy, &group->destroy, destroykeyboardgroup);
+ 
+ 	/* Add the new keyboard to the group */
+ 	wlr_keyboard_group_add_keyboard(group->wlr_group, &kb->keyboard);
+-- 
+2.45.2
+

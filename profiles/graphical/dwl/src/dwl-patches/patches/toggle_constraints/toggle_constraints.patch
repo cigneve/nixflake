@@ -1,0 +1,86 @@
+From 13bb9d86a0da2ebc82c20ee721b3eeb28592b0a0 Mon Sep 17 00:00:00 2001
+From: David Donahue <david.donahue2996@gmail.com>
+Date: Tue, 26 Mar 2024 17:45:26 -0600
+Subject: [PATCH] Added function to toggle pointer constraints via a keybind
+
+---
+ dwl.c | 41 ++++++++++++++++++++++++++---------------
+ 1 file changed, 26 insertions(+), 15 deletions(-)
+
+diff --git a/dwl.c b/dwl.c
+index 5867b0c..04d377b 100644
+--- a/dwl.c
++++ b/dwl.c
+@@ -332,6 +332,7 @@ static void tagmon(const Arg *arg);
+ static void tile(Monitor *m);
+ static void togglefloating(const Arg *arg);
+ static void togglefullscreen(const Arg *arg);
++static void togglepointerconstraints(const Arg *arg);
+ static void toggletag(const Arg *arg);
+ static void toggleview(const Arg *arg);
+ static void unlocksession(struct wl_listener *listener, void *data);
+@@ -400,6 +401,8 @@ static unsigned int cursor_mode;
+ static Client *grabc;
+ static int grabcx, grabcy; /* client-relative */
+ 
++static int enable_constraints = 1;
++
+ static struct wlr_output_layout *output_layout;
+ static struct wlr_box sgeom;
+ static struct wl_list mons;
+@@ -1700,22 +1703,24 @@ motionnotify(uint32_t time, struct wlr_input_device *device, double dx, double d
+ 				relative_pointer_mgr, seat, (uint64_t)time * 1000,
+ 				dx, dy, dx_unaccel, dy_unaccel);
+ 
+-		wl_list_for_each(constraint, &pointer_constraints->constraints, link)
+-			cursorconstrain(constraint);
+-
+-		if (active_constraint && cursor_mode != CurResize && cursor_mode != CurMove) {
+-			toplevel_from_wlr_surface(active_constraint->surface, &c, NULL);
+-			if (c && active_constraint->surface == seat->pointer_state.focused_surface) {
+-				sx = cursor->x - c->geom.x - c->bw;
+-				sy = cursor->y - c->geom.y - c->bw;
+-				if (wlr_region_confine(&active_constraint->region, sx, sy,
+-						sx + dx, sy + dy, &sx_confined, &sy_confined)) {
+-					dx = sx_confined - sx;
+-					dy = sy_confined - sy;
++		if (enable_constraints){
++			wl_list_for_each(constraint, &pointer_constraints->constraints, link)
++				cursorconstrain(constraint);
++
++			if (active_constraint && cursor_mode != CurResize && cursor_mode != CurMove) {
++				toplevel_from_wlr_surface(active_constraint->surface, &c, NULL);
++				if (c && active_constraint->surface == seat->pointer_state.focused_surface) {
++					sx = cursor->x - c->geom.x - c->bw;
++					sy = cursor->y - c->geom.y - c->bw;
++					if (wlr_region_confine(&active_constraint->region, sx, sy,
++							sx + dx, sy + dy, &sx_confined, &sy_confined)) {
++						dx = sx_confined - sx;
++						dy = sy_confined - sy;
++					}
++
++					if (active_constraint->type == WLR_POINTER_CONSTRAINT_V1_LOCKED)
++						return;
+ 				}
+-
+-				if (active_constraint->type == WLR_POINTER_CONSTRAINT_V1_LOCKED)
+-					return;
+ 			}
+ 		}
+ 
+@@ -2620,6 +2625,12 @@ togglefullscreen(const Arg *arg)
+ 		setfullscreen(sel, !sel->isfullscreen);
+ }
+ 
++void
++togglepointerconstraints(const Arg *arg)
++{
++	enable_constraints = !enable_constraints;
++}
++
+ void
+ toggletag(const Arg *arg)
+ {
+-- 
+2.43.2
+

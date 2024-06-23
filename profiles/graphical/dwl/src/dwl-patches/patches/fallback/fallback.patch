@@ -1,0 +1,44 @@
+From a94c52af879027e654f67c36621a8c9b2f338f56 Mon Sep 17 00:00:00 2001
+From: Dima Krasner <dima@dimakrasner.com>
+Date: Sat, 2 Dec 2023 10:36:35 +0200
+Subject: [PATCH] fall back to a lower output mode if needed
+ (swaywm/sway@4cdc4ac)
+
+---
+ dwl.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
+
+diff --git a/dwl.c b/dwl.c
+index d48bf40..7719f7e 100644
+--- a/dwl.c
++++ b/dwl.c
+@@ -920,6 +920,7 @@ createmon(struct wl_listener *listener, void *data)
+ 	/* This event is raised by the backend when a new output (aka a display or
+ 	 * monitor) becomes available. */
+ 	struct wlr_output *wlr_output = data;
++	struct wlr_output_mode *preferred_mode, *mode;
+ 	const MonitorRule *r;
+ 	size_t i;
+ 	struct wlr_output_state state;
+@@ -956,7 +957,17 @@ createmon(struct wl_listener *listener, void *data)
+ 	 * monitor supports only a specific set of modes. We just pick the
+ 	 * monitor's preferred mode; a more sophisticated compositor would let
+ 	 * the user configure it. */
+-	wlr_output_state_set_mode(&state, wlr_output_preferred_mode(wlr_output));
++	preferred_mode = wlr_output_preferred_mode(wlr_output);
++	wlr_output_state_set_mode(&state, preferred_mode);
++	if (!wlr_output_test_state(wlr_output, &state) && !wl_list_empty(&wlr_output->modes)) {
++		wl_list_for_each(mode, &wlr_output->modes, link) {
++			if (mode != preferred_mode) {
++				wlr_output_state_set_mode(&state, mode);
++				if (wlr_output_test_state(wlr_output, &state))
++					break;
++			}
++		}
++	}
+ 
+ 	/* Set up event listeners */
+ 	LISTEN(&wlr_output->events.frame, &m->frame, rendermon);
+-- 
+2.43.0
+

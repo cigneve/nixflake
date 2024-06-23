@@ -1,0 +1,35 @@
+From 7df91a900570684ee6ac31a95296cd60a32b00b6 Mon Sep 17 00:00:00 2001
+From: Sevz17 <leohdz172@outlook.com>
+Date: Fri, 25 Jun 2021 19:50:56 -0500
+Subject: [PATCH] show master area to the right
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Leonardo Hernández Hernández <leohdz172@proton.me>
+---
+ dwl.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/dwl.c b/dwl.c
+index 6f041a0d..14b2ae3c 100644
+--- a/dwl.c
++++ b/dwl.c
+@@ -2608,11 +2608,12 @@ tile(Monitor *m)
+ 		if (!VISIBLEON(c, m) || c->isfloating || c->isfullscreen)
+ 			continue;
+ 		if (i < m->nmaster) {
+-			resize(c, (struct wlr_box){.x = m->w.x, .y = m->w.y + my, .width = mw,
++			resize(c, (struct wlr_box){.x = m->w.x + m->w.width - mw,
++				.y = m->w.y + my, .width = mw,
+ 				.height = (m->w.height - my) / (MIN(n, m->nmaster) - i)}, 0);
+ 			my += c->geom.height;
+ 		} else {
+-			resize(c, (struct wlr_box){.x = m->w.x + mw, .y = m->w.y + ty,
++			resize(c, (struct wlr_box){.x = m->w.x, .y = m->w.y + ty,
+ 				.width = m->w.width - mw, .height = (m->w.height - ty) / (n - i)}, 0);
+ 			ty += c->geom.height;
+ 		}
+-- 
+2.45.2
+

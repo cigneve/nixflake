@@ -1,0 +1,122 @@
+From 5f531bfb1387ded7b8817faf7df760d3b998742b Mon Sep 17 00:00:00 2001
+From: Rutherther <rutherther@proton.me>
+Date: Sat, 27 Apr 2024 21:25:16 +0200
+Subject: [PATCH] feat: access nth monitor
+
+---
+ config.def.h |  4 +++-
+ dwl.c        | 46 ++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 49 insertions(+), 1 deletion(-)
+
+diff --git a/config.def.h b/config.def.h
+index 8847e58..4709c5d 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -108,7 +108,9 @@ static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TA
+ 	{ MODKEY,                    KEY,            view,            {.ui = 1 << TAG} }, \
+ 	{ MODKEY|WLR_MODIFIER_CTRL,  KEY,            toggleview,      {.ui = 1 << TAG} }, \
+ 	{ MODKEY|WLR_MODIFIER_SHIFT, SKEY,           tag,             {.ui = 1 << TAG} }, \
+-	{ MODKEY|WLR_MODIFIER_CTRL|WLR_MODIFIER_SHIFT,SKEY,toggletag, {.ui = 1 << TAG} }
++	{ MODKEY|WLR_MODIFIER_CTRL|WLR_MODIFIER_SHIFT,SKEY,toggletag, {.ui = 1 << TAG} }, \
++	{ WLR_MODIFIER_ALT,          KEY,            focusnthmon,     {.ui = TAG} }, \
++	{ WLR_MODIFIER_ALT|WLR_MODIFIER_SHIFT, SKEY, tagnthmon,       {.ui = TAG} }
+ 
+ /* helper for spawning shell commands in the pre dwm-5.0 fashion */
+ #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
+diff --git a/dwl.c b/dwl.c
+index bf763df..1d42caf 100644
+--- a/dwl.c
++++ b/dwl.c
+@@ -11,6 +11,7 @@
+ #include <time.h>
+ #include <unistd.h>
+ #include <wayland-server-core.h>
++#include <wayland-util.h>
+ #include <wlr/backend.h>
+ #include <wlr/backend/libinput.h>
+ #include <wlr/render/allocator.h>
+@@ -278,8 +279,10 @@ static void destroypointerconstraint(struct wl_listener *listener, void *data);
+ static void destroysessionlock(struct wl_listener *listener, void *data);
+ static void destroysessionmgr(struct wl_listener *listener, void *data);
+ static Monitor *dirtomon(enum wlr_direction dir);
++static Monitor *numtomon(int num);
+ static void focusclient(Client *c, int lift);
+ static void focusmon(const Arg *arg);
++static void focusnthmon(const Arg *arg);
+ static void focusstack(const Arg *arg);
+ static Client *focustop(Monitor *m);
+ static void fullscreennotify(struct wl_listener *listener, void *data);
+@@ -329,6 +332,7 @@ static void spawn(const Arg *arg);
+ static void startdrag(struct wl_listener *listener, void *data);
+ static void tag(const Arg *arg);
+ static void tagmon(const Arg *arg);
++static void tagnthmon(const Arg *arg);
+ static void tile(Monitor *m);
+ static void togglefloating(const Arg *arg);
+ static void togglefullscreen(const Arg *arg);
+@@ -1233,6 +1237,25 @@ dirtomon(enum wlr_direction dir)
+ 	return selmon;
+ }
+ 
++Monitor *
++numtomon(int num)
++{
++	Monitor *m = NULL;
++	int found = 0;
++	int i = 0;
++
++	wl_list_for_each(m, &mons, link) {
++		if (!m->wlr_output->enabled)
++			i--;
++		else if (i == num) {
++			found = true;
++			break;
++		}
++		i++;
++	}
++	return found ? m : NULL;
++}
++
+ void
+ focusclient(Client *c, int lift)
+ {
+@@ -1320,6 +1343,16 @@ focusmon(const Arg *arg)
+ 	focusclient(focustop(selmon), 1);
+ }
+ 
++void
++focusnthmon(const Arg *arg)
++{
++	Monitor *m = numtomon(arg->i);
++	if (!m || m == selmon)
++		return;
++	selmon = m;
++	focusclient(focustop(selmon), 1);
++}
++
+ void
+ focusstack(const Arg *arg)
+ {
+@@ -2569,6 +2602,19 @@ tagmon(const Arg *arg)
+ 		setmon(sel, dirtomon(arg->i), 0);
+ }
+ 
++void
++tagnthmon(const Arg *arg)
++{
++	Client *sel = focustop(selmon);
++	Monitor *m = numtomon(arg->i);
++	if (!m || !sel)
++		return;
++	setmon(sel, m, 0);
++
++	arrange(selmon);
++	arrange(m);
++}
++
+ void
+ tile(Monitor *m)
+ {
+-- 
+2.44.0
+

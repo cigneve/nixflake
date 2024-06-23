@@ -1,0 +1,65 @@
+From 5ffa5ec3a2a6f90a8a6345c6f1f7b9f197742aad Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Leonardo=20Hern=C3=A1ndez=20Hern=C3=A1ndez?=
+ <leohdz172@protonmail.com>
+Date: Wed, 5 Oct 2022 23:07:13 -0500
+Subject: [PATCH] increase RLIMIT_CORE (generate a coredump)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Leonardo Hernández Hernández <leohdz172@proton.me>
+---
+ dwl.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/dwl.c b/dwl.c
+index 6f041a0d..cb52be99 100644
+--- a/dwl.c
++++ b/dwl.c
+@@ -7,6 +7,7 @@
+ #include <signal.h>
+ #include <stdio.h>
+ #include <stdlib.h>
++#include <sys/resource.h>
+ #include <sys/wait.h>
+ #include <time.h>
+ #include <unistd.h>
+@@ -353,6 +354,8 @@ static void zoom(const Arg *arg);
+ 
+ /* variables */
+ static const char broken[] = "broken";
++static struct rlimit oldrlimit;
++static struct rlimit newrlimit;
+ static pid_t child_pid = -1;
+ static int locked;
+ static void *exclusive_focus;
+@@ -2143,6 +2146,7 @@ run(char *startup_cmd)
+ 		if ((child_pid = fork()) < 0)
+ 			die("startup: fork:");
+ 		if (child_pid == 0) {
++			setrlimit(RLIMIT_CORE, &oldrlimit);
+ 			dup2(piperw[0], STDIN_FILENO);
+ 			close(piperw[0]);
+ 			close(piperw[1]);
+@@ -2547,6 +2551,7 @@ void
+ spawn(const Arg *arg)
+ {
+ 	if (fork() == 0) {
++		setrlimit(RLIMIT_CORE, &oldrlimit);
+ 		dup2(STDERR_FILENO, STDOUT_FILENO);
+ 		setsid();
+ 		execvp(((char **)arg->v)[0], (char **)arg->v);
+@@ -3083,6 +3088,10 @@ main(int argc, char *argv[])
+ 	char *startup_cmd = NULL;
+ 	int c;
+ 
++	getrlimit(RLIMIT_CORE, &oldrlimit);
++	newrlimit.rlim_cur = newrlimit.rlim_max = oldrlimit.rlim_max;
++	setrlimit(RLIMIT_CORE, &newrlimit);
++
+ 	while ((c = getopt(argc, argv, "s:hdv")) != -1) {
+ 		if (c == 's')
+ 			startup_cmd = optarg;
+-- 
+2.45.2
+

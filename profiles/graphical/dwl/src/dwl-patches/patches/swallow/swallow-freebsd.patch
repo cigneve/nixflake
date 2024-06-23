@@ -1,0 +1,55 @@
+From 49dc947ba4c33324b969ef7179768c806910fffb Mon Sep 17 00:00:00 2001
+From: choc <notchoc@proton.me>
+Date: Sat, 22 Jun 2024 10:52:33 +0800
+Subject: [PATCH] swallow: add freebsd support
+
+---
+ dwl.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+diff --git a/dwl.c b/dwl.c
+index 3a3167b..ee9e965 100644
+--- a/dwl.c
++++ b/dwl.c
+@@ -65,6 +65,14 @@
+ #include <xcb/xcb_icccm.h>
+ #endif
+ 
++#ifdef __FreeBSD__
++#define __BSD_VISIBLE
++#include <sys/types.h>
++#include <sys/param.h>
++#include <sys/sysctl.h>
++#include <sys/user.h>
++#endif
++
+ #include "util.h"
+ 
+ /* macros */
+@@ -1486,6 +1494,7 @@ handlesig(int signo)
+ pid_t
+ getparentprocess(pid_t p)
+ {
++#ifdef __linux__
+ 	unsigned int v = 0;
+ 
+ 	FILE *f;
+@@ -1499,6 +1508,14 @@ getparentprocess(pid_t p)
+ 	fclose(f);
+ 
+ 	return (pid_t)v;
++#elif defined(__FreeBSD__)
++	struct kinfo_proc kip;
++	size_t len = sizeof(struct kinfo_proc);
++	int mib[4] = { CTL_KERN, KERN_PROC, KERN_PROC_PID, p };
++	if (sysctl(mib, 4, &kip, &len, NULL, 0) < 0 || len == 0)
++		return 0;
++	return kip.ki_ppid;
++#endif
+ }
+ 
+ int
+-- 
+2.43.0
+
+

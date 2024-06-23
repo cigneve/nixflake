@@ -1,0 +1,165 @@
+From a32b85018ff2cea0fc9f9137789860a4aadc3b3a Mon Sep 17 00:00:00 2001
+From: wochap <gean.marroquin@gmail.com>
+Date: Wed, 6 Mar 2024 07:31:17 -0500
+Subject: [PATCH] implement modes
+
+like sway/river modes
+---
+ config.def.h | 20 ++++++++++++++++++++
+ dwl.c        | 46 ++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 66 insertions(+)
+
+diff --git a/config.def.h b/config.def.h
+index db0babc..1616136 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -13,6 +13,13 @@ static const float urgentcolor[]           = COLOR(0xff0000ff);
+ /* To conform the xdg-protocol, set the alpha to zero to restore the old behavior */
+ static const float fullscreen_bg[]         = {0.1, 0.1, 0.1, 1.0}; /* You can also use glsl colors */
+ 
++enum {
++	BROWSER,
++};
++const char *modes_labels[] = {
++	"browser",
++};
++
+ /* tagging - TAGCOUNT must be no greater than 31 */
+ #define TAGCOUNT (9)
+ 
+@@ -152,6 +159,8 @@ static const Key keys[] = {
+ 	TAGKEYS(          XKB_KEY_9, XKB_KEY_parenleft,                  8),
+ 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_Q,          quit,           {0} },
+ 
++	{ MODKEY,                    XKB_KEY_b,          entermode,      {.i = BROWSER} },
++
+ 	/* Ctrl-Alt-Backspace and Ctrl-Alt-Fx used to be handled by X server */
+ 	{ WLR_MODIFIER_CTRL|WLR_MODIFIER_ALT,XKB_KEY_Terminate_Server, quit, {0} },
+ 	/* Ctrl-Alt-Fx is used to switch to another VT, if you don't know what a VT is
+@@ -162,6 +171,17 @@ static const Key keys[] = {
+ 	CHVT(7), CHVT(8), CHVT(9), CHVT(10), CHVT(11), CHVT(12),
+ };
+ 
++static const Modekey modekeys[] = {
++	/* mode      modifier                  key                 function        argument */
++	{ BROWSER, { 0, XKB_KEY_f, spawn, SHCMD("firefox") } },
++	{ BROWSER, { 0, XKB_KEY_f, entermode, {.i = NORMAL} } },
++	{ BROWSER, { 0, XKB_KEY_b, spawn, SHCMD("brave") } },
++	{ BROWSER, { 0, XKB_KEY_b, entermode, {.i = NORMAL} } },
++	{ BROWSER, { 0, XKB_KEY_g, spawn, SHCMD("google-chrome-stable") } },
++	{ BROWSER, { 0, XKB_KEY_g, entermode, {.i = NORMAL} } },
++	{ BROWSER, { 0, XKB_KEY_Escape, entermode, {.i = NORMAL} } },
++};
++
+ static const Button buttons[] = {
+ 	{ MODKEY, BTN_LEFT,   moveresize,     {.ui = CurMove} },
+ 	{ MODKEY, BTN_MIDDLE, togglefloating, {0} },
+diff --git a/dwl.c b/dwl.c
+index ef27a1d..1ada006 100644
+--- a/dwl.c
++++ b/dwl.c
+@@ -139,6 +139,11 @@ typedef struct {
+ 	const Arg arg;
+ } Key;
+ 
++typedef struct {
++	int mode_index;
++	Key key;
++} Modekey;
++
+ typedef struct {
+ 	struct wl_list link;
+ 	struct wlr_keyboard *wlr_keyboard;
+@@ -270,6 +275,7 @@ static void handlesig(int signo);
+ static void incnmaster(const Arg *arg);
+ static void inputdevice(struct wl_listener *listener, void *data);
+ static int keybinding(uint32_t mods, xkb_keysym_t sym);
++static int modekeybinding(uint32_t mods, xkb_keysym_t sym);
+ static void keypress(struct wl_listener *listener, void *data);
+ static void keypressmod(struct wl_listener *listener, void *data);
+ static int keyrepeat(void *data);
+@@ -327,6 +333,7 @@ static Monitor *xytomon(double x, double y);
+ static void xytonode(double x, double y, struct wlr_surface **psurface,
+ 		Client **pc, LayerSurface **pl, double *nx, double *ny);
+ static void zoom(const Arg *arg);
++static void entermode(const Arg *arg);
+ 
+ /* variables */
+ static const char broken[] = "broken";
+@@ -377,6 +384,9 @@ static struct wlr_box sgeom;
+ static struct wl_list mons;
+ static Monitor *selmon;
+ 
++static const int NORMAL = -1;
++static int active_mode_index = NORMAL;
++
+ #ifdef XWAYLAND
+ static void activatex11(struct wl_listener *listener, void *data);
+ static void associatex11(struct wl_listener *listener, void *data);
+@@ -1372,6 +1382,11 @@ keybinding(uint32_t mods, xkb_keysym_t sym)
+ 	 */
+ 	int handled = 0;
+ 	const Key *k;
++
++	if (active_mode_index >= 0) {
++		return modekeybinding(mods, sym);
++	}
++
+ 	for (k = keys; k < END(keys); k++) {
+ 		if (CLEANMASK(mods) == CLEANMASK(k->mod) &&
+ 				sym == k->keysym && k->func) {
+@@ -1382,6 +1397,29 @@ keybinding(uint32_t mods, xkb_keysym_t sym)
+ 	return handled;
+ }
+ 
++int
++modekeybinding(uint32_t mods, xkb_keysym_t sym)
++{
++	int handled = 0;
++	const Modekey *mk;
++	const Key *k;
++
++	for (mk = modekeys; mk < END(modekeys); mk++) {
++		if (active_mode_index != mk->mode_index) {
++			continue;
++		}
++
++		k = &mk->key;
++		if (CLEANMASK(mods) == CLEANMASK(k->mod) &&
++				sym == k->keysym && k->func) {
++			k->func(&k->arg);
++			handled = 1;
++		}
++	}
++
++	return handled;
++}
++
+ void
+ keypress(struct wl_listener *listener, void *data)
+ {
+@@ -1851,6 +1889,7 @@ printstatus(void)
+ 		printf("%s tags %u %u %u %u\n", m->wlr_output->name, occ, m->tagset[m->seltags],
+ 				sel, urg);
+ 		printf("%s layout %s\n", m->wlr_output->name, m->ltsymbol);
++		printf("%s mode %s\n", m->wlr_output->name, modes_labels[active_mode_index] ? modes_labels[active_mode_index] : "");
+ 	}
+ 	fflush(stdout);
+ }
+@@ -2746,6 +2785,13 @@ zoom(const Arg *arg)
+ 	arrange(selmon);
+ }
+ 
++void
++entermode(const Arg *arg)
++{
++	active_mode_index = arg->i;
++	printstatus();
++}
++
+ #ifdef XWAYLAND
+ void
+ activatex11(struct wl_listener *listener, void *data)
+-- 
+2.42.0
+

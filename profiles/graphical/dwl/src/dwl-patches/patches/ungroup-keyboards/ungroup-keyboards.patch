@@ -1,0 +1,97 @@
+From d9b9797680ae58bdb910e3bc1f71408f6b67c0d5 Mon Sep 17 00:00:00 2001
+From: Ben Collerson <benc@benc.cc>
+Date: Sat, 15 Jun 2024 12:34:01 +1000
+Subject: [PATCH] ungroup-keyboards
+
+Ungroup keyboards based on device name. My use case is keeping the
+ydotool virtual keyboard from from being grouped with other keyboards.
+---
+ config.def.h |  7 +++++++
+ dwl.c        | 29 ++++++++++++++++++++++++++++-
+ 2 files changed, 35 insertions(+), 1 deletion(-)
+
+diff --git a/config.def.h b/config.def.h
+index a784eb4f..9ad1c256 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -57,6 +57,13 @@ static const struct xkb_rule_names xkb_rules = {
+ 	.options = NULL,
+ };
+ 
++/* keyboard input devices - used to ungroup named keyboard devices */
++static const KBInputRule kbinputrules[] = {
++	/* name                      kbcreate */
++	{ "ydotoold virtual device", createungroupedkeyboard },
++	{ NULL,                      createkeyboard },
++};
++
+ static const int repeat_rate = 25;
+ static const int repeat_delay = 600;
+ 
+diff --git a/dwl.c b/dwl.c
+index 5a31aeef..41db830b 100644
+--- a/dwl.c
++++ b/dwl.c
+@@ -141,6 +141,11 @@ typedef struct {
+ 	uint32_t resize; /* configure serial of a pending resize */
+ } Client;
+ 
++typedef struct {
++	const char *name;
++	void (*kbcreate)(struct wlr_keyboard *);
++} KBInputRule;
++
+ typedef struct {
+ 	uint32_t mod;
+ 	xkb_keysym_t keysym;
+@@ -266,6 +271,7 @@ static void createmon(struct wl_listener *listener, void *data);
+ static void createnotify(struct wl_listener *listener, void *data);
+ static void createpointer(struct wlr_pointer *pointer);
+ static void createpointerconstraint(struct wl_listener *listener, void *data);
++static void createungroupedkeyboard(struct wlr_keyboard *keyboard);
+ static void cursorconstrain(struct wlr_pointer_constraint_v1 *constraint);
+ static void cursorframe(struct wl_listener *listener, void *data);
+ static void cursorwarptohint(void);
+@@ -1089,6 +1095,20 @@ createpointerconstraint(struct wl_listener *listener, void *data)
+ 			&pointer_constraint->destroy, destroypointerconstraint);
+ }
+ 
++void
++createungroupedkeyboard(struct wlr_keyboard *keyboard)
++{
++	/* for keyboards that need their own keyboard group */
++	KeyboardGroup *group = createkeyboardgroup();
++
++	/* Set the keymap to match the group keymap */
++	wlr_keyboard_set_keymap(keyboard, group->wlr_group->keyboard.keymap);
++	LISTEN(&keyboard->base.events.destroy, &group->destroy, destroykeyboardgroup);
++
++	/* Add the new keyboard to the group */
++	wlr_keyboard_group_add_keyboard(group->wlr_group, keyboard);
++}
++
+ void
+ cursorconstrain(struct wlr_pointer_constraint_v1 *constraint)
+ {
+@@ -1464,10 +1484,17 @@ inputdevice(struct wl_listener *listener, void *data)
+ 	 * available. */
+ 	struct wlr_input_device *device = data;
+ 	uint32_t caps;
++	const KBInputRule *r;
+ 
+ 	switch (device->type) {
+ 	case WLR_INPUT_DEVICE_KEYBOARD:
+-		createkeyboard(wlr_keyboard_from_input_device(device));
++		for (r = kbinputrules; r < END(kbinputrules); r++) {
++			if (!r->name || strstr(device->name, r->name)) {
++				r->kbcreate(wlr_keyboard_from_input_device(device));
++				break;
++			}
++		}
++
+ 		break;
+ 	case WLR_INPUT_DEVICE_POINTER:
+ 		createpointer(wlr_pointer_from_input_device(device));
+-- 
+2.45.1
+

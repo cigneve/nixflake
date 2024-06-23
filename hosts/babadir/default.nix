@@ -177,6 +177,8 @@ in {
   ## Resume from encrypted volume's /swapfile
   # swapDevices = [ { device = "/swap/swapfile";priority=0; } ]; 
   boot.resumeDevice = "/dev/nvme0n1p2";
+
+  # TODO: declarative approach for this?
   # filefrag -v /swapfile | awk '{ if($1=="0:"){print $4} }'
   boot.kernelParams = ["resume_offset=269568" "mitigations=off"];
 

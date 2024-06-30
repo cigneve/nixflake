@@ -91,7 +91,7 @@
             system.configurationRevision = lib.mkIf (self ? rev) self.rev;
           };
 
-          local = import ./hosts/${hostName};
+          hostConfiguration = import ./hosts/${hostName};
 
           # Everything in `./modules/list.nix`.
           flakeModules = attrValues self.nixosModules;
@@ -101,7 +101,7 @@
             wsl
             core
             global
-            local
+            hostConfiguration
             home-manager
             disko.nixosModules.disko
           ];

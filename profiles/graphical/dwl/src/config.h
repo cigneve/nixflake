@@ -71,7 +71,7 @@ static const MonitorRule monrules[] = {
 	* All other number's set the mode at the index n, 0 is the standard mode; see wlr-randr
 	*/
 	/* defaults */
-	{ NULL,       0.55f, 1,      1,    &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL, -1, -1, 0, 0, 0.0f, 0 ,1},
+	{ NULL,       0.55f, 1,      2,    &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL, -1, -1, 0, 0, 0.0f, 0 ,1},
 };
 
 /* keyboard */

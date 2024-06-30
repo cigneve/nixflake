@@ -36,13 +36,24 @@
     inherit (builtins) attrValues;
     inherit (nixos) lib;
 
+    systems = [
+      "aarch64-linux"
+      "i686-linux"
+      "x86_64-linux"
+      "aarch64-darwin"
+      "x86_64-darwin"
+    ];
+
+    # Wrapper function to map a function over systems list
+    forEachSystem = lib.genattrs systems;
+    
     pkgsFor = nixpkgs: overlays: system:
       import nixpkgs {
         inherit system overlays;
         config.allowUnfree = true;
       };
 
-    system = "x86_64-linux";
+    linuxSystem = "x86_64-linux";
 
     overlay = import ./pkgs;
 
@@ -109,9 +120,9 @@
 
     outputs = {
       nixosConfigurations = {
-        babadir = mkSystem nixos system "babadir";
-        iso = mkSystem nixos system "iso";
-        wsl = mkSystem nixos system "wsl";
+        babadir = mkSystem nixos linuxSystem "babadir";
+        iso = mkSystem nixos linuxSystem "iso";
+        wsl = mkSystem nixos linuxSystem "wsl";
       };
 
       nixosModules = {};

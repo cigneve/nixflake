@@ -108,6 +108,7 @@
           config = mkIf cfg.enable {
 
             environment.systemPackages = with pkgs; [
+              self.packages."x86_64-linux".dwl-custom
               capitaine-cursors
             ];
 
@@ -119,9 +120,9 @@
             xdg.portal.wlr.enable = true;
             xdg.portal.extraPortals = [
               # Default portal
-              pkgs.xdg-desktop-portal-gtk
+              # pkgs.xdg-desktop-portal-gtk
               # Screencasting support
-              pkgs.xdg-desktop-portal-gnome
+              # pkgs.xdg-desktop-portal-gnome
             ];
 
           };

@@ -1,8 +1,9 @@
 {
   pkgs,
+  inputs,
   ...
 }: {
-  imports = [./hyprland ./dwl ./pipewire.nix ../develop ./im];
+  imports = [./hyprland inputs.dwl-custom.nixosModules.dwl-custom ./pipewire.nix ../develop ./im];
 
   nixpkgs.overlays = [
     #nixpkgs-wayland.overlay

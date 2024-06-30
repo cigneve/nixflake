@@ -94,6 +94,41 @@
         default = self.packages.${system}.dwl-custom;
       });
 
+      nixosModules = {
+        dwl-custom = {lib,config,pkgs,...}:
+        with lib;
+        let
+          cfg = config.programs.dwl-custom;
+        in
+        {
+          options.programs.dwl-custom = {
+            enable = mkEnableOption "dwl fork";
+          };
+
+          config = mkIf cfg.enable {
+
+            environment.systemPackages = with pkgs; [
+              capitaine-cursors
+            ];
+
+            # Apparently required for GTK3 settings on sway
+            programs.dconf.enable = true;
+
+            xdg.portal.config.common.default = "*"; 
+            xdg.portal.enable = true;
+            xdg.portal.wlr.enable = true;
+            xdg.portal.extraPortals = [
+              # Default portal
+              pkgs.xdg-desktop-portal-gtk
+              # Screencasting support
+              pkgs.xdg-desktop-portal-gnome
+            ];
+
+          };
+
+        };
+      };
+
       devShells = forEachSystem (system: 
       let
         pkgs = nixpkgs.legacyPackages.${system};

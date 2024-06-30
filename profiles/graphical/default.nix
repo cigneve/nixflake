@@ -3,7 +3,7 @@
   inputs,
   ...
 }: {
-  imports = [ inputs.dwl-custom.nixosModules.dwl-custom ./waybar ./wlsunset ./pipewire.nix ../develop ./im];
+  imports = [ inputs.dwl-custom.nixosModules.dwl-custom ./pipewire.nix ../develop ./im];
 
   programs.dwl-custom.enable = true;
 
@@ -48,7 +48,7 @@
   ];
 
   home-manager.users.baba = {
-    imports = [./misc/mpv];
+    imports = [./misc/mpv inputs.dwl-custom.outputs.home-managerModules.dwl-custom];
 
     dconf.settings = {
       "org/gnome/desktop/interface" = {

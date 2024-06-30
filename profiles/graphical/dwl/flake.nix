@@ -3,7 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
   };
 
   outputs = {
@@ -12,22 +11,29 @@
     flake-utils,
     ...
   }:
-    flake-utils.lib.eachDefaultSystem (system: let
-      pkgs = import nixpkgs {
-        inherit system;
-      };
+    let
+      inherit (nixpkgs) lib;
 
-      stdenv = 
-        if pkgs.stdenv.isLinux
-        then pkgs.stdenv
-        else pkgs.clangStdenv;
+      systems = [
+        "x86_64-linux"
+      ];
+
+      forEachSystem = lib.genAttrs systems;
+
+      stdenv = system:
+        let 
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+          if pkgs.stdenv.isLinux
+          then pkgs.stdenv
+          else pkgs.clangStdenv;
 
       dwl-src = builtins.path {
         name = "dwl-custom";
         path = ./src;
       };
 
-      defaultDeps = with pkgs;[
+      defaultDeps = system: with nixpkgs.legacyPackages.${system};[
         gnumake
         pkg-config
         installShellFiles
@@ -44,47 +50,56 @@
         xwayland
         wayland-scanner
       ];
+    in
+    {
+      packages = forEachSystem (system: 
+      let
+        pkgs = nixpkgs.legacyPackages.${system};
       in
       {
-        packages = {
-          dwl-custom = stdenv.mkDerivation ({
-            pname = "dwl-custom";
-            version = "0.4";
-            src = dwl-src;
+        dwl-custom = pkgs.stdenv.mkDerivation ({
+          pname = "dwl-custom";
+          version = "0.4";
+          src = dwl-src;
 
-            packages = defaultDeps;
+          packages = defaultDeps system;
 
-            nativeBuildInputs = defaultDeps;
+          nativeBuildInputs = defaultDeps system;
 
-            buildinputs = defaultDeps;
+          buildinputs = defaultDeps system;
 
-            outputs = [
-              "out"
-              "man"
-            ];
+          outputs = [
+            "out"
+            "man"
+          ];
 
-            makeFlags = [
-              "PKG_CONFIG=${stdenv.cc.targetPrefix}pkg-config"
-              "WAYLAND_SCANNER=wayland-scanner"
-              "PREFIX=$(out)"
-              "MANDIR=$(man)/share/man"
-            ];
+          makeFlags = [
+            "PKG_CONFIG=${pkgs.stdenv.cc.targetPrefix}pkg-config"
+            "WAYLAND_SCANNER=wayland-scanner"
+            "PREFIX=$(out)"
+            "MANDIR=$(man)/share/man"
+          ];
 
-            buildPhase = ''
-              make clean
-              make
-            '';
+          buildPhase = ''
+            make clean
+            make
+          '';
 
-          meta = {
-            description = "Dynamic window manager for Wayland";
-            license = pkgs.lib.licenses.gpl3Only;
-          };
-          });
-
-          default = self.packages.${system}.dwl-custom;
+        meta = {
+          description = "Dynamic window manager for Wayland";
+          license = pkgs.lib.licenses.gpl3Only;
         };
+        });
 
-        devShells.default = pkgs.mkShell {
+        default = self.packages.${system}.dwl-custom;
+      });
+
+      devShells = forEachSystem (system: 
+      let
+        pkgs = nixpkgs.legacyPackages.${system};
+      in
+      { 
+        default = pkgs.mkShell {
 
           buildinputs = with pkgs; [
             libinput
@@ -118,6 +133,6 @@
             wayland-scanner
           ];
         };
-      }
-    );
+      });
+    };
 }

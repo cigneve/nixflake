@@ -10,8 +10,8 @@
       {
         layer = "top";
         height = 30;
-        modules-left = ["sway/mode" "pulseaudio" "custom/wlsunset" "custom/weather"];
-        modules-center = ["sway/workspaces"];
+        modules-left = [ "pulseaudio" "custom/wlsunset" "custom/weather"];
+        modules-center = [];
         modules-right = ["tray" "idle_inhibitor" "cpu" "memory" "network" "temperature" "battery" "clock"];
         "sway/workspaces" = {
           disable-scroll = true;

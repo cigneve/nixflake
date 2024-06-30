@@ -96,8 +96,8 @@
           # Everything in `./modules/list.nix`.
           flakeModules = attrValues self.nixosModules;
         in
-          flakeModules
-          ++ [
+          flakeModules ++
+          [
             wsl
             core
             global

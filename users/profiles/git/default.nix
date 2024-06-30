@@ -31,7 +31,7 @@
       enable = true;
       options = {
         navigate = true;
-        syntax-theme = "OneHalfDark";
+        # syntax-theme = "OneHalfDark";
         features = "side-by-side line-numbers decorations"; # hyperlinks
         whitespace-error-style = "22 reverse";
         decorations = {

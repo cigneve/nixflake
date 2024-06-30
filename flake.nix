@@ -45,7 +45,7 @@
     ];
 
     # Wrapper function to map a function over systems list
-    forEachSystem = lib.genattrs systems;
+    forEachSystem = lib.genAttrs systems;
     
     pkgsFor = nixpkgs: overlays: system:
       import nixpkgs {
@@ -128,10 +128,8 @@
       nixosModules = {};
 
       inherit overlay;
-
-      devShell.${system} = import ./shell.nix {pkgs = pkgs' system;};
-
-      formatter.${system} = nixpkgs.legacyPackages.${system}.alejandra;
+      devShell = forEachSystem (system: import ./shell.nix {pkgs = pkgs' system;});
+      formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.alejandra);
     };
   in
     outputs;

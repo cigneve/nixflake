@@ -154,8 +154,8 @@ static const char *downvol[] = {"wpctl", "set-sink-volume", "@DEFAULT_SINK@", "-
 static const char *mute[] = { "wpctl", "set-sink-mute",   "@DEFAULT_SINK@", "toggle",  NULL };
 static const char *micmute[] = { "wpctl", "set-source-mute",   "@DEFAULT_SINK@", "toggle",  NULL };
 // monitor control
-static const char *downmon[] = {"light","-A","3",NULL}
-static const char *upmon[] = {"light","-U","3",NULL}
+static const char *downmon[] = {"light","-A","3",NULL};
+static const char *upmon[] = {"light","-U","3",NULL};
 
 static const Key keys[] = {
 
@@ -227,12 +227,12 @@ static const Key keys[] = {
 	CHVT(1), CHVT(2), CHVT(3), CHVT(4), CHVT(5), CHVT(6),
 	CHVT(7), CHVT(8), CHVT(9), CHVT(10), CHVT(11), CHVT(12),
 
-	{ 0,XF86XK_AudioRaiseVolume, spawn,{.v = upvol } },
-	{ 0,XF86XK_AudioLowerVolume, spawn,{.v = downvol } },
-	{ 0,XF86XK_AudioMute,spawn,{.v = mute } },
-	{ 0,XF86XK_AudioMicMute,spawn,{.v = micmute } },
-	{ 0,XF86XK_MonBrightnessDown,spawn,{.v=downmon}},
-	{ 0,XF86XK_MonBrightnessUp,spawn,{.v=upmon}},
+	{ 0,XKB_KEY_XF86AudioRaiseVolume, spawn,{.v = upvol } },
+	{ 0,XKB_KEY_XF86AudioLowerVolume, spawn,{.v = downvol } },
+	{ 0,XKB_KEY_XF86AudioMute,spawn,{.v = mute } },
+	{ 0,XKB_KEY_XF86AudioMicMute,spawn,{.v = micmute } },
+	{ 0,XKB_KEY_XF86MonBrightnessDown,spawn,{.v=downmon}},
+	{ 0,XKB_KEY_XF86MonBrightnessUp,spawn,{.v=upmon}},
 };
 
 static const Modekey modekeys[] = {

@@ -147,7 +147,14 @@ static const int cursor_timeout = 5;
 static const char *termcmd[] = { "foot", NULL };
 static const char *menucmd[] = { "rofi", "-show", "drun", NULL };
 
+// volume control
+static const char *upvol[] = {"wpctl", "set-sink-volume", "@DEFAULT_SINK@", "+2%",     NULL };
+static const char *downvol[] = {"wpctl", "set-sink-volume", "@DEFAULT_SINK@", "-2%",     NULL };
+// muting
+static const char *mute[] = { "wpctl", "set-sink-mute",   "@DEFAULT_SINK@", "toggle",  NULL };
+
 static const Key keys[] = {
+
 	/* Note that Shift changes certain key codes: c -> C, 2 -> at, etc. */
 	/* modifier                  key                 function        argument */
 	{ MODKEY,                    XKB_KEY_p,          spawn,          {.v = menucmd} },
@@ -215,6 +222,10 @@ static const Key keys[] = {
 #define CHVT(n) { WLR_MODIFIER_CTRL|WLR_MODIFIER_ALT,XKB_KEY_XF86Switch_VT_##n, chvt, {.ui = (n)} }
 	CHVT(1), CHVT(2), CHVT(3), CHVT(4), CHVT(5), CHVT(6),
 	CHVT(7), CHVT(8), CHVT(9), CHVT(10), CHVT(11), CHVT(12),
+
+	{ 0,XF86XK_AudioRaiseVolume, spawn,{.v = upvol } },
+	{ 0,XF86XK_AudioLowerVolume, spawn,{.v = downvol } },
+	{ 0,XF86XK_AudioMute,spawn,{.v = mute } },
 };
 
 static const Modekey modekeys[] = {

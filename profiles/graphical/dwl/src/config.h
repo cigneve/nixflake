@@ -148,14 +148,14 @@ static const char *termcmd[] = { "foot", NULL };
 static const char *menucmd[] = { "rofi", "-show", "drun", NULL };
 
 // volume control
-static const char *upvol[] = {"wpctl", "set-sink-volume", "@DEFAULT_SINK@", "+2%",     NULL };
-static const char *downvol[] = {"wpctl", "set-sink-volume", "@DEFAULT_SINK@", "-2%",     NULL };
+static const char *upvol[] = {"wpctl", "set-volume", "@DEFAULT_SINK@", "+2%",     NULL };
+static const char *downvol[] = {"wpctl", "set-volume", "@DEFAULT_SINK@", "-2%",     NULL };
 // muting
-static const char *mute[] = { "wpctl", "set-sink-mute",   "@DEFAULT_SINK@", "toggle",  NULL };
-static const char *micmute[] = { "wpctl", "set-source-mute",   "@DEFAULT_SINK@", "toggle",  NULL };
+static const char *mute[] = { "wpctl", "set-mute",   "@DEFAULT_SINK@", "toggle",  NULL };
+static const char *micmute[] = { "wpctl", "set-mute",   "@DEFAULT_SOURCE@", "toggle",  NULL };
 // monitor control
-static const char *downmon[] = {"light","-A","3",NULL};
-static const char *upmon[] = {"light","-U","3",NULL};
+static const char *upmon[] = {"light","-A","3",NULL};
+static const char *downmon[] = {"light","-U","3",NULL};
 
 static const Key keys[] = {
 
@@ -231,8 +231,8 @@ static const Key keys[] = {
 	{ 0,XKB_KEY_XF86AudioLowerVolume, spawn,{.v = downvol } },
 	{ 0,XKB_KEY_XF86AudioMute,spawn,{.v = mute } },
 	{ 0,XKB_KEY_XF86AudioMicMute,spawn,{.v = micmute } },
-	{ 0,XKB_KEY_XF86MonBrightnessDown,spawn,{.v=downmon}},
 	{ 0,XKB_KEY_XF86MonBrightnessUp,spawn,{.v=upmon}},
+	{ 0,XKB_KEY_XF86MonBrightnessDown,spawn,{.v=downmon}},
 };
 
 static const Modekey modekeys[] = {

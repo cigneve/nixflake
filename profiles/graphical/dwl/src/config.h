@@ -148,11 +148,11 @@ static const char *termcmd[] = { "foot", NULL };
 static const char *menucmd[] = { "rofi", "-show", "drun", NULL };
 
 // volume control
-static const char *upvol[] = {"wpctl", "set-volume", "@DEFAULT_SINK@", "+2%",     NULL };
-static const char *downvol[] = {"wpctl", "set-volume", "@DEFAULT_SINK@", "-2%",     NULL };
+static const char *upvol[] = {"wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", "2%+",     NULL };
+static const char *downvol[] = {"wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", "2%-",     NULL };
 // muting
-static const char *mute[] = { "wpctl", "set-mute",   "@DEFAULT_SINK@", "toggle",  NULL };
-static const char *micmute[] = { "wpctl", "set-mute",   "@DEFAULT_SOURCE@", "toggle",  NULL };
+static const char *mute[] = { "wpctl", "set-mute",   "@DEFAULT_AUDIO_SINK@", "toggle",  NULL };
+static const char *micmute[] = { "wpctl", "set-mute",   "@DEFAULT_AUDIO_SOURCE@", "toggle",  NULL };
 // monitor control
 static const char *upmon[] = {"light","-A","3",NULL};
 static const char *downmon[] = {"light","-U","3",NULL};

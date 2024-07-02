@@ -10,6 +10,7 @@
     # inputs.hardware.nixosModules.asus-zephyrus-ga401
     inputs.hardware.nixosModules.common-cpu-amd-pstate
     "${inputs.hardware.outPath}/common/gpu/nvidia/prime.nix"
+    "${inputs.hardware.outPath}/common/gpu/nvidia"
     inputs.hardware.nixosModules.common-pc-laptop
     inputs.hardware.nixosModules.common-pc-laptop-ssd
     # inputs.hardware.nixosModules.asus-battery
@@ -24,6 +25,7 @@
     nvidia = {
       modesetting.enable = true;
       nvidiaSettings = true;
+      open = false;
       prime = {
         offload = {
           enable = true;
@@ -37,7 +39,7 @@
 
   boot.kernelParams = ["cryptomgr.notests" "quiet"];
 
-  boot.blacklistedKernelModules = [ "nouveau" ];
+  # boot.blacklistedKernelModules = [ "nouveau" ];
 
   # hardware.nvidia.powerManagement = {
   #   enable = true;

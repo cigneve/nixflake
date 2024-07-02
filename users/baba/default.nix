@@ -17,6 +17,16 @@ in {
       ../profiles/direnv
     ];
 
+    home.packages = with pkgs;
+    [
+      unrar-wrapper
+      clang-tools
+      python3
+      gcc
+      yt-dlp
+      gallery-dl
+    ];
+
     services.gpg-agent = {
       enable = true;
       enableSshSupport = true;

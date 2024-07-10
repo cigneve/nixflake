@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
     qbittorrent
-    transmission
-    transmission-qt
+    transmission_4
+    transmission_4-qt
   ];
 }

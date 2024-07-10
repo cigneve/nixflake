@@ -11,7 +11,7 @@
     #nixpkgs-wayland.overlay
   ];
 
-  hardware.opengl.enable = true;
+  hardware.graphics.enable = true;
   # For Vulkan
   # hardware.opengl.driSupport = true;
 
@@ -70,7 +70,7 @@
       font.name = "Roboto 10";
       theme = {
         name = "Adwaita-dark";
-        package = pkgs.gnome.gnome-themes-extra;      };
+        package = pkgs.gnome-themes-extra;      };
       iconTheme = {
         package = pkgs.paper-icon-theme;
         name = "Paper";

@@ -3,9 +3,12 @@
   inputs,
   ...
 }: {
-  imports = [ inputs.dwl-custom.nixosModules.dwl-custom ./pipewire.nix ../develop ./im];
-
-  programs.dwl-custom.enable = true;
+  imports = [ 
+  ./pipewire.nix
+   ../develop 
+  ./im
+  ./plasma
+  ];
 
   nixpkgs.overlays = [
     #nixpkgs-wayland.overlay
@@ -48,7 +51,7 @@
   ];
 
   home-manager.users.baba = {
-    imports = [./misc/mpv inputs.dwl-custom.outputs.home-managerModules.dwl-custom];
+    imports = [./misc/mpv ];
 
     dconf.settings = {
       "org/gnome/desktop/interface" = {
@@ -181,4 +184,5 @@
       </fontconfig>
     '';
   };
+
 }

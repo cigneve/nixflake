@@ -35,7 +35,7 @@ in {
     enable = true;
   };
 
-  # services.power-profiles-daemon.enable = true;
+  services.power-profiles-daemon.enable = lib.mkForce false;
   # systemd.services.power-profiles-daemon = {
   #   enable = true;
   #   wantedBy = [ "multi-user.target" ];

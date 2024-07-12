@@ -63,7 +63,7 @@
       enable = true;
       platformTheme.name = "adwaita";
       style = {
-        name = "gtk2";
+        name = "Breeze";
         package = pkgs.libsForQt5.breeze-qt5;
       };
     };

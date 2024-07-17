@@ -17,6 +17,10 @@ in {
       ../profiles/direnv
     ];
 
+    home.sessionVariables = {
+      TERM = "foot";
+    };
+
     home.packages = with pkgs;
     [
       unrar-wrapper

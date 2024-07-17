@@ -29,6 +29,11 @@ in {
       gcc
       yt-dlp
       gallery-dl
+
+      distrobox
+
+      nil
+      alejandra
     ];
 
     services.gpg-agent = {

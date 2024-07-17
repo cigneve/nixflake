@@ -10,9 +10,9 @@
   virtualisation.oci-containers.backend = "podman";
 
   # k3d seems broken on netavark
-  virtualisation.containers.containersConf.settings = {
-    network.network_backend = lib.mkForce "cni";
-  };
+  # virtualisation.containers.containersConf.settings = {
+  #   network.network_backend = lib.mkForce "cni";
+  # };
   virtualisation.containers.containersConf.cniPlugins = [ pkgs.dnsname-cni ];
   environment.etc."cni/net.d/87-podman-bridge.conflist".text = builtins.toJSON {
     cniVersion = "0.4.0";

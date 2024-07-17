@@ -103,6 +103,8 @@
   # Wayland support
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
+  virtualisation.waydroid.enable = true;
+
   environment.systemPackages = with pkgs; [
     evince
     imv

@@ -239,7 +239,7 @@ pane_frames false
 //   - true (default)
 //   - false
 //
-session_serialization false
+// session_serialization false
 
 // Whether pane viewports are serialized along with the session, default is false
 // Options:
@@ -253,61 +253,30 @@ session_serialization false
 //
 // scrollback_lines_to_serialize 10000
 
-// The name of the default layout to load on startup
-// Default: "default"
-//
-// default_layout "compact"
+default_layout "compact"
 
 // Choose the mode that zellij uses when starting up.
 // Default: normal
 //
 // default_mode "locked"
 
-// Toggle enabling the mouse mode.
-// On certain configurations, or terminals this could
-// potentially interfere with copying text.
-// Options:
-//   - true (default)
-//   - false
-//
-// mouse_mode false
+mouse_mode false
 
-// Configure the scroll back buffer size
-// This is the number of lines zellij stores for each pane in the scroll back
-// buffer. Excess number of lines are discarded in a FIFO fashion.
-// Valid values: positive integers
-// Default value: 10000
-//
-// scroll_buffer_size 10000
+scroll_buffer_size 10000
 
-// Provide a command to execute when copying text. The text will be piped to
-// the stdin of the program to perform the copy. This can be used with
-// terminal emulators which do not support the OSC 52 ANSI control sequence
-// that will be used by default if this option is not set.
-// Examples:
 //
-// copy_command "xclip -selection clipboard" // x11
 // copy_command "wl-copy"                    // wayland
-// copy_command "pbcopy"                     // osx
 
-// Choose the destination for copied text
-// Allows using the primary selection buffer (on x11/wayland) instead of the system clipboard.
-// Does not apply when using copy_command.
 // Options:
 //   - system (default)
 //   - primary
-//
-// copy_clipboard "primary"
+copy_clipboard "system"
 
 // Enable or disable automatic copy (and clear) of selection when releasing mouse
 // Default: true
 //
 // copy_on_select false
 
-// Path to the default editor to use to edit pane scrollbuffer
-// Default: $EDITOR or $VISUAL
-//
-scrollback_editor "hx"
 
 // When attaching to an existing session with other users,
 // should the session be mirrored (true)

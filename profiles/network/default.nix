@@ -62,6 +62,8 @@
       127.0.0.1 old.reddit.com
       127.0.0.1 twitch.tv
       127.0.0.1 instagram.com
+      127.0.0.1 gap.com.tr
+      127.0.0.1 aliexpress.com
     '';
 
 }

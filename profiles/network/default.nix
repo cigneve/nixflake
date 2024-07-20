@@ -1,5 +1,6 @@
 {
   lib,
+  pkgs,
   ...
 }: {
   imports = [./torrent.nix ./wireguard.nix];
@@ -55,6 +56,10 @@
     };
   };
 
+  environment.systemPackages = with pkgs;[
+    iwgtk
+  ];
+  
   networking.extraHosts =
     ''
       127.0.0.1 www.youtube.com

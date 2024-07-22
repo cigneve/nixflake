@@ -23,7 +23,7 @@ in {
     ../../profiles/graphical/games
     ../../profiles/graphical
     ../../profiles/misc/yubikey.nix
-    ../../profiles/music
+    ../../profiles/studio
     ../../users/baba
     ../../users/root
   ];

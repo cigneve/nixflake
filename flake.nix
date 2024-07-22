@@ -17,7 +17,6 @@
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
-    dwl-custom.url = "path:profiles/graphical/dwl";
 
     mobile-nixos.url = "github:archseer/mobile-nixos/flake";
   };

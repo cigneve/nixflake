@@ -68,30 +68,32 @@
       };
     };
 
-    gtk = pkgs.lib.mkDefault {
-      enable = true;
-      font.name = "Roboto 10";
-      theme = {
-        name = "Adwaita-dark";
-        package = pkgs.gnome-themes-extra;      };
-      iconTheme = {
-        package = pkgs.paper-icon-theme;
-        name = "Paper";
-      };
+    # gtk = pkgs.lib.mkDefault {
+    #   enable = true;
+    #   font.name = "Roboto 10";
+    #   theme = {
+    #     name = "Adwaita-dark";
+    #     package = pkgs.gnome-themes-extra;      };
+    #   iconTheme = {
+    #     package = pkgs.paper-icon-theme;
+    #     name = "Paper";
+    #   };
 
-      gtk3.extraConfig = {
-        Settings = ''
-          gtk-application-prefer-dark-theme=1
-        '';
-      };
+    #   gtk3.extraConfig = {
+    #     Settings = ''
+    #       gtk-application-prefer-dark-theme=1
+    #     '';
+    #   };
 
-      gtk4.extraConfig = {
-        Settings = ''
-          gtk-application-prefer-dark-theme=1
-        '';
-      };
-      # TODO: gtk-cursor-theme-name..
-    };
+    #   gtk4.extraConfig = {
+    #     Settings = ''
+    #       gtk-application-prefer-dark-theme=1
+    #     '';
+    #   };
+    #   # TODO: gtk-cursor-theme-name..
+    # };
+
+    # home.file.".gtkrc-2.0".force = pkgs.lib.mkForce true;
 
     # Wayland support in electron-based apps
     xdg.configFile."electron-flags.conf".text = ''

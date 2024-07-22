@@ -17,6 +17,8 @@
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
+    musnix.url = "github:musnix/musnix";
+    musnix.inputs.nixpkgs.follows = "nixpkgs";
 
     mobile-nixos.url = "github:archseer/mobile-nixos/flake";
   };
@@ -114,6 +116,7 @@
             hostConfiguration
             home-manager
             disko.nixosModules.disko
+            inputs.musnix.nixosModules.musnix
           ];
       };
 

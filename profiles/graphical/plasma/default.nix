@@ -17,7 +17,7 @@ lib,
   services= {
     # Scaling factor for fonts and graphical elements on the screen
     xserver = {
-      dpi = 98;
+      dpi = 244;
       enable = true;
       exportConfiguration = true;
     };
@@ -30,6 +30,11 @@ lib,
       sddm = {
         enable = true;
         autoNumlock = true;
+
+        wayland = {
+          enable = true;
+          compositor= "kwin";
+          };
 
         settings = {
           Theme = {

@@ -32,8 +32,11 @@ in {
 
       distrobox
 
+      #Nix stuff
       nil
       alejandra
+
+      rquickshare
     ];
 
     services.gpg-agent = {

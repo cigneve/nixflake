@@ -1,6 +1,7 @@
 {pkgs,...}:
 {
-  system.environmentPackages = with pkgs;[
-    davinci-resolve-studio
+  environment.systemPackages = with pkgs;[
+    kdenlive
+    #davinci-resolve-studio
   ];
 }

@@ -1,7 +1,6 @@
 {pkgs, ...}: {
   imports = [./udev.nix];
 
-
   # hardware.opengl.driSupport32Bit = true;
   hardware.graphics.enable = true;
   hardware.pulseaudio.support32Bit = true;

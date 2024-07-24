@@ -10,9 +10,8 @@
 
     nixos-wsl.url = "github:nix-community/NixOS-WSL";
     nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
-    
-    hardware.url = "github:NixOS/nixos-hardware";
 
+    hardware.url = "github:NixOS/nixos-hardware";
 
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
@@ -47,7 +46,7 @@
 
     # Wrapper function to map a function over systems list
     forEachSystem = lib.genAttrs systems;
-    
+
     pkgsFor = nixpkgs: overlays: system:
       import nixpkgs {
         inherit system overlays;
@@ -108,8 +107,8 @@
           # Everything in `./modules/list.nix`.
           flakeModules = attrValues self.nixosModules;
         in
-          flakeModules ++
-          [
+          flakeModules
+          ++ [
             wsl
             core
             global

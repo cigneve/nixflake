@@ -1,4 +1,4 @@
-{lib,...}: {
+{lib, ...}: {
   # Use zram for swap
   swapDevices = [];
   zramSwap.enable = true;

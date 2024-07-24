@@ -1,5 +1,5 @@
-{pkgs,...}:{
-  environment.systemPackages = with pkgs;[
+{pkgs, ...}: {
+  environment.systemPackages = with pkgs; [
     reaper
     tenacity
     klick
@@ -16,7 +16,7 @@
     guitarix
     FIL-plugins
     geonkick
-    
+
     # Windows VST compatibility
     yabridge
     yabridgectl

@@ -3,5 +3,5 @@
   lib,
   ...
 }: {
-  imports = [ ./daw.nix ./audio ./video.nix];
+  imports = [./daw.nix ./audio ./video.nix];
 }

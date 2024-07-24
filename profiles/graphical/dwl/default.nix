@@ -1,16 +1,16 @@
-{config,
-pkgs,
-lib,
-...}:
-  let
-    dwl-patches = pkgs.fetchgit {
-      url = "https://codeberg.org/dwl/dwl-patches.git";
-      # hash = "";
-      hash = "sha256-UILLT2SDsojUjFBlxszER9Jyw8DIeaATOOcvG5Ktco0=";
-    };
-  in
-  {
-  environment.systemPackages = with pkgs;[dwl];
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
+  dwl-patches = pkgs.fetchgit {
+    url = "https://codeberg.org/dwl/dwl-patches.git";
+    # hash = "";
+    hash = "sha256-UILLT2SDsojUjFBlxszER9Jyw8DIeaATOOcvG5Ktco0=";
+  };
+in {
+  environment.systemPackages = with pkgs; [dwl];
   nixpkgs.overlays = [
     (final: prev: {
       dwl = prev.dwl.overrideAttrs {
@@ -31,4 +31,4 @@ lib,
       };
     })
   ];
-  }
+}

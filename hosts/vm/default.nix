@@ -10,8 +10,8 @@
     ref = "6.9";
     rev = "52ac92f9b6085f3b2c7edac93dec412dbe9c01b4";
   };
- #linuxPackages = pkgs.linuxPackages_6_9;
- linuxPackages = pkgs.linuxPackagesFor kernel;
+  #linuxPackages = pkgs.linuxPackages_6_9;
+  linuxPackages = pkgs.linuxPackagesFor kernel;
 in {
   imports = [
     ./hardware.nix
@@ -38,7 +38,6 @@ in {
   boot.loader.systemd-boot.enable = true;
   # boot.loader.systemd-boot.editor = false;
 
-
   # use the custom kernel config
   boot.kernelPackages = linuxPackages;
 
@@ -51,11 +50,11 @@ in {
   boot.initrd.supportedFilesystems = ["btrfs"];
   services.btrfs.autoScrub.enable = true;
 
-  # Disk 
+  # Disk
   ## We imported the needed disk configuration from disko.nix
 
   ## Resume from encrypted volume's /swapfile
-  # swapDevices = [ { device = "/swap/swapfile";priority=0; } ]; 
+  # swapDevices = [ { device = "/swap/swapfile";priority=0; } ];
   boot.resumeDevice = "/dev/nvme0n1p2";
   # filefrag -v /swapfile | awk '{ if($1=="0:"){print $4} }'
   boot.kernelParams = ["resume_offset=269568" "mitigations=off"];
@@ -71,9 +70,13 @@ in {
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 
   # Track list of enabled modules for localmodconfig generation.
-  environment.systemPackages = [pkgs.modprobed-db
-  pkgs.asusctl pkgs.supergfxctl
-  pkgs.btrfs-progs pkgs.compsize];
+  environment.systemPackages = [
+    pkgs.modprobed-db
+    pkgs.asusctl
+    pkgs.supergfxctl
+    pkgs.btrfs-progs
+    pkgs.compsize
+  ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

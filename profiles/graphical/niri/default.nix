@@ -14,10 +14,7 @@
     style = "Regular";
     size = 10.0;
   };
-
   # menu = "${pkgs.rofi-wayland}/bin/rofi -terminal ${terminal} -show drun -theme sidestyle -show-icons -icon-theme Paper";
-
-
 in {
   imports = [];
 
@@ -28,7 +25,7 @@ in {
   # Apparently required for GTK3 settings on sway
   programs.dconf.enable = true;
 
-  xdg.portal.config.common.default = "*"; 
+  xdg.portal.config.common.default = "*";
   xdg.portal.enable = true;
   xdg.portal.wlr.enable = true;
   xdg.portal.extraPortals = [
@@ -107,6 +104,5 @@ in {
     ];
 
     xdg.configFile."niri/config.kdl".source = ./niri.kdl;
-    
   };
 }

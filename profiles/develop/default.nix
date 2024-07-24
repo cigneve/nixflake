@@ -2,10 +2,10 @@
   imports = [./fish ./podman];
   home-manager.users.baba = {
     # TODO: zellij
-    imports = [ 
-    # ./wezterm
-    ./helix
-    ./foot
+    imports = [
+      # ./wezterm
+      ./helix
+      ./foot
     ];
     programs.fzf = {
       enable = true;
@@ -25,13 +25,11 @@
         # TODO: auto_sync etc
         update_check = false;
       };
-
     };
     programs.zoxide = {
       enable = true;
       enableFishIntegration = true;
     };
-
   };
 
   # qmk rules

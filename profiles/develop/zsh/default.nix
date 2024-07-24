@@ -1,10 +1,7 @@
-{
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   users.defaultUserShell = pkgs.zsh;
 
-  environment.pathsToLink = [ "/share/zsh" ];
+  environment.pathsToLink = ["/share/zsh"];
   programs.zsh.enable = true;
 
   environment = {
@@ -112,7 +109,6 @@
         # TODO: auto_sync etc
         update_check = false;
       };
-
     };
     programs.zoxide.enable = true;
   };

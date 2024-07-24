@@ -1,7 +1,4 @@
-{
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   # programs.gh = {
   #   enable = true;
   #   enableGitCredentialHelper = true;
@@ -9,8 +6,8 @@
   # };
 
   # Additional git packages
-  home.packages = with pkgs.gitAndTools; [ git-absorb git-revise ];
-  
+  home.packages = with pkgs.gitAndTools; [git-absorb git-revise];
+
   programs.lazygit = {
     enable = true;
     settings = {

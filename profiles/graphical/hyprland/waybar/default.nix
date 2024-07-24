@@ -1,7 +1,4 @@
-{
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   programs.waybar = {
     enable = true;
     systemd.enable = true;
@@ -135,11 +132,11 @@
         "custom/wlsunset" = {
           format = "";
           on-click = pkgs.writeShellScript "wlsunset" ''
-          if systemctl is-active --quiet --user wlsunset; then
-             systemctl --user stop wlsunset
-          else
-             systemctl --user start wlsunset
-          fi
+            if systemctl is-active --quiet --user wlsunset; then
+               systemctl --user stop wlsunset
+            else
+               systemctl --user start wlsunset
+            fi
           '';
         };
       }

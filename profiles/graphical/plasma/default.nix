@@ -1,8 +1,9 @@
-{pkgs,
-lib,
-...}:
 {
-  environment.systemPackages = with pkgs;[
+  pkgs,
+  lib,
+  ...
+}: {
+  environment.systemPackages = with pkgs; [
     kdeconnect
   ];
 
@@ -14,7 +15,7 @@ lib,
     elisa
   ];
 
-  services= {
+  services = {
     # Scaling factor for fonts and graphical elements on the screen
     xserver = {
       dpi = 244;
@@ -24,7 +25,6 @@ lib,
     libinput.enable = true;
     desktopManager = {
       plasma6.enable = true;
-
     };
     displayManager = {
       sddm = {
@@ -33,13 +33,12 @@ lib,
 
         wayland = {
           enable = true;
-          compositor= "kwin";
-          };
+          compositor = "kwin";
+        };
 
         settings = {
           Theme = {
             # CursorTheme = "layan-border_cursors";
-
           };
         };
         # theme = "breeze";

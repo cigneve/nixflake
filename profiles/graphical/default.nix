@@ -3,11 +3,11 @@
   inputs,
   ...
 }: {
-  imports = [ 
-  ./pipewire.nix
-   ../develop 
-  ./im
-  ./plasma
+  imports = [
+    ./pipewire.nix
+    ../develop
+    ./im
+    ./plasma
   ];
 
   nixpkgs.overlays = [
@@ -17,7 +17,6 @@
   hardware.graphics.enable = true;
   # For Vulkan
   # hardware.opengl.driSupport = true;
-
 
   security.polkit.enable = true;
 
@@ -38,7 +37,7 @@
   #    extraConfig = ''
   #      DefaultTimeoutStopSec=10s
   #    '';
-  # };  
+  # };
 
   boot = {
     tmp.useTmpfs = true;
@@ -51,14 +50,14 @@
   ];
 
   home-manager.users.baba = {
-    imports = [./misc/mpv ];
+    imports = [./misc/mpv];
 
     dconf.settings = {
       "org/gnome/desktop/interface" = {
         color-scheme = "prefer-dark";
       };
     };
-    
+
     qt = {
       enable = true;
       platformTheme.name = "adwaita";
@@ -101,7 +100,7 @@
       --ozone-platform=wayland
     '';
   };
- 
+
   # Wayland support
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
@@ -188,5 +187,4 @@
       </fontconfig>
     '';
   };
-
 }

@@ -2,8 +2,7 @@
   config,
   pkgs,
   ...
-}: 
-let
+}: let
   domain = "headscale.mxxn.io";
   derpPort = 3478;
 in {
@@ -18,7 +17,7 @@ in {
       settings = {
         dns_config = {
           override_local_dns = true;
-          nameservers = [ "1.1.1.1" ]; # TODO: and 100.100.100.100?
+          nameservers = ["1.1.1.1"]; # TODO: and 100.100.100.100?
           base_domain = "mxxn.io";
         };
         server_url = "https://${domain}";
@@ -34,11 +33,11 @@ in {
     };
 
     caddy.virtualHosts.${domain}.extraConfig = ''
-    reverse_proxy http://localhost:${toString config.services.headscale.port}
+      reverse_proxy http://localhost:${toString config.services.headscale.port}
     '';
   };
 
   networking.firewall.allowedUDPPorts = [derpPort];
 
-  environment.systemPackages = [ config.services.headscale.package ];
+  environment.systemPackages = [config.services.headscale.package];
 }

@@ -52,14 +52,20 @@
   # Load surface_aggregator / surface_hid at stage 1 so we can use the keyboard
   # during LUKS.
 
-
-
   boot.initrd.availableKernelModules = [
     "xhci_pci"
     "nvme"
     "thunderbolt"
     "rtsx_pci_sdmmc"
-    "ahci" "usbhid" "usb_storage" "sd_mod" "dm_mod" "dm_crypt" "cryptd" "atkbd" "i8042"
+    "ahci"
+    "usbhid"
+    "usb_storage"
+    "sd_mod"
+    "dm_mod"
+    "dm_crypt"
+    "cryptd"
+    "atkbd"
+    "i8042"
     # "rt18xxxu"
     # "rt18xxxu_core"
     # "ice_switch"
@@ -68,9 +74,7 @@
     # "ton"
     # "ufshcd"
     # "rtl8821ae"
-
   ];
   # boot.extraModulePackages = with boot.kernelPackages;[dm_mod];
   boot.kernelModules = ["kvm-amd"];
-
 }

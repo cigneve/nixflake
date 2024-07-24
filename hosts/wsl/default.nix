@@ -29,17 +29,14 @@ in {
   # boot.loader.systemd-boot.enable = true;
   # boot.loader.systemd-boot.editor = false;
 
-
-
   # boot.loader.efi.canTouchEfiVariables = true;
 
   # btrfs
   # boot.initrd.supportedFilesystems = ["btrfs"];
   # services.btrfs.autoScrub.enable = true;
 
-  # Disk 
+  # Disk
   ## We imported the needed disk configuration from disko.nix
-
 
   # hardware = {
   #   enableAllFirmware = true;
@@ -49,22 +46,20 @@ in {
   # nix.maxJobs = lib.mkDefault 8;
   # nix.systemFeatures = [ "gccarch-haswell" ];
 
-
   # Track list of enabled modules for localmodconfig generation.
   # environment.systemPackages = [pkgs.modprobed-db
   #  pkgs.compsize];
 
-
   wsl = {
-      enable = true;
-      wslConf.automount.root = "/mnt";
-      wslConf.interop.appendWindowsPath = false;
-      wslConf.network.generateHosts = false;
-      defaultUser = "baba";
-      startMenuLaunchers = true;
-      # Enable integration with Docker Desktop (needs to be installed)
-      docker-desktop.enable = false;
-    };  
+    enable = true;
+    wslConf.automount.root = "/mnt";
+    wslConf.interop.appendWindowsPath = false;
+    wslConf.network.generateHosts = false;
+    defaultUser = "baba";
+    startMenuLaunchers = true;
+    # Enable integration with Docker Desktop (needs to be installed)
+    docker-desktop.enable = false;
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

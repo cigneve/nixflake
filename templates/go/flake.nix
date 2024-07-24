@@ -172,8 +172,7 @@
         ];
       };
     })
-    //
-    {
+    // {
       # overlays.default = final: prev: {
       #   inherit (self.packages.${final.system}) helix;
       # };
@@ -182,4 +181,3 @@
   nixConfig = {
   };
 }
-

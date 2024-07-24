@@ -1,6 +1,8 @@
-{pkgs,
-lib,...}:
-let
+{
+  pkgs,
+  lib,
+  ...
+}: let
   revolver = "281733";
   berry = "3A2A4D";
   berry_fade = "5A3D6E";
@@ -13,32 +15,28 @@ let
   mint = "7FC9AB";
   violet = "C78DFC";
   almond = "ECCDBA";
-
 in {
-  
   programs.foot.enable = true;
   programs.foot.settings = {
     colors = {
       foreground = lilac;
       background = revolver;
-      regular0=berry_saturated;
-      regular1=bubblegum;
-      regular2=mint;
-      regular3=gold;
-      regular4=berry_fade;
-      regular5=berry_desaturated;
-      regular6=lilac;
-      regular7=almond;
-      bright0=berry_saturated;
-      bright1=bubblegum;
-      bright2=mint;
-      bright3=gold;
-      bright4=berry_fade;
-      bright5=berry_desaturated;
-      bright6=lilac;
-      bright7=almond;
-      
+      regular0 = berry_saturated;
+      regular1 = bubblegum;
+      regular2 = mint;
+      regular3 = gold;
+      regular4 = berry_fade;
+      regular5 = berry_desaturated;
+      regular6 = lilac;
+      regular7 = almond;
+      bright0 = berry_saturated;
+      bright1 = bubblegum;
+      bright2 = mint;
+      bright3 = gold;
+      bright4 = berry_fade;
+      bright5 = berry_desaturated;
+      bright6 = lilac;
+      bright7 = almond;
     };
   };
-
-  }
+}

@@ -1,6 +1,8 @@
-{pkgs,
-lib,
-...}: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   users.defaultUserShell = pkgs.fish;
 
   environment.pathsToLink = ["/share/fish"];
@@ -26,9 +28,6 @@ lib,
 
       shellAbbrs = {
       };
-
     };
-
-
-};
+  };
 }

@@ -1,7 +1,4 @@
-{
-  pkgs,
-  ...
-}: let
+{pkgs, ...}: let
   name = "Blaž Hrastnik";
   email = "blaz@mxxn.io";
   username = "speed";
@@ -20,7 +17,7 @@ in {
     services.gpg-agent = {
       enable = true;
       enableSshSupport = true;
-      pinentryPackage = pkgs.pinentry-curses; 
+      pinentryPackage = pkgs.pinentry-curses;
     };
 
     home.stateVersion = "23.05";
@@ -63,7 +60,7 @@ in {
   # Avoid typing the username on TTY and only prompt for the password
   # https://wiki.archlinux.org/title/Getty#Prompt_only_the_password_for_a_default_user_in_virtual_console_login
   services.getty.loginOptions = "-p -- ${username}";
-  services.getty.extraArgs = [ "--noclear" "--skip-login" ];
+  services.getty.extraArgs = ["--noclear" "--skip-login"];
 
   users.users.speed = {
     uid = 1000;

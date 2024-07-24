@@ -1,7 +1,4 @@
-{
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   programs.waybar = {
     enable = true;
     systemd.enable = true;
@@ -10,7 +7,7 @@
       {
         layer = "top";
         height = 30;
-        modules-left = [ "pulseaudio" "custom/wlsunset" "custom/weather"];
+        modules-left = ["pulseaudio" "custom/wlsunset" "custom/weather"];
         modules-center = [];
         modules-right = ["tray" "idle_inhibitor" "cpu" "memory" "network" "temperature" "battery" "clock"];
         "sway/workspaces" = {
@@ -135,11 +132,11 @@
         "custom/wlsunset" = {
           format = "";
           on-click = pkgs.writeShellScript "wlsunset" ''
-          if systemctl is-active --quiet --user wlsunset; then
-             systemctl --user stop wlsunset
-          else
-             systemctl --user start wlsunset
-          fi
+            if systemctl is-active --quiet --user wlsunset; then
+               systemctl --user stop wlsunset
+            else
+               systemctl --user start wlsunset
+            fi
           '';
         };
       }

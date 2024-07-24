@@ -20,7 +20,7 @@
 
   menu = "${pkgs.rofi-wayland}/bin/rofi -terminal ${terminal} -show drun -theme sidestyle -show-icons -icon-theme Paper";
 
-    # inherit (config.hardware) pulseaudio;
+  # inherit (config.hardware) pulseaudio;
 
   _touchpad = {
     left_handed = "enabled"; # This is a thing, thank you
@@ -69,7 +69,7 @@ in {
     set -g @override_copy_command 'wl-copy'
   '';
 
-  xdg.portal.config.common.default = "*"; 
+  xdg.portal.config.common.default = "*";
   xdg.portal.enable = true;
   xdg.portal.wlr.enable = true;
   xdg.portal.extraPortals = [

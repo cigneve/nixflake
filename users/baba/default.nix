@@ -33,6 +33,9 @@ in {
       alejandra
 
       rquickshare
+
+      # Dictionary
+      sdcv
     ];
 
     services.gpg-agent = {

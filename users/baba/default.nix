@@ -80,6 +80,7 @@ in {
       #     # };
       #   };
     };
+    programs.zellij.enableFishIntegration = true;
   };
 
   # Avoid typing the username on TTY and only prompt for the password

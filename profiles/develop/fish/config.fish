@@ -1,5 +1,6 @@
 if status is-interactive
     # Commands to run in interactive sessions can go here
+    type -q zellij && eval (zellij setup --generate-auto-start fish | string collect)
 end
 
 fish_add_path $HOME/go/bin /usr/local/sbin

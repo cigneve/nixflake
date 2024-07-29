@@ -18,7 +18,15 @@ in {
       TERM = "foot";
     };
 
+    programs.nix-index =
+    {
+      enable = true;
+      enableFishIntegration = true;
+    };
+
     home.packages = with pkgs; [
+      typst
+      pandoc
       unrar-wrapper
       clang-tools
       python3

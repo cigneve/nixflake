@@ -21,7 +21,11 @@
       plugins = [
         {
           name = "autopair";
-          src = pkgs.fishPlugins.autopair;
+          src = pkgs.fishPlugins.autopair.src;
+        }
+        {
+          name = "fzf";
+          src = pkgs.fishPlugins.fzf-fish.src;
         }
       ];
       shellInit = builtins.readFile ./config.fish;
@@ -31,3 +35,4 @@
     };
   };
 }
+

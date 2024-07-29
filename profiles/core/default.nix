@@ -65,4 +65,6 @@
   services.earlyoom.enable = true;
 
   users.mutableUsers = false;
+
+  programs.nix-ld.enable = true;
 }

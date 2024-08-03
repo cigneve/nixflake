@@ -23,6 +23,7 @@ in {
     ../../profiles/graphical/games
     ../../profiles/graphical
     ../../profiles/misc/yubikey.nix
+    ../../profiles/misc/logitech.nix
     ../../profiles/studio
     ../../users/baba
     ../../users/root

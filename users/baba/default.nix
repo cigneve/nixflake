@@ -28,7 +28,7 @@ in {
     home.packages = with pkgs; [
       typst
       pandoc
-      unrar-wrapper
+      unrar
       clang-tools
       python3
       gcc

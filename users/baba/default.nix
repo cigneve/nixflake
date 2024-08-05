@@ -31,6 +31,8 @@ in {
       unrar
       clang-tools
       python3
+      poetry
+      pipx
       gcc
       yt-dlp
       gallery-dl

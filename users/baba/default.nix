@@ -34,6 +34,9 @@ in {
       poetry
       pipx
       gcc
+      # Go
+      go
+      gopls
       yt-dlp
       gallery-dl
 

@@ -1,6 +1,6 @@
 {pkgs, ...}: let
   name = "Yusuf Said Aktan";
-  email = "contact@aktan.org";
+  email = "contact@ysaktan.com";
   username = "baba";
 in {
   environment.systemPackages = with pkgs; [cachix];

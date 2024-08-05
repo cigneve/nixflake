@@ -52,6 +52,16 @@
   home-manager.users.baba = {
     imports = [./misc/mpv];
 
+    home.sessionVariables = {
+      MOZ_ENABLE_WAYLAND = "1";
+      MOZ_USE_XINPUT2 = "1";
+
+      SDL_VIDEODRIVER = "wayland";
+      QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+      _JAVA_AWT_WM_NONREPARENTING = "1";
+
+    };
+
     dconf.settings = {
       "org/gnome/desktop/interface" = {
         color-scheme = "prefer-dark";

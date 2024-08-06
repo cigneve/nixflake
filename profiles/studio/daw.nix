@@ -7,6 +7,7 @@
 
     # Audio plugins (LV2, VST2, VST3, LADSPA)
     distrho
+    easyeffects
     calf
     eq10q
     lsp-plugins

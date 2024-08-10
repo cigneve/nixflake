@@ -19,10 +19,17 @@ in {
       GDK_SCALE = "2";
     };
 
-    programs.nix-index =
-    {
+    programs.nix-index = {
       enable = true;
       enableFishIntegration = true;
+    };
+
+    programs.rbw = {
+      settings = {
+        email = "chaos435@hotmail.com";
+        pinentry = pkgs.pinentry-curses;
+      };
+      enable = true;
     };
 
     home.packages = with pkgs; [

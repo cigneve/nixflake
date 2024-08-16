@@ -57,6 +57,9 @@ in {
 
       # Dictionary
       sdcv
+
+      # PDF utils
+      poppler_utils
     ];
 
     services.gpg-agent = {

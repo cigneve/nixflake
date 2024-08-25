@@ -1,4 +1,4 @@
-{pkgs, ...}: let
+{pkgs,lib, ...}: let
   name = "Yusuf Said Aktan";
   email = "contact@ysaktan.com";
   username = "baba";
@@ -33,8 +33,13 @@ in {
     };
 
     home.packages = with pkgs; [
+      # Notetaking and document
       typst
+      typstfmt
+      typst-lsp
       pandoc
+      ## PDF utils
+      poppler_utils
       unrar
       clang-tools
       python3
@@ -58,8 +63,6 @@ in {
       # Dictionary
       sdcv
 
-      # PDF utils
-      poppler_utils
     ];
 
     services.gpg-agent = {
@@ -104,7 +107,7 @@ in {
       #     # };
       #   };
     };
-    programs.zellij.enableFishIntegration = true;
+    programs.zellij.enableFishIntegration = lib.mkForce true;
   };
 
   # Avoid typing the username on TTY and only prompt for the password

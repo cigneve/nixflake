@@ -20,6 +20,7 @@
 
   security.polkit.enable = true;
 
+  # TODO: cleanup, is Necessary?
   # systemd = {
   #   user.services."polkit-gnome-authentication-agent-1" = {
   #     description = "polkit-gnome-authentication-agent-1";
@@ -77,6 +78,7 @@
       };
     };
 
+    # TODO: Cleanup, is necessary?
     # gtk = pkgs.lib.mkDefault {
     #   enable = true;
     #   font.name = "Roboto 10";
@@ -119,6 +121,8 @@
   environment.systemPackages = with pkgs; [
     evince
     imv
+    wl-clipboard
+    xdragon
     # adapta-gtk-theme
     # cursor
     # dzen2

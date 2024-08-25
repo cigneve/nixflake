@@ -119,7 +119,6 @@
   environment.systemPackages = with pkgs; [
     evince
     imv
-    copyq
     # adapta-gtk-theme
     # cursor
     # dzen2

@@ -30,6 +30,10 @@
       enable = true;
       enableFishIntegration = true;
     };
+    programs.yazi = {
+      enable = true;
+      enableFishIntegration = true;
+    };
   };
 
   # qmk rules
@@ -101,8 +105,7 @@
 
       # FM
       xplr
-      lf
-      yazi
+      # lf
       bottom
 
       # Archiving

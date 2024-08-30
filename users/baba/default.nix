@@ -40,6 +40,11 @@ in {
       pandoc
       ## PDF utils
       poppler_utils
+
+      calibre
+
+      tealdeer
+      navi
       unrar
       clang-tools
       python3
@@ -62,6 +67,9 @@ in {
 
       # Dictionary
       sdcv
+      hunspell
+      hunspellDicts.tr_TR
+      hunspellDicts.en_US
 
     ];
 

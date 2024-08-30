@@ -1,7 +1,6 @@
 theme = "sado"
 
 [editor]
-line-number = "relative"
 mouse = false
 
 [editor.file-picker]

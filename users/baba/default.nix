@@ -19,6 +19,53 @@ in {
       GDK_SCALE = "2";
     };
 
+    programs.aerc = {
+      enable = true;
+      extraConfig.general.unsafe-accounts-conf = true;
+    };
+    programs.mbsync.enable = true;
+    programs.notmuch = {
+      enable = true;
+      hooks = {
+        preNew = "mbsync --all";
+      };
+    };
+    accounts.email = {
+      accounts = {
+        bilkent= rec {
+          userName = address;
+          primary = true;
+          address = "said.aktan@ug.bilkent.edu.tr";
+          imap = {
+            host = "mail.bilkent.edu.tr";
+            port = 993;
+          };
+          mbsync = {
+            enable = true;
+            create = "maildir";
+          };
+          notmuch.enable = true;
+          smtp = {
+            host = "asmtp.bilkent.edu.tr";
+          };
+          realName = name;
+          aerc.enable = true;
+          passwordCommand = "echo 2QNGs7mi";
+          signature = {
+            delimiter = ''
+            --
+            '';
+            showSignature = "append";
+            text = ''
+              Yusuf Said Aktan
+              Bilkent CS Undergrad student
+              No:22402715
+              Personal:contact@ysaktan.com
+            '';
+          };
+        };
+      };
+    };
     programs.nix-index = {
       enable = true;
       enableFishIntegration = true;
@@ -27,7 +74,7 @@ in {
     programs.rbw = {
       settings = {
         email = "chaos435@hotmail.com";
-        pinentry = pkgs.pinentry-curses;
+        pinentry = pkgs.pinentry-qt;
       };
       enable = true;
     };
@@ -54,6 +101,7 @@ in {
       # Go
       go
       gopls
+      gotools
       yt-dlp
       gallery-dl
 

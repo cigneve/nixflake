@@ -29,7 +29,8 @@
 "markup.raw" = { fg = "mint" }
 
 "ui.background" = { bg = "revolver" }
-"ui.cursor" =  { fg = "berry", bg = "lilac" }
+"ui.cursor.primary" =  { fg = "berry", bg = "lilac" }
+"ui.cursor" =  { fg = "berry", bg = "berry_desaturated" }
 "ui.cursor.match" = { fg = "berry", bg = "berry_desaturated" }
 "ui.cursor.select" = { fg = "berry", bg = "violet" }
 "ui.cursor.insert" = { fg = "berry", bg = "mint" }

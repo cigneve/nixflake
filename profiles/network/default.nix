@@ -14,6 +14,7 @@
   networking.useDHCP = false;
   networking.dhcpcd.enable = false;
   # networking.enableIPv6 = true; # TODO
+  # https://unix.stackexchange.com/questions/459991 TODO:mdns for resolved
   services.resolved = {
     enable = true;
     # dnssec = "true"; "opportunistic"
@@ -44,21 +45,11 @@
   #   };
   # };
 
-  # Wireless: iwd / iwctl
-  networking.wireless.iwd.enable = true;
-  networking.wireless.iwd.settings = {
-    General = {
-      EnableNetworkConfiguration = true;
-      UseDefaultInterface = true;
-    };
-    Network = {
-      NameResolvingService = "systemd";
-    };
+  # Wireless: networkmanager
+  networking.networkmanager = {
+    enable = true;
+    dns = "systemd-resolved";
   };
-
-  environment.systemPackages = with pkgs; [
-    iwgtk
-  ];
 
   networking.extraHosts = ''
     127.0.0.1 www.youtube.com

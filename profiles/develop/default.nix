@@ -6,6 +6,7 @@
       # ./wezterm
       ./helix
       ./foot
+      ./zellij
     ];
     programs.fzf = {
       enable = true;

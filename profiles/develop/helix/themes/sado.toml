@@ -75,9 +75,9 @@
 revolver = "#281733" # bg/dark
 berry = "#3A2A4D" # dark
 berry_fade = "#5A3D6E" # lighter 
-berry_dim = "#47345E"
-berry_saturated = "#2B1C3D"
-berry_desaturated = "#886C9C"
+berry_dim = "#47345E" # real violet
+berry_saturated = "#2B1C3D" # darkest violet
+berry_desaturated = "#886C9C" # desaturated
 bubblegum = "#D678B5" # roseish violet
 gold = "#E3C0A8" # yellow gold
 lilac = "#C7B8E0" # dull/whitish violet

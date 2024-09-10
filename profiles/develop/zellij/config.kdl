@@ -191,6 +191,24 @@ plugins {
     session-manager { path "session-manager"; }
 }
 
+theme "sado"
+
+themes {
+    sado {
+        fg      "#C7B8E0"
+        bg      "#281733"
+        black   "#2B1C3D"
+        red     "#D678B5"
+        green   "#7FC9AB"
+        yellow  "#E3C0A8"
+        blue    "#886C9C"
+        magenta "#47345E"
+        cyan    "#7FC9AB"
+        white   "#C7B8E0"
+        orange  "#5A3D6E"
+    }
+}
+
 // Choose what to do when zellij receives SIGTERM, SIGINT, SIGQUIT or SIGHUP
 // eg. when terminal window with an active zellij session is closed
 // Options:

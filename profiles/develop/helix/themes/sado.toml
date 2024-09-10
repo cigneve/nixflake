@@ -72,14 +72,14 @@
 "diagnostic.deprecated" = { modifiers = ["crossed_out"] }
 
 [palette]
-revolver = "#281733"
-berry = "#3A2A4D"
-berry_fade = "#5A3D6E"
+revolver = "#281733" # bg/dark
+berry = "#3A2A4D" # dark
+berry_fade = "#5A3D6E" # lighter 
 berry_dim = "#47345E"
 berry_saturated = "#2B1C3D"
 berry_desaturated = "#886C9C"
-bubblegum = "#D678B5"
-gold = "#E3C0A8"
-lilac = "#C7B8E0"
-mint = "#7FC9AB"
-violet = "#C78DFC"
+bubblegum = "#D678B5" # roseish violet
+gold = "#E3C0A8" # yellow gold
+lilac = "#C7B8E0" # dull/whitish violet
+mint = "#7FC9AB" # green
+violet = "#C78DFC" # pinky violet

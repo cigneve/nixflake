@@ -51,6 +51,8 @@
     dns = "systemd-resolved";
   };
 
+  environment.systemPackages = with pkgs;[openvpn];
+
   networking.extraHosts = ''
     127.0.0.1 www.youtube.com
     127.0.0.1 www.reddit.com

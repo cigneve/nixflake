@@ -6,7 +6,7 @@
   # };
 
   # Additional git packages
-  home.packages = with pkgs.gitAndTools; [git-absorb git-revise];
+  home.packages = with pkgs.gitAndTools; [git-absorb git-revise git-filter-repo];
 
   programs.lazygit = {
     enable = true;
@@ -86,6 +86,10 @@
       #   stripLeadingSymbols = false;
       #   markEmptyLines = false;
       # };
+    };
+
+    init = {
+      defaultBranch = "main";
     };
 
     aliases = {

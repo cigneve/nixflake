@@ -86,11 +86,11 @@
       #   stripLeadingSymbols = false;
       #   markEmptyLines = false;
       # };
+      init = {
+        defaultBranch = "main";
+      };
     };
 
-    init = {
-      defaultBranch = "main";
-    };
 
     aliases = {
       a = "add";

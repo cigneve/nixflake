@@ -119,6 +119,9 @@ in {
       hunspellDicts.tr_TR
       hunspellDicts.en_US
 
+      # Java
+      jdt-language-server
+
     ];
 
     services.gpg-agent = {

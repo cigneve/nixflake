@@ -121,6 +121,9 @@ in {
 
       # Java
       jdt-language-server
+      openjdk
+      gradle
+      vscode
 
     ];
 

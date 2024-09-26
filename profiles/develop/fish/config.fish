@@ -23,6 +23,7 @@ abbr -a ll "eza -F"
 abbr -a j z
 abbr -a open xdg-open
 abbr -a ps procs
+abbr -a zroot 'z $(git rev-parse --show-toplevel)'
 
 # git prompt settings
 set -g __fish_git_prompt_show_informative_status 1

@@ -119,12 +119,17 @@ in {
       hunspellDicts.tr_TR
       hunspellDicts.en_US
 
+
+    ] ++ 
+    # Bilkent stuff
+    [
+      vscode
       # Java
       jdt-language-server
       openjdk
       gradle
-      vscode
-
+      # MIPS
+      mars-mips
     ];
 
     services.gpg-agent = {

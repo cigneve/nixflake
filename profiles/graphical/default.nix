@@ -158,6 +158,7 @@
 
   fonts = {
     packages = with pkgs; [
+      ubuntu_font_family
       font-awesome # waybar icons: TODO: move to there
       noto-fonts
       noto-fonts-cjk
@@ -201,4 +202,8 @@
       </fontconfig>
     '';
   };
+
+  # VM
+  virtualisation.virtualbox.host.enable = true;
+  users.extraGroups.vboxusers.members = [ "baba" ];
 }

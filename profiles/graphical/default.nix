@@ -147,6 +147,9 @@
     wf-recorder
     ffmpeg
 
+    scrcpy
+    android-tools
+
     # logseq # TODO: wait for electron upgrade
     anki
     # calibre

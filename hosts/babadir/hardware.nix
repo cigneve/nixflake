@@ -75,6 +75,10 @@
     # "ufshcd"
     # "rtl8821ae"
   ];
-  # boot.extraModulePackages = with boot.kernelPackages;[dm_mod];
-  boot.kernelModules = ["kvm-amd"];
+  boot.extraModulePackages = with config.boot.kernelPackages;[v4l2loopback];
+  boot.kernelModules = ["kvm-amd" "v4l2loopback"];
+  boot.extraModprobeConfig = ''
+    options v4l2loopback devices=3 video_nr=7,8,9 exclusive_caps=1,1,1 card_label="Loopback-1,Loopback-2,Loopback-3"
+  ''
+  ;
 }

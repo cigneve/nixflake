@@ -67,8 +67,8 @@ in {
       };
     };
     programs.nix-index = {
-      enable = true;
-      enableFishIntegration = true;
+      # enable = true;
+      # enableFishIntegration = true;
     };
 
     programs.rbw = {
@@ -174,7 +174,7 @@ in {
       #     # };
       #   };
     };
-    programs.zellij.enableFishIntegration = lib.mkForce true;
+    # programs.zellij.enableFishIntegration = lib.mkForce true;
   };
 
   # Avoid typing the username on TTY and only prompt for the password

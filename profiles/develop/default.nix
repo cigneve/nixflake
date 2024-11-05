@@ -20,7 +20,7 @@
 
     programs.atuin = {
       enable = true;
-      enableFishIntegration = true;
+      # enableFishIntegration = true;
       settings = {
         workspace = true;
         # TODO: auto_sync etc
@@ -29,11 +29,11 @@
     };
     programs.zoxide = {
       enable = true;
-      enableFishIntegration = true;
+      # enableFishIntegration = true;
     };
     programs.yazi = {
       enable = true;
-      enableFishIntegration = true;
+      # enableFishIntegration = true;
     };
   };
 

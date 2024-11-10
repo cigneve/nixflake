@@ -9,6 +9,7 @@
 
   environment.systemPackages = with pkgs; [
     protontricks
+    steam-run
     # proton-caller
     # python3
     # retroarchBare

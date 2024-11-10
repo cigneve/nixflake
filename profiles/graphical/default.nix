@@ -165,7 +165,7 @@
       ubuntu_font_family
       font-awesome # waybar icons: TODO: move to there
       noto-fonts
-      noto-fonts-cjk
+      noto-fonts-cjk-sans
       twemoji-color-font
       inter
       fira-code

@@ -4,7 +4,7 @@
   ...
 }: {
   environment.systemPackages = with pkgs; [
-    kdeconnect
+    plasma5Packages.kdeconnect-kde
   ];
 
   environment.plasma6.excludePackages = with pkgs.kdePackages; [

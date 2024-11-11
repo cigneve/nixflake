@@ -19,7 +19,7 @@
     };
 
     programs.atuin = {
-      enable = true;
+      # enable = true;
       # enableFishIntegration = true;
       settings = {
         workspace = true;

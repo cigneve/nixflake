@@ -6,7 +6,7 @@
       # ./wezterm
       ./helix
       ./foot
-      ./zellij
+      ./tmux
     ];
     programs.fzf = {
       enable = true;

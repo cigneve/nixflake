@@ -8,6 +8,7 @@
     ../develop
     ./im
     ./plasma
+    ./misc/media
   ];
 
   nixpkgs.overlays = [

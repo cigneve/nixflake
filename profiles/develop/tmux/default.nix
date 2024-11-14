@@ -3,26 +3,23 @@
   pkgs,
   ...
 }:
-# let
-# inherit (builtins) readFile concatStringsSep;
-# inherit (lib) removePrefix;
-# pluginConf = plugins:
-#   concatStringsSep "\n\n" (map
-#     (plugin:
-#       let name = removePrefix "tmuxplugin-" plugin.pname;
-#       in "run-shell ${plugin}/share/tmux-plugins/${name}/${name}.tmux")
-#     plugins
-#   );
-# plugins = with pkgs.tmuxPlugins; [
-#   open
-#   yank
-#   vim-tmux-navigator
-# ];
-# in
 {
   # environment.shellAliases = { tx = "tmux new-session -A -s $USER"; };
 
-  programs.tmux = {
+  programs.tmux = 
+  let
+    tpm = pkgs.tmuxPlugins.mkTmuxPlugin {
+      pluginName = "tpm";
+      version = "99469c";
+      src = pkgs.fetchFromGitHub {
+        repo  = "tpm";
+        owner = "tmux-plugins";
+        rev = "99469c4a9b1ccf77fade25842dc7bafbc8ce9946";
+        sha256 = "sha256-hW8mfwB8F9ZkTQ72WQp/1fy8KL1IIYMZBtZYIwZdMQc=";
+      };
+    };
+  in
+  {
     enable = true;
     # sensible defaults
     sensibleOnTop = true;
@@ -48,8 +45,10 @@
     # Use vi style keys
     keyMode = "vi";
 
+    # Installing tpm manually
     extraConfig = ''
       ${builtins.readFile ./tmux.conf}
+      run-shell ${tpm}/share/tmux-plugins/tpm/tpm
     '';
     # ${pluginConf plugins}
   };

@@ -6,7 +6,7 @@
     qpwgraph
 
     # Audio plugins (LV2, VST2, VST3, LADSPA)
-    distrho
+    # distrho # TODO: Temporarily disabled
     easyeffects
     calf
     eq10q

@@ -51,5 +51,6 @@
       run-shell ${tpm}/share/tmux-plugins/tpm/tpm
     '';
     # ${pluginConf plugins}
+    tmuxinator.enable = true;
   };
 }

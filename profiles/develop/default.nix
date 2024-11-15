@@ -7,6 +7,7 @@
       ./helix
       ./foot
       ./tmux
+      ./yazi
     ];
     programs.fzf = {
       enable = true;
@@ -28,10 +29,6 @@
       };
     };
     programs.zoxide = {
-      enable = true;
-      # enableFishIntegration = true;
-    };
-    programs.yazi = {
       enable = true;
       # enableFishIntegration = true;
     };

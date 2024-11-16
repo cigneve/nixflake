@@ -160,7 +160,16 @@
     # zathura
   ];
 
-  fonts = {
+  fonts =
+  let
+    personalFonts = {
+      monospace = "Comic Code Medium";
+      serifAlias = "Cambria";
+      serif = "Sprat";
+      sans = "Avenir Next LT Pro";
+    };
+  in
+  {
     packages = with pkgs; [
       ubuntu_font_family
       font-awesome # waybar icons: TODO: move to there
@@ -181,9 +190,9 @@
       cozette
     ];
     fontconfig.defaultFonts = {
-      serif = ["Linux Libertine"];
-      sansSerif = ["Inter"];
-      monospace = ["Fira Code"];
+      serif = [personalFonts.serifAlias];
+      sansSerif = [personalFonts.sans];
+      monospace = [personalFonts.monospace];
     };
     # Bind Inter to Helvetica
     fontconfig.localConf = ''
@@ -195,14 +204,6 @@
           </edit>
         </match>
 
-        <match target="pattern">
-          <test name="family" qual="any">
-            <string>monospace</string>
-          </test>
-          <edit binding="strong" mode="prepend" name="family">
-            <string>Cascadia Code</string>
-          </edit>
-        </match>
       </fontconfig>
     '';
   };

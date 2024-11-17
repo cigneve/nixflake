@@ -20,6 +20,12 @@
     musnix.inputs.nixpkgs.follows = "nixpkgs";
 
     mobile-nixos.url = "github:archseer/mobile-nixos/flake";
+
+    plasma-manager = {
+      url = "github:nix-community/plasma-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home";
+    };
   };
 
   outputs = inputs @ {

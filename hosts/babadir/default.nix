@@ -20,7 +20,6 @@ in {
     ../../profiles/zram # Use zram for swap
     ../../profiles/laptop
     ../../profiles/network # sets up wireless
-    ../../profiles/graphical/games
     ../../profiles/graphical
     ../../profiles/misc/yubikey.nix
     ../../profiles/misc/logitech.nix

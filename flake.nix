@@ -37,6 +37,7 @@
     nixos-wsl,
     disko,
     mobile-nixos,
+    plasma-manager,
     ...
   }: let
     inherit (builtins) attrValues;
@@ -122,6 +123,9 @@
             home-manager
             disko.nixosModules.disko
             inputs.musnix.nixosModules.musnix
+            {
+              home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager];
+            }
           ];
       };
 

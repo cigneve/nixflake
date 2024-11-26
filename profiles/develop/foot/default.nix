@@ -15,6 +15,7 @@
   mint = "7FC9AB";
   violet = "C78DFC";
   almond = "ECCDBA";
+  neon = "5A4689";
 in {
   programs.foot.enable = true;
   programs.foot.settings = {
@@ -27,7 +28,7 @@ in {
       regular3 = gold;
       regular4 = berry_fade;
       regular5 = berry_desaturated;
-      regular6 = lilac;
+      regular6 = neon;
       regular7 = almond;
       bright0 = berry_saturated;
       bright1 = bubblegum;

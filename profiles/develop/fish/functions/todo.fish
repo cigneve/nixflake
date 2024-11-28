@@ -1,15 +1,14 @@
-function diary
-    set dateString "$(date -u +%d-%m-%Y)"
-    set noteDir "$HOME/notes/free"
+function todo
+    set noteDir "$HOME/notes/"
     test ! -d $noteDir && echo "Directory \"$noteDir\" does not exist" && return
-    set filePath "$noteDir/$dateString.typ"
+    set filePath "$noteDir/TODO.md"
 
     begin # Create if empty
         begin
             test ! -f "$filePath"
             or test ! -s "$filePath"
         end
-        and echo "= $dateString" >"$filePath"
+        and echo "# TODO" >"$filePath"
     end
 
     $EDITOR "$filePath"

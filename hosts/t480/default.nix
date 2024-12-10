@@ -19,19 +19,19 @@ in {
     ../../users/root
   ];
 
-  services.asusd = {
+  services.throttled  = {
     enable = true;
-    enableUserService = true;
-  };
-  services.supergfxd = {
-    enable = true;
+    extraConfig = ''
+      [UNDERVOLT]
+      CORE: -105
+      GPU: -85
+      CACHE: -105
+      UNCORE: -85
+      ANALOGIO: 0
+    '';
   };
 
   services.power-profiles-daemon.enable = lib.mkForce false;
-  # systemd.services.power-profiles-daemon = {
-  #   enable = true;
-  #   wantedBy = [ "multi-user.target" ];
-  # };
 
   networking.firewall.enable = lib.mkForce false;
 

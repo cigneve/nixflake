@@ -83,7 +83,7 @@ in {
       # Notetaking and document
       typst
       typstfmt
-      typst-lsp
+      tinymist
       pandoc
       ## PDF utils
       poppler_utils

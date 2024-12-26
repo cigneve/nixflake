@@ -19,55 +19,6 @@ in {
     ../../users/root
   ];
 
-  services.throttled  = {
-    enable = true;
-    extraConfig = ''
-      [GENERAL]
-      Enabled: True
-      Sysfs_Power_Path: /sys/class/power_supply/AC*/online
-      Autoreload: True
-
-      ## Settings to apply while connected to Battery power
-      [BATTERY]
-      Update_Rate_s: 30
-      PL1_Tdp_W: 29
-      # Time window #1 duration
-      PL1_Duration_s: 28
-      # Max package power for time window #2
-      PL2_Tdp_W: 44
-      # Time window #2 duration
-      PL2_Duration_S: 0.002
-      # Max allowed temperature before throttling
-      Trip_Temp_C: 85
-      # Set cTDP to normal=0, down=1 or up=2 (EXPERIMENTAL)
-      cTDP: 0
-      # Disable BDPROCHOT (EXPERIMENTAL)
-      Disable_BDPROCHOT: False
-
-      ## Settings to apply while connected to AC power
-      [AC]
-      # Update the registers every this many seconds
-      Update_Rate_s: 5
-      # Max package power for time window #1
-      PL1_Tdp_W: 44
-      # Time window #1 duration
-      PL1_Duration_s: 28
-      # Max package power for time window #2
-      PL2_Tdp_W: 44
-      # Time window #2 duration
-      PL2_Duration_S: 0.002
-      # Max allowed temperature before throttling
-      Trip_Temp_C: 95
-      cTDP: 0
-      Disable_BDPROCHOT: False
-      [UNDERVOLT]
-      CORE: -105
-      GPU: -85
-      CACHE: -105
-      UNCORE: -85
-      ANALOGIO: 0
-    '';
-  };
 
   services.power-profiles-daemon.enable = lib.mkForce false;
 

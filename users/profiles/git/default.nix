@@ -6,7 +6,7 @@
   # };
 
   # Additional git packages
-  home.packages = with pkgs.gitAndTools; [git-absorb git-revise git-filter-repo];
+  home.packages = with pkgs.gitAndTools; [git-absorb git-revise git-filter-repo git-crypt];
 
   programs.lazygit = {
     enable = true;

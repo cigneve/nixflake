@@ -1,5 +1,5 @@
 function diary
-    set dateString "$(date -u +%d-%m-%Y)"
+    set dateString "$(date -u +%Y-%m-%d)"
     set noteDir "$HOME/notes/diary/"
     test ! -d $noteDir && echo "Directory \"$noteDir\" does not exist" && return
     set filePath "$noteDir/$dateString.typ"

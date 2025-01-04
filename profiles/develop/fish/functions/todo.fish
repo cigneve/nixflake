@@ -1,7 +1,7 @@
 function todo
     set noteDir "$HOME/notes/"
     test ! -d $noteDir && echo "Directory \"$noteDir\" does not exist" && return
-    set filePath "$noteDir/TODO.md"
+    set filePath "$noteDir/TODO.typ"
 
     begin # Create if empty
         begin

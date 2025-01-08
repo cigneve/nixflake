@@ -181,7 +181,8 @@
       fira-code-symbols
       fira-mono
       cascadia-code
-      (nerdfonts.override {fonts = ["CascadiaCode" "FiraCode"];})
+      nerd-fonts.CascadiaCode
+      nerd-fonts.FiraCode
       fira
       libertine
       roboto

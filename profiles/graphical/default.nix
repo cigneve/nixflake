@@ -177,12 +177,11 @@
       noto-fonts-cjk-sans
       twemoji-color-font
       inter
-      fira-code
       fira-code-symbols
       fira-mono
-      cascadia-code
-      nerd-fonts.CascadiaCode
-      nerd-fonts.FiraCode
+      # TODO: add these again
+      # nerd-fonts.cascadia-code
+      # nerd-fonts.fira-code
       fira
       libertine
       roboto

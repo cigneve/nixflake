@@ -16,7 +16,7 @@ in {
 
     home.sessionVariables = {
       TERM = "foot";
-      GDK_SCALE = "2";
+      # GDK_SCALE = "2";
     };
 
     programs.aerc = {

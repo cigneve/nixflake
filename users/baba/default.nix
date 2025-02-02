@@ -175,6 +175,11 @@ in {
       #   };
     };
     # programs.zellij.enableFishIntegration = lib.mkForce true;
+
+    programs.watson = {
+      enable = true;
+    };
+    # TODO: Add VSCode
   };
 
   # Avoid typing the username on TTY and only prompt for the password

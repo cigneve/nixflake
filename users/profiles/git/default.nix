@@ -132,6 +132,8 @@
       undo = "reset --soft HEAD^";
       standup = "shortlog --since='1 week ago'";
       who = "shortlog -s -n --no-merges";
+
+      up ="!git remote update -p;git merge --ff-only @{u}"; # git pull --ff-only
     };
   };
 }

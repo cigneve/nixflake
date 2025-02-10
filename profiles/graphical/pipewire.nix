@@ -13,7 +13,14 @@
   services.pipewire = {
     enable = true;
 
-    wireplumber.enable = true;
+    wireplumber = {
+      enable = true;
+      configPackages = [
+        (pkgs.writeTextDir "share/wireplumber/wireplumber.conf.d/10-control.conf" ''
+          node.features.audio.control-port: true
+        '')
+      ];
+    };
 
     # Compatibility shims, adjust according to your needs
     alsa.enable = true;

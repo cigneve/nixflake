@@ -112,6 +112,11 @@
       --enable-features=UseOzonePlatform
       --ozone-platform=wayland
     '';
+
+    home.packages = with pkgs;[
+      vscode
+      mars-mips      
+    ];
   };
 
   # Wayland support

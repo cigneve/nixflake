@@ -123,13 +123,10 @@ in {
     ] ++ 
     # Bilkent stuff
     [
-      vscode
       # Java
       jdt-language-server
       openjdk
       gradle
-      # MIPS
-      mars-mips
     ];
 
     services.gpg-agent = {

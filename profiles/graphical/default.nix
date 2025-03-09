@@ -114,7 +114,6 @@
     '';
 
     home.packages = with pkgs;[
-      vscode
       mars-mips      
     ];
   };

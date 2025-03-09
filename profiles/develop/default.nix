@@ -8,6 +8,7 @@
       ./foot
       ./tmux
       ./yazi
+      ./vscode
     ];
     programs.fzf = {
       enable = true;
@@ -32,6 +33,9 @@
       enable = true;
       # enableFishIntegration = true;
     };
+    home.packages = with pkgs; [
+      rustup
+    ];
   };
 
   # qmk rules

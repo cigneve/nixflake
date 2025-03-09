@@ -24,6 +24,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home";
     };
+
+    code-extensions = {
+      url = "github:nix-community/nix-vscode-extensions";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
@@ -35,6 +40,7 @@
     nixos-wsl,
     disko,
     plasma-manager,
+    code-extensions,
     ...
   }: let
     inherit (builtins) attrValues;

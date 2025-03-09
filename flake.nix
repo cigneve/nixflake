@@ -19,8 +19,6 @@
     musnix.url = "github:musnix/musnix";
     musnix.inputs.nixpkgs.follows = "nixpkgs";
 
-    mobile-nixos.url = "github:archseer/mobile-nixos/flake";
-
     plasma-manager = {
       url = "github:nix-community/plasma-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -36,7 +34,6 @@
     hardware,
     nixos-wsl,
     disko,
-    mobile-nixos,
     plasma-manager,
     ...
   }: let
@@ -124,7 +121,7 @@
             disko.nixosModules.disko
             inputs.musnix.nixosModules.musnix
             {
-              home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager];
+              home-manager.sharedModules = [plasma-manager.homeManagerModules.plasma-manager];
             }
           ];
       };
@@ -134,7 +131,7 @@
         babadir = mkSystem nixos linuxSystem "babadir";
         iso = mkSystem nixos linuxSystem "iso";
         wsl = mkSystem nixos linuxSystem "wsl";
-	t480 = mkSystem nixos linuxSystem "t480";
+        t480 = mkSystem nixos linuxSystem "t480";
       };
 
       nixosModules = {};

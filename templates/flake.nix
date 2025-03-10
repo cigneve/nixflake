@@ -2,8 +2,7 @@
   description = "Example flake";
 
   inputs = {
-    cigneve.url = "github:cigneve/nixflake";
-    nixpkgs.follows = "cigneve/nixpkgs";
+    nixpkgs.url = "nixpkgs/unstable";
   };
 
   outputs = {

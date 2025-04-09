@@ -3,8 +3,8 @@
     enable = true;
     settings = {
       user = {
-        name = "Blaž Hrastnik";
-        email = "blaz@mxxn.io";
+        name = "Yusuf Said Aktan";
+        email = "contact@ysaktan.com";
       };
       ui = {
         color = "always";

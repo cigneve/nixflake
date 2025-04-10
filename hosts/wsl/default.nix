@@ -17,13 +17,15 @@ in {
   wsl = {
     enable = true;
     wslConf.automount.root = "/mnt";
-    wslConf.interop.appendWindowsPath = false;
+    wslConf.interop.appendWindowsPath = true;
     wslConf.network.generateHosts = false;
     defaultUser = "baba";
     startMenuLaunchers = true;
     # Enable integration with Docker Desktop (needs to be installed)
-    docker-desktop.enable = false;
+    docker-desktop.enable = true;
   };
+
+  environment.sessionVariables = {"COLORTERM"="truecolor";};
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

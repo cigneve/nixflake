@@ -94,7 +94,7 @@ in {
       navi
       unrar
       clang-tools
-      python3
+      (python3.withPackages (ps: with ps; [regex]))
       poetry
       pipx
       gcc
@@ -119,7 +119,7 @@ in {
       hunspellDicts.tr_TR
       hunspellDicts.en_US
 
-
+      beancount
     ] ++ 
     # Bilkent stuff
     [

@@ -71,22 +71,6 @@
         "type": "github"
       }
     },
-    "mobile-nixos": {
-      "locked": {
-        "lastModified": 1612336912,
-        "narHash": "sha256-ESErrBuv0U8bnAGthewPCN4PLOw1Rhp7XgXI3NLDzbQ=",
-        "owner": "archseer",
-        "repo": "mobile-nixos",
-        "rev": "88d10fbd379cca187ecc2039462e03346c4f189a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "archseer",
-        "ref": "flake",
-        "repo": "mobile-nixos",
-        "type": "github"
-      }
-    },
     "musnix": {
       "inputs": {
         "nixpkgs": [
@@ -186,7 +170,6 @@
         "disko": "disko",
         "hardware": "hardware",
         "home": "home",
-        "mobile-nixos": "mobile-nixos",
         "musnix": "musnix",
         "nixos": "nixos",
         "nixos-wsl": "nixos-wsl",

@@ -22,7 +22,7 @@
   {
     enable = true;
     # sensible defaults
-    sensibleOnTop = true;
+    # sensibleOnTop = true;
 
     # set by tmux-sensible but the config resets it
     escapeTime = 0;
@@ -47,6 +47,7 @@
 
     # Installing tpm manually
     extraConfig = ''
+      set-option -g default-shell ${pkgs.fish}/bin/fish
       ${builtins.readFile ./tmux.conf}
       run-shell ${tpm}/share/tmux-plugins/tpm/tpm
     '';

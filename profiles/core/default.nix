@@ -5,9 +5,13 @@
   inputs,
   ...
 }: {
-  nix.package = pkgs.nixVersions.stable;
+  imports = [ ./linux.nix ];
 
-  i18n.defaultLocale = "en_US.UTF-8";
+  core_linux.enable = pkgs.stdenv.isLinux;
+
+  nix.package = pkgs.nix;
+
+  # i18n.defaultLocale = "en_US.UTF-8";
   time.timeZone = lib.mkDefault "Europe/Istanbul";
 
   environment = {
@@ -21,8 +25,8 @@
       fd
       git
       htop
-      powertop
-      iputils
+      # powertop
+      # iputils
       jq
       nmap
       sd
@@ -43,7 +47,7 @@
       cores = 0;
       # auto-optimise-store = true;
       # sandbox = true;
-      allowed-users = ["@wheel"];
+      allowed-users = if pkgs.stdenv.isLinux then ["@wheel"] else ["@admin"];
       trusted-users = ["root" "@wheel"];
     };
     extraOptions = ''
@@ -59,12 +63,4 @@
   home-manager.extraSpecialArgs = {inherit inputs;};
   home-manager.backupFileExtension = "backup";
 
-  security.protectKernelImage = true;
-
-  # OOM Handling
-  services.earlyoom.enable = true;
-
-  users.mutableUsers = false;
-
-  programs.nix-ld.enable = true;
 }

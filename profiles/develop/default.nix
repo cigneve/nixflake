@@ -1,14 +1,18 @@
-{pkgs, ...}: {
-  imports = [./fish ./podman];
+{pkgs, lib, ...}: {
+  imports = [./fish ]
+  # ++ (lib.optional pkgs.stdenv.isLinux [./podman])
+  ;
   home-manager.users.baba = {
     # TODO: zellij
     imports = [
       # ./wezterm
       ./helix
-      ./foot
+      ./terminal
       ./tmux
       ./yazi
+      ./vscode.nix
     ];
+    vscode_module.enable = true;
     programs.fzf = {
       enable = true;
 
@@ -43,8 +47,9 @@
   #   KERNEL=="ttyACM*", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", MODE:="0666"
   # '';
 
-  environment = {
-    sessionVariables = {
+  environment =
+  let
+    envVars = {
       PAGER = "less";
       LESS = "-iFJMRWX -z-4 -x4";
       HELIX_RUNTIME = "${pkgs.helix}/lib/runtime";
@@ -53,6 +58,8 @@
       # TERMINAL = "alacritty";
       # BROWSER = "firefox-developer-edition";
     };
+  in
+  {
 
     systemPackages = with pkgs; [
       gnumake
@@ -69,12 +76,12 @@
 
       # Decide between wezterm or zellij+foot
       zellij
-      foot
+      (lib.mkIf pkgs.stdenv.isLinux foot)
 
       dua # disk usage
       pass
       tokei
-      iptables
+      (lib.mkIf pkgs.stdenv.isLinux iptables)
       tcpdump
 
       graphviz
@@ -121,12 +128,17 @@
       fd
       fzf
       procs
-      xdg-utils
-    ];
+    ] ++ lib.optionals pkgs.stdenv.isLinux [xdg-utils];
 
     # TODO: mutt / aerc
-  };
-  documentation.dev.enable = true;
+  }
+  // (if pkgs.stdenv.isLinux then {
+    sessionVariables = envVars;
+    
+  } else {
+    variables = envVars;
+  });
+  documentation.man.enable = true;
 
   # programs.mosh.enable = true;
   # programs.firejail.enable = true;

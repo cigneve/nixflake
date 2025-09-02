@@ -1,10 +1,10 @@
-{...}: {
+{config,...}: {
   programs.jujutsu = {
     enable = true;
     settings = {
       user = {
-        name = "Yusuf Said Aktan";
-        email = "contact@ysaktan.com";
+        name = config.programs.git.userName;
+        email = config.programs.git.userEmail;
       };
       ui = {
         color = "always";

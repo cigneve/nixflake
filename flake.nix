@@ -4,6 +4,8 @@
   inputs = {
     nixos.url = "nixpkgs/nixos-unstable";
     nixpkgs.url = "nixpkgs/nixpkgs-unstable";
+    nixpkgs-stable.url = "nixpkgs/nixos-24.05";
+
 
     home.url = "github:rycee/home-manager";
     home.inputs.nixpkgs.follows = "nixpkgs";
@@ -24,17 +26,42 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home";
     };
+
+    vsc-extensions = {
+        url = "github:nix-community/nix-vscode-extensions";
+        inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    darwin = {
+      url = "github:nix-darwin/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home";
+    };
+    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
+
+    # Optional: Declarative tap management
+    homebrew-core = {
+      url = "github:homebrew/homebrew-core";
+      flake = false;
+    };
+    homebrew-cask = {
+      url = "github:homebrew/homebrew-cask";
+      flake = false;
+    };
+
   };
 
   outputs = inputs @ {
     self,
     home,
     nixos,
+    darwin,
     nixpkgs,
     hardware,
     nixos-wsl,
     disko,
     plasma-manager,
+    vsc-extensions,
     ...
   }: let
     inherit (builtins) attrValues;
@@ -44,7 +71,7 @@
       # "aarch64-linux"
       # "i686-linux"
       "x86_64-linux"
-      # "aarch64-darwin"
+      "aarch64-darwin"
       # "x86_64-darwin"
     ];
 
@@ -59,16 +86,18 @@
 
     linuxSystem = "x86_64-linux";
 
-    overlay = import ./pkgs;
+    overlay = import ./pkgs inputs;
 
     pkgs' = pkgsFor nixos [overlay];
     # unstable' = pkgsFor nixpkgs [];
 
-    mkSystem = pkgs: system: hostName: let
+    mkSystem = mkSystemForOs nixpkgs.lib.nixosSystem; 
+
+    mkSystemForOs = systemFunc: pkgs: system: hostName: let
       # unstablePkgs = unstable' system;
-      osPkgs = pkgs' system;
+      osPkgs = pkgsFor pkgs [overlay vsc-extensions.overlays.default] system;
     in
-      pkgs.lib.nixosSystem {
+      systemFunc {
         inherit system;
 
         # pass through to modules
@@ -113,17 +142,21 @@
         in
           flakeModules
           ++ [
-            wsl
-            core
             global
+            core
             hostConfiguration
-            home-manager
+            home.darwinModules.home-manager
+          ]
+          ++
+          (if osPkgs.stdenv.isLinux then [
+            wsl
+            home
             disko.nixosModules.disko
             inputs.musnix.nixosModules.musnix
             {
               home-manager.sharedModules = [plasma-manager.homeManagerModules.plasma-manager];
             }
-          ];
+          ] else []);
       };
 
     outputs = {
@@ -132,6 +165,10 @@
         iso = mkSystem nixos linuxSystem "iso";
         wsl = mkSystem nixos linuxSystem "wsl";
         t480 = mkSystem nixos linuxSystem "t480";
+      };
+
+      darwinConfigurations = {
+        mba = mkSystemForOs darwin.lib.darwinSystem nixos "aarch64-darwin" "mba"; 
       };
 
       nixosModules = {};

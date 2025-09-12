@@ -1,4 +1,0 @@
-[mgr]
-append_keymap = [
-  { on = ["g","n"], run = "cd /nix/store", desc = "Go to nix store"}
-]

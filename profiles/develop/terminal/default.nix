@@ -53,6 +53,8 @@ in {
           command = "${pkgs.fish}/bin/fish";
           theme = "Kanagawa Wave";
           custom-shader = "~/bettercrt.glsl";
+          # You can override the theme by adding a file named theme
+          config-file = "?theme";
         };
       };
     };

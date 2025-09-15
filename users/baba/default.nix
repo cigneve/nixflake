@@ -81,6 +81,7 @@ in {
       };
 
       home.packages = with pkgs; [
+        home-manager
         pinentry_mac
         # Notetaking and document
         typst

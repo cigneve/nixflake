@@ -25,6 +25,8 @@ in {
           quicktype.quicktype          
           robbowen.synthwave-vscode
           myriad-dreamin.tinymist
+          vivaxy.vscode-conventional-commits
+          jjk.jjk
         ];
       in {
         default = {
@@ -52,6 +54,12 @@ in {
         beancount = {
           extensions = with pkgs.vscode-marketplace; [
             lencerf.beancount
+          ] ++ default_extensions;
+        };
+        swift = {
+          extensions = with pkgs.vscode-marketplace; [
+            swiftlang.swift-vscode
+            llvm-vs-code-extensions.lldb-dap
           ] ++ default_extensions;
         };
       };

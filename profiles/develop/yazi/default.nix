@@ -10,6 +10,17 @@
                 run  = "plugin git-files";
                 desc = "Show Git file changes";
               }
+
+              {
+                  on = [ "c" "s"];
+                  run = "shell -- tmux send-keys -t $(tmux new-window -a -t yazi -P -F \"#{pane_id}\") $(basename $0)";
+                  desc = "Open a new tmux pane in the current working directory";
+              }
+              {
+                  on = [ "g" "r"];
+                  run = "z $(git rev-parse --show-toplevel)";
+                  desc = "Go to git root";
+              }
           ];
       };
       initLua = ''

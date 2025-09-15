@@ -8,7 +8,7 @@
     ../../profiles/develop
     # ../../profiles/network # sets up wireless
     ../../profiles/graphical
-    ../../profiles/darwin.nix
+    ../../profiles/darwin
     # ../../profiles/misc/yubikey.nix
     # ../../profiles/studio
     ../../users/baba

@@ -27,6 +27,8 @@ in {
           myriad-dreamin.tinymist
           vivaxy.vscode-conventional-commits
           jjk.jjk
+          github.copilot
+          pkgs.vscode-marketplace-release.github.copilot-chat
         ];
       in {
         default = {

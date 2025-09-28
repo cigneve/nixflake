@@ -13,6 +13,8 @@
     "hammerspoon"
     "cigneve/kde/kdeconnect"
   ];
+  homebrew.brews = [
+  ];
   homebrew.taps = builtins.attrNames config.nix-homebrew.taps;
 
   nix-homebrew = {
@@ -37,12 +39,13 @@
         url = "https://github.com/cigneve/homebrew-kde.git";
         rev = "39bd81845413ab5b47037949bfba06814ee359b5";
       };
+
     };
 
     # Optional: Enable fully-declarative tap management
     #
     # With mutableTaps disabled, taps can no longer be added imperatively with `brew tap`.
-    mutableTaps = true;
+    mutableTaps = false;
 
     autoMigrate = true;
   };

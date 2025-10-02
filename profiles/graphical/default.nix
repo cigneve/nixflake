@@ -12,7 +12,7 @@
   config = {
 
     home-manager.users.baba = {
-      imports = [./misc/mpv];
+      imports = [./misc/mpv ./zathura];
     };
 
     environment.systemPackages = with pkgs; [

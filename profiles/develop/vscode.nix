@@ -5,6 +5,9 @@
   ...
 }: let
   cfg = config.vscode_module;
+  dance_unstable = pkgs.fetchgit {url = "https://github.com/71/dance.git";rev = "546d09c08f64eee6308bd199c0c1fa9ee0b21e72"; hash = "sha256-+wU0tEfy0tvnZgBtAPrPCnBdlLkXLshEeq5f3LvMAPc=";};
+  dance_helix_unstable = pkgs.stdenv.mkDerivation { name = "dance_helix_unstable"; src = dance_unstable; installPhase = "mkdir -p \"$out/extension/\"cp -r extensions/helix \"$out\/extension"; };
+  dance_helix_ext = pkgs.vscode-utils.buildVscodeExtension {name = "dance-helix"; vscodeExtPublisher = "gregoire"; vscodeExtName = "dance-helix"; vscodeExtUniqueId = "gregoire.dance-helix"; pname = "dance-helix"; src = dance_helix_unstable; version = "1.1.0";};
 in {
   options = {
     vscode_module.enable = lib.mkEnableOption "personal vscode module";
@@ -16,7 +19,7 @@ in {
       profiles = let
         default_extensions = with pkgs.vscode-marketplace; [
           gregoire.dance
-          gregoire.dance-helix
+          # dance_helix_ext
           mhutchie.git-graph
           usernamehw.errorlens
           mkhl.direnv

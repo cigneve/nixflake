@@ -95,8 +95,9 @@ in {
         tealdeer
         navi
         clang-tools
-        (python3.withPackages (ps: with ps; [regex]))
-        poetry
+        python3
+        # (python3.withPackages (ps: with ps; [regex]))
+        # poetry
         pipx
         gcc
         # Go

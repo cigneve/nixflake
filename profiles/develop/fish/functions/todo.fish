@@ -8,7 +8,7 @@ function todo
             test ! -f "$filePath"
             or test ! -s "$filePath"
         end
-        and echo "# TODO" >"$filePath"
+        and echo "= TODO" >"$filePath"
     end
 
     $EDITOR "$filePath"

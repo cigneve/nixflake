@@ -61,5 +61,10 @@
     set scroll-step 50
     unmap f
     map f toggle_fullscreen
-    map [fullscreen] f toggle_fullscreen'';
+    map [fullscreen] f toggle_fullscreen
+    map [ scroll full-down
+    map ] scroll full-up
+    map [fullscreen] [ scroll full-down
+    map [fullscreen] ] scroll full-up
+    '';
 }

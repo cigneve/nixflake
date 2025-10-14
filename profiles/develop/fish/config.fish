@@ -21,7 +21,7 @@ abbr -a ll "eza -F"
 # abbr -a exa exa
 # j stands for jump
 abbr -a j z
-abbr -a open xdg-open
+abbr -a xopen xdg-open
 abbr -a ps procs
 abbr -a zroot 'z $(git rev-parse --show-toplevel)'
 
@@ -42,11 +42,9 @@ set -g __fish_git_prompt_color_branch cyan --dim --italics
 # don't show any greetings
 set fish_greeting ""
 
-
 # Senstive functions which are not pushed to Github
 # It contains work related stuff, some functions, aliases etc...
 # source ~/.private.fish
-
 
 set -g fish_user_paths "/usr/local/opt/openssl@1.1/bin" $fish_user_paths
 set -g fish_user_paths /usr/local/opt/mysql-client/bin $fish_user_paths

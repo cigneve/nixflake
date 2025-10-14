@@ -44,6 +44,7 @@ in {
           jjk.jjk
           github.copilot
           pkgs.vscode-marketplace-release.github.copilot-chat
+          alefragnani.project-manager
         ];
       in {
         default = {

@@ -52,6 +52,8 @@ in {
           extensions = default_extensions;
           userSettings = {
             "update.showReleaseNotes" = false;
+            "explorer.excludeGitIgnore" = true;
+            "zenMode.centerLayout" = true;
           };
         };
         rust = {
@@ -96,7 +98,8 @@ in {
         java = {
           extensions = with pkgs.vscode-marketplace;
             [
-              vscjava.vscode-java-pack
+              redhat.java
+              vscjava.vscode-java-debug
             ]
             ++ default_extensions;
         };

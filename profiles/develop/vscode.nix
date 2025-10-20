@@ -93,6 +93,13 @@ in {
             ]
             ++ default_extensions;
         };
+        java = {
+          extensions = with pkgs.vscode-marketplace;
+            [
+              vscjava.vscode-java-pack
+            ]
+            ++ default_extensions;
+        };
       };
     };
   };

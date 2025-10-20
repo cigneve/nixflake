@@ -50,6 +50,9 @@ in {
         default = {
           enableUpdateCheck = false;
           extensions = default_extensions;
+          userSettings = {
+            "update.showReleaseNotes" = false;
+          };
         };
         rust = {
           extensions = with pkgs.vscode-marketplace;

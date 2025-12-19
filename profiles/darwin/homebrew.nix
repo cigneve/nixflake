@@ -12,6 +12,7 @@
     }
     "hammerspoon"
     "cigneve/kde/kdeconnect"
+    "nikitabobko/tap/aerospace"
   ];
   homebrew.brews = [
   ];
@@ -38,6 +39,11 @@
       "cigneve/homebrew-kde" = builtins.fetchGit {
         url = "https://github.com/cigneve/homebrew-kde.git";
         rev = "39bd81845413ab5b47037949bfba06814ee359b5";
+      };
+      # For aerospace
+      "nikitabobko/homebrew-tap" = builtins.fetchGit {
+        url = "https://github.com/nikitabobko/homebrew-tap";
+        rev = "80dfd269edca8bc2ec5d83dbd332863cf684f753";
       };
 
     };

@@ -38,7 +38,7 @@
 
     fonts = {
       packages = with pkgs; [
-        ubuntu_font_family
+        ubuntu-classic
         font-awesome # waybar icons: TODO: move to there
         noto-fonts
         noto-fonts-cjk-sans

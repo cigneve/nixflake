@@ -6,7 +6,7 @@
   # };
 
   # Additional git packages
-  home.packages = with pkgs.gitAndTools; [git-absorb git-revise git-filter-repo git-crypt];
+  home.packages = with pkgs; [git-absorb git-revise git-filter-repo git-crypt];
 
   programs.lazygit = {
     enable = true;
@@ -20,26 +20,27 @@
       };
     };
   };
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+    options = {
+      navigate = true;
+      # syntax-theme = "OneHalfDark";
+      features = "side-by-side line-numbers decorations"; # hyperlinks
+      whitespace-error-style = "22 reverse";
+      decorations = {
+        commit-decoration-style = "bold yellow box ul";
+        file-style = "bold yellow ul";
+        file-decoration-style = "none";
+      };
+    };
+  };
 
   programs.git = {
     enable = true;
 
-    delta = {
-      enable = true;
-      options = {
-        navigate = true;
-        # syntax-theme = "OneHalfDark";
-        features = "side-by-side line-numbers decorations"; # hyperlinks
-        whitespace-error-style = "22 reverse";
-        decorations = {
-          commit-decoration-style = "bold yellow box ul";
-          file-style = "bold yellow ul";
-          file-decoration-style = "none";
-        };
-      };
-    };
 
-    extraConfig = {
+    settings = {
       core = {
         whitespace = "space-before-tab, trailing-space";
         # excludesfile = "" XDG .gitignore
@@ -92,7 +93,7 @@
     };
 
 
-    aliases = {
+    settings.aliases = {
       a = "add";
       ap = "add --patch";
       b = "branch -vv";

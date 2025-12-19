@@ -10,11 +10,48 @@
         no_quarantine = true;
       };
     }
-    "hammerspoon"
+    "aerospace"
+    "background-music"
+    "betterdisplay"
+    "blackhole-64ch"
+    "buzz"
+    "calibre"
+    "chromium"
+    "crossover"
+    "darktable"
+    "homebrew/core/dolphin"
+    "droidcam-obs"
+    "ghidra"
+    "gimp"
+    "inkscape"
     "cigneve/kde/kdeconnect"
-    "nikitabobko/tap/aerospace"
+    "kindle-previewer"
+    "ltspice"
+    "mitmproxy"
+    "mullvad-vpn"
+    "obs"
+    "openmtp"
+    "prismlauncher"
+    "protonvpn"
+    "qbittorrent"
+    "reaper"
+    "renpy"
+    "sol"
+    "sony-ps-remote-play"
+    "steam"
+    "tailscale-app"
+    "temurin@21"
+    "unity"
+    "unity-hub"
+    "utm"
+    "whisky"
+    "wireshark-app"
+    
+    "darktable"
+    "jordanbaird-ice"
   ];
   homebrew.brews = [
+    "node"
   ];
   homebrew.taps = builtins.attrNames config.nix-homebrew.taps;
 

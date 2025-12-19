@@ -18,7 +18,7 @@
   };
   home-manager.users.baba = {
     # xdg.configFile."fish".source = ./.;
-    xdg.configFile."fish/functions".source = ./functions;
+    # xdg.configFile."fish/functions".source = ./functions;
     # package = [pkgs.fishPlugins.autopair];
     programs.fish = {
       enable = lib.mkForce true;

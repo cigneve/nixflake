@@ -54,6 +54,7 @@ in {
             "update.showReleaseNotes" = false;
             "explorer.excludeGitIgnore" = true;
             "zenMode.centerLayout" = true;
+            "workbench.activityBar.location" = "top";
           };
         };
         rust = {
@@ -66,6 +67,8 @@ in {
         python = {
           extensions = with pkgs.vscode-marketplace;
             [
+              ms-toolsai.jupyter
+              ms-toolsai.datawrangler
               ms-python.python
               ms-python.debugpy
               ms-python.black-formatter

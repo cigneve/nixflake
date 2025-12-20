@@ -3,6 +3,7 @@
 }:{
     programs.yazi = {
       enable = true;
+      enableFishIntegration = false;
       keymap = {
           mgr.prepend_keymap = [
               {

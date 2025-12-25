@@ -30,6 +30,7 @@ in {
       enable = true;
       profiles = let
         default_extensions = with pkgs.vscode-marketplace; [
+          activitywatch.aw-watcher-vscode
           gregoire.dance
           dance_helix_ext
           mhutchie.git-graph

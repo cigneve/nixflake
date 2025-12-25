@@ -46,11 +46,14 @@
     "utm"
     "whisky"
     "wireshark-app"
+    "activitywatch"
+    "super-productivity"
     
     "darktable"
     "jordanbaird-ice"
   ];
   homebrew.brews = [
+    "jrnl"
     "node"
   ];
   homebrew.taps = builtins.attrNames config.nix-homebrew.taps;

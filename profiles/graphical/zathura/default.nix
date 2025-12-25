@@ -54,6 +54,8 @@
     set recolor-lightcolor "#282828" #00
     set recolor-darkcolor "#DCDCCC" #06
     set recolor-reverse-video "true"
+    set page-padding-h 3
+    set page-padding-v 3
     set recolor-keephue "true"
 
 

@@ -104,8 +104,8 @@
         specialArgs = {inherit inputs;};
 
         modules = let
-          inherit (home.nixosModules) home-manager;
-          inherit (nixos-wsl.nixosModules) wsl;
+          home-manager-module = (home.nixosModules).home-manager;
+          wsl-module = (nixos-wsl.nixosModules).wsl;
           core = ./profiles/core;
 
           global = {
@@ -145,18 +145,19 @@
             global
             core
             hostConfiguration
-            home.darwinModules.home-manager
           ]
           ++
           (if osPkgs.stdenv.isLinux then [
-            wsl
-            home
+            wsl-module
+            home-manager-module
             disko.nixosModules.disko
             inputs.musnix.nixosModules.musnix
             {
               home-manager.sharedModules = [plasma-manager.homeManagerModules.plasma-manager];
             }
-          ] else []);
+          ] else [
+            home.darwinModules.home-manager
+            ]);
       };
 
     outputs = {

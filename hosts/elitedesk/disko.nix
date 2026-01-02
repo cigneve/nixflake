@@ -5,9 +5,9 @@
 }: {
   disko.devices = {
     disk = {
-      sda = {
+      nvme = {
         type = "disk";
-        device = "/dev/sda";
+        device = "/dev/nvme0n1p1";
         content = {
           type = "gpt";
           partitions = {
@@ -67,6 +67,24 @@
             };
 
             
+          };
+        };
+      };
+      # 512 GB HDD
+      sda = {
+        type = "disk";
+        device = "/dev/sda";
+        content = {
+          type = "gpt";
+          partitions = {
+            media = {
+              size = "100%";
+              content = {
+                type = "filesystem";
+                format = "vfat";
+                mountpoint = "/media";
+              };
+            };
           };
         };
       };

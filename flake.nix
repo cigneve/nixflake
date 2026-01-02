@@ -166,6 +166,7 @@
         iso = mkSystem nixos linuxSystem "iso";
         wsl = mkSystem nixos linuxSystem "wsl";
         t480 = mkSystem nixos linuxSystem "t480";
+        elitedesk = mkSystem nixos linuxSystem "elitedesk";
       };
 
       darwinConfigurations = {

@@ -1,77 +1,70 @@
 {
-  lib,
-  pkgs,
-  ...
-}: {
   disko.devices = {
     disk = {
-      nvme = {
+      main = {
         type = "disk";
-        device = "/dev/nvme0n1p1";
+        device = "/dev/nvme0n1";
         content = {
           type = "gpt";
           partitions = {
             ESP = {
-              label = "EFI";
+              priority = 1;
               name = "ESP";
-              size = "512M";
+              start = "1M";
+              end = "512M";
               type = "EF00";
               content = {
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = [
-                  "defaults"
-                ];
+                mountOptions = [ "umask=0077" ];
               };
             };
-            btrfs = {
+            root = {
               size = "100%";
               content = {
                 type = "btrfs";
-                extraArgs = ["-L" "nixos" "-f"]; # -f ?
+                extraArgs = [ "-f" ]; # Override existing partition
+                # Subvolumes must set a mountpoint in order to be mounted,
+                # unless their parent is mounted
                 subvolumes = {
-                  # TODO: consider autodefrag and commit=120
-                  "@root" = {
+                  # Subvolume name is different from mountpoint
+                  "/rootfs" = {
                     mountpoint = "/";
-                    mountOptions = ["compress=zstd:1" "noatime"];
                   };
-                  "@home" = {
+                  # Subvolume name is the same as the mountpoint
+                  "/home" = {
+                    mountOptions = [ "compress=zstd" ];
                     mountpoint = "/home";
-                    mountOptions = ["compress=zstd:1" "noatime"];
                   };
-                  "@swap" = {
-                    mountpoint = "/swap";
-                    mountOptions = ["compress=zstd:1" "noatime"];
+                  # Sub(sub)volume doesn't need a mountpoint as its parent is mounted
+                  "/home/user" = { };
+                  # Parent is not mounted so the mountpoint must be set
+                  "/nix" = {
+                    mountOptions = [
+                      "compress=zstd"
+                      "noatime"
+                    ];
+                    mountpoint = "/nix";
+                  };
+                  # This subvolume will be created but not mounted
+                  "/test" = { };
+                  # Subvolume for the swapfile
+                  "/swap" = {
+                    mountpoint = "/.swapvol";
                     swap = {
-                      swapfile = {
-                        size = "10G";
-                        path = "/swapfile";
-                      };
+                      swapfile.size = "10G";
                     };
                   };
-                  "@nix" = {
-                    mountpoint = "/nix";
-                    mountOptions = ["compress=zstd:1" "noatime"];
-                  };
-                  "@persist" = {
-                    mountpoint = "/persist";
-                    mountOptions = ["compress=zstd:1" "noatime"];
-                  };
-                  "@log" = {
-                    mountpoint = "/var/log";
-                    mountOptions = ["compress=zstd:1" "noatime"];
-                  };
                 };
+
+                mountpoint = "/";
               };
             };
-
-            
           };
         };
       };
-      # 512 GB HDD
-      sda = {
+      hdd = {
         type = "disk";
         device = "/dev/sda";
         content = {
@@ -80,9 +73,14 @@
             media = {
               size = "100%";
               content = {
-                type = "filesystem";
-                format = "vfat";
-                mountpoint = "/media";
+                type = "btrfs";
+                extraArgs = ["-f"];
+                subVolumes = {
+                  "/media" = {
+                    mountPoint = "/media";
+                    mountOptions = [ "compress=zstd" ];
+                  };
+                };
               };
             };
           };
@@ -90,8 +88,4 @@
       };
     };
   };
-
-  fileSystems."/persist".neededForBoot = true;
-  fileSystems."/var/log".neededForBoot = true;
-  fileSystems."/swap".neededForBoot = true;
 }

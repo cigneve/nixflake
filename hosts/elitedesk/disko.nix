@@ -75,7 +75,7 @@
               content = {
                 type = "btrfs";
                 extraArgs = ["-f"];
-                subVolumes = {
+                subvolumes = {
                   "/media" = {
                     mountPoint = "/media";
                     mountOptions = [ "compress=zstd" ];

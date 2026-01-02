@@ -77,7 +77,7 @@
                 extraArgs = ["-f"];
                 subvolumes = {
                   "/media" = {
-                    mountPoint = "/media";
+                    mountpoint = "/media";
                     mountOptions = [ "compress=zstd" ];
                   };
                 };

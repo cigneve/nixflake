@@ -167,6 +167,7 @@
         wsl = mkSystem nixos linuxSystem "wsl";
         t480 = mkSystem nixos linuxSystem "t480";
         elitedesk = mkSystem nixos linuxSystem "elitedesk";
+        vm = mkSystem nixos "aarch64-linux" "vm";
       };
 
       darwinConfigurations = {

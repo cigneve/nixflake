@@ -3,18 +3,10 @@
   pkgs,
   ...
 }: let
-  kernel = pkgs.callPackage ./kernel.nix {};
-  # kernel = pkgs.callPackage ./linux-6.0.nix {};
-  g14_patches = fetchGit {
-    url = "https://gitlab.com/dragonn/linux-g14";
-    ref = "6.9";
-    rev = "52ac92f9b6085f3b2c7edac93dec412dbe9c01b4";
-  };
-  #linuxPackages = pkgs.linuxPackages_6_9;
-  linuxPackages = pkgs.linuxPackagesFor kernel;
+  linuxPackages = pkgs.linuxPackages_latest;
 in {
   imports = [
-    ./hardware.nix
+    # ./hardware.nix
     # Take an empty *readonly* snapshot of the root subvolume,
     # which we'll eventually rollback to on every boot.
     # sudo mount /dev/mapper/cryptroot -o subvol=root /mnt/root
@@ -24,13 +16,19 @@ in {
     # --arg disks ["/dev/nvme0p1"] not necessary?
     ./disko.nix
     ../../profiles/zram # Use zram for swap
-    ../../profiles/laptop
-    ../../profiles/network # sets up wireless
+    # ../../profiles/laptop
+    # ../../profiles/network # sets up wireless
     ../../profiles/graphical
     # ../../profiles/misc/yubikey.nix
     ../../users/baba
     ../../users/root
   ];
+
+
+  documentation.man.enable = lib.mkForce false;
+  documentation.nixos.enable = lib.mkForce false;
+  documentation.dev.enable = lib.mkForce false;
+  documentation.doc.enable = lib.mkForce false;
 
   networking.firewall.enable = lib.mkForce false;
 
@@ -45,18 +43,13 @@ in {
 
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # btrfs
-  boot.initrd.supportedFilesystems = ["btrfs"];
-  services.btrfs.autoScrub.enable = true;
+  # # btrfs
+  # boot.initrd.supportedFilesystems = ["btrfs"];
+  # services.btrfs.autoScrub.enable = true;
 
   # Disk
   ## We imported the needed disk configuration from disko.nix
 
-  ## Resume from encrypted volume's /swapfile
-  # swapDevices = [ { device = "/swap/swapfile";priority=0; } ];
-  boot.resumeDevice = "/dev/nvme0n1p2";
-  # filefrag -v /swapfile | awk '{ if($1=="0:"){print $4} }'
-  boot.kernelParams = ["resume_offset=269568" "mitigations=off"];
 
   hardware = {
     enableAllFirmware = true;
@@ -66,13 +59,10 @@ in {
   # nix.maxJobs = lib.mkDefault 8;
   # nix.systemFeatures = [ "gccarch-haswell" ];
 
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 
   # Track list of enabled modules for localmodconfig generation.
   environment.systemPackages = [
     pkgs.modprobed-db
-    pkgs.asusctl
-    pkgs.supergfxctl
     pkgs.btrfs-progs
     pkgs.compsize
   ];
@@ -83,5 +73,5 @@ in {
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.05"; # Did you read the comment?
+  system.stateVersion = "25.11"; # Did you read the comment?
 }

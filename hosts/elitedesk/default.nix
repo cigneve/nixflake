@@ -15,6 +15,7 @@ in {
     ../../users/root
   ];
 
+
   boot.loader.systemd-boot.enable = true;
 
   # use the custom kernel config

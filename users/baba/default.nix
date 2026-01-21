@@ -82,7 +82,7 @@ in
       programs.rbw = {
         settings = {
           email = "chaos435@hotmail.com";
-          pinentry = if pkgs.stdenv.isLinux then pkgs.pinentry-qt else pkgs.pinentry_mac;
+          # pinentry = if pkgs.stdenv.isLinux then pkgs.pinentry-qt else pkgs.pinentry_mac;
         };
         enable = true;
       };
@@ -91,7 +91,7 @@ in
         with pkgs;
         [
           home-manager
-          pinentry_mac
+          # pinentry_mac
           # Notetaking and document
           typst
           typstyle

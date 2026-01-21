@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
-    kdenlive
+    kdePackages.kdenlive
     obs-cli
     (pkgs.wrapOBS {
         plugins = with pkgs.obs-studio-plugins; [

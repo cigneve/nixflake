@@ -16,7 +16,7 @@
     x42-gmsynth
     dragonfly-reverb
     guitarix
-    FIL-plugins
+    fil-plugins
     geonkick
 
     # Windows VST compatibility

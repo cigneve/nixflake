@@ -1,7 +1,6 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
-    tdesktop # telegram
-    slack
+    telegram-desktop # telegram
     gimp
   ];
 }

@@ -30,6 +30,8 @@ in {
   documentation.dev.enable = lib.mkForce false;
   documentation.doc.enable = lib.mkForce false;
 
+  graphical_linux.enable = true;
+
   networking.firewall.enable = lib.mkForce false;
 
   boot.loader.systemd-boot.enable = true;

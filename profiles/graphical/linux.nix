@@ -82,7 +82,7 @@
         platformTheme.name = "adwaita";
         style = {
           name = "Breeze";
-          package = pkgs.libsForQt5.breeze-qt5;
+          package = pkgs.kdePackages.breeze.qt5;
         };
       };
 
@@ -135,7 +135,7 @@
       evince
       imv
       wl-clipboard
-      xdragon
+      dragon-drop
       # adapta-gtk-theme
       # cursor
       # dzen2
@@ -151,7 +151,7 @@
       # nwg-look
       glib
       paper-icon-theme
-      firefox-wayland
+      firefox
       chromium
       qutebrowser
       polkit
@@ -183,7 +183,7 @@
     in
     {
       packages = with pkgs; [
-        ubuntu_font_family
+        ubuntu-classic
         font-awesome # waybar icons: TODO: move to there
         noto-fonts
         noto-fonts-cjk-sans
@@ -220,8 +220,8 @@
       '';
     };
 
-    # VM
-    virtualisation.virtualbox.host.enable = true;
-    users.extraGroups.vboxusers.members = [ "baba" ];
+    # # VM
+    # virtualisation.virtualbox.host.enable = true;
+    # users.extraGroups.vboxusers.members = [ "baba" ];
   };
 }

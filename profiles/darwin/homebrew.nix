@@ -26,7 +26,6 @@
     "inkscape"
     "cigneve/kde/kdeconnect"
     "kindle-previewer"
-    "ltspice"
     "mitmproxy"
     "mullvad-vpn"
     "obs"
@@ -50,7 +49,7 @@
     "super-productivity"
     
     "darktable"
-    "jordanbaird-ice"
+    "jordanbaird-ice@beta"
   ];
   homebrew.brews = [
     "jrnl"

@@ -1,4 +1,5 @@
 {
+  inputs,
   pkgs,
   lib,
   config,
@@ -14,6 +15,10 @@ in
     environment.systemPackages = with pkgs; [ cachix ];
 
     # programs.gnupg.agent.pinentryPackage = pkgs.pinentry-curses;
+    home-manager.useGlobalPkgs = true; # is this equivalent to stateVersion 20.09?
+    home-manager.useUserPackages = true;
+    home-manager.extraSpecialArgs = {inherit inputs;};
+    home-manager.backupFileExtension = "backup";
 
     home-manager.users.baba = {
       imports = [

@@ -1,7 +1,12 @@
-{pkgs, lib, ...}: {
-  imports = [./fish ]
-  # ++ (lib.optional pkgs.stdenv.isLinux [./podman])
-  ;
+{
+  pkgs,
+  lib,
+  ...
+}: {
+  imports =
+    [./fish]
+    # ++ (lib.optional pkgs.stdenv.isLinux [./podman])
+    ;
   home-manager.users.baba = {
     # TODO: zellij
     imports = [
@@ -13,6 +18,7 @@
       ./vscode.nix
     ];
     vscode_module.enable = true;
+    home.packages = with pkgs; [vscode];
     programs.fzf = {
       enable = true;
 
@@ -47,8 +53,7 @@
   #   KERNEL=="ttyACM*", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", MODE:="0666"
   # '';
 
-  environment =
-  let
+  environment = let
     envVars = {
       PAGER = "less";
       LESS = "-iFJMRWX -z-4 -x4";
@@ -59,85 +64,89 @@
       # BROWSER = "firefox-developer-edition";
     };
   in
-  {
+    {
+      systemPackages = with pkgs;
+        [
+          gnumake
+          file
+          # git-crypt
+          gnupg
+          less
+          wget
+          rsync
+          picocom
 
-    systemPackages = with pkgs; [
-      gnumake
-      file
-      # git-crypt
-      gnupg
-      less
-      wget
-      rsync
-      picocom
+          # The editor
+          helix
 
-      # The editor
-      helix
+          # Decide between wezterm or zellij+foot
+          zellij
+          (lib.mkIf pkgs.stdenv.isLinux foot)
 
-      # Decide between wezterm or zellij+foot
-      zellij
-      (lib.mkIf pkgs.stdenv.isLinux foot)
+          dua # disk usage
+          pass
+          tokei
+          (lib.mkIf pkgs.stdenv.isLinux iptables)
+          tcpdump
 
-      dua # disk usage
-      pass
-      tokei
-      (lib.mkIf pkgs.stdenv.isLinux iptables)
-      tcpdump
+          graphviz
+          imagemagick
 
-      graphviz
-      imagemagick
+          # meli
 
-      # meli
+          # tamsyn
+          # curie
 
-      # tamsyn
-      # curie
+          usbutils
+          pciutils
 
-      usbutils
-      pciutils
+          cargo-outdated
+          zola
 
-      cargo-outdated
-      zola
+          asciinema
 
-      asciinema
+          gh # TODO: move to git profile
 
-      gh # TODO: move to git profile
+          libqalculate
 
-      libqalculate
+          bandwhich
+          jless
+          xh
 
-      bandwhich
-      jless
-      xh
+          # FM
+          xplr
+          # lf
+          bottom
 
-      # FM
-      xplr
-      # lf
-      bottom
+          # Archiving
+          ouch # Test this
+          bzip2
+          gzip
+          lrzip
+          p7zip
+          unzip
+          xz
 
-      # Archiving
-      ouch # Test this
-      bzip2
-      gzip
-      lrzip
-      p7zip
-      unzip
-      xz
+          # Misc
+          bat
+          eza
+          fd
+          fzf
+          procs
+        ]
+        ++ lib.optionals pkgs.stdenv.isLinux [xdg-utils];
 
-      # Misc
-      bat
-      eza
-      fd
-      fzf
-      procs
-    ] ++ lib.optionals pkgs.stdenv.isLinux [xdg-utils];
-
-    # TODO: mutt / aerc
-  }
-  // (if pkgs.stdenv.isLinux then {
-    sessionVariables = envVars;
-    
-  } else {
-    variables = envVars;
-  });
+      # TODO: mutt / aerc
+    }
+    // (
+      if pkgs.stdenv.isLinux
+      then {
+        sessionVariables = envVars;
+      }
+      else {
+        variables = envVars;
+      }
+    );
   documentation.man.enable = true;
 
   # programs.mosh.enable = true;

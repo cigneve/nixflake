@@ -58,9 +58,5 @@
   };
 
   # Need to configure home-manager to work with flakes
-  home-manager.useGlobalPkgs = true; # is this equivalent to stateVersion 20.09?
-  home-manager.useUserPackages = true;
-  home-manager.extraSpecialArgs = {inherit inputs;};
-  home-manager.backupFileExtension = "backup";
 
 }

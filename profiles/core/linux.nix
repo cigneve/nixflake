@@ -4,7 +4,7 @@
   config,
   ...
 }: let cfg = config.core_linux; in {
-  imports = [ ../develop/podman ];
+  imports = [ ../develop/podman ../graphical/linux.nix];
 
   options = {
     core_linux.enable = lib.mkEnableOption "Enable core profile linux specific settings";

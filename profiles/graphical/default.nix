@@ -8,7 +8,6 @@
     ../develop
     # ./im
     ./misc/media
-    ./linux.nix
   ];
   config = {
 

@@ -7,7 +7,7 @@
   imports = [
     ../../profiles/develop
     # ../../profiles/network # sets up wireless
-    ../../profiles/graphical
+    # ../../profiles/graphical
     ../../profiles/darwin
     # ../../profiles/misc/yubikey.nix
     # ../../profiles/studio

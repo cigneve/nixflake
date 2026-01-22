@@ -91,9 +91,9 @@
     pkgs' = pkgsFor nixos [overlay];
     # unstable' = pkgsFor nixpkgs [];
 
-    mkSystem = mkSystemForOs nixpkgs.lib.nixosSystem; 
+    mkSystem = mkSystemForOs [./profiles/core] nixpkgs.lib.nixosSystem; 
 
-    mkSystemForOs = systemFunc: pkgs: system: hostName: let
+    mkSystemForOs = extraModules: systemFunc: pkgs: system: hostName: let
       # unstablePkgs = unstable' system;
       osPkgs = pkgsFor pkgs [overlay vsc-extensions.overlays.default] system;
     in
@@ -106,7 +106,6 @@
         modules = let
           home-manager-module = (home.nixosModules).home-manager;
           wsl-module = (nixos-wsl.nixosModules).wsl;
-          core = ./profiles/core;
 
           global = {
             networking.hostName = hostName;
@@ -143,7 +142,6 @@
           flakeModules
           ++ [
             global
-            core
             hostConfiguration
           ]
           ++
@@ -157,7 +155,9 @@
             }
           ] else [
             home.darwinModules.home-manager
-            ]);
+            ])
+          ++ extraModules
+        ;
       };
 
     outputs = {
@@ -171,7 +171,7 @@
       };
 
       darwinConfigurations = {
-        mba = mkSystemForOs darwin.lib.darwinSystem nixos "aarch64-darwin" "mba"; 
+        mba = mkSystemForOs [] darwin.lib.darwinSystem nixos "aarch64-darwin" "mba"; 
       };
 
       nixosModules = {};

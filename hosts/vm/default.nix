@@ -22,6 +22,7 @@ in {
     # ../../profiles/misc/yubikey.nix
     ../../users/baba
     ../../users/root
+    ../../profiles/services/immich
   ];
 
 

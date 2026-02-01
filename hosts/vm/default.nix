@@ -22,8 +22,13 @@ in {
     # ../../profiles/misc/yubikey.nix
     ../../users/baba
     ../../users/root
-    ../../profiles/services/immich
+    ../../profiles/services
   ];
+
+  cigneve_mealie.enable = true;
+  cigneve_karakeep.enable = true;
+  cigneve_stalwart.enable = true;
+  cigneve_immich.enable = true;
 
 
   documentation.man.enable = lib.mkForce false;

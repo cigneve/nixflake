@@ -267,6 +267,21 @@
         "type": "github"
       }
     },
+    "quadlet-nix": {
+      "locked": {
+        "lastModified": 1769966843,
+        "narHash": "sha256-enKACLREiXH8VhFwENIk++gWfjmvNi5Gy5ZS3JTT9B4=",
+        "owner": "SEIAROTg",
+        "repo": "quadlet-nix",
+        "rev": "50f2317ae3ed8b72fa3011091f88965bfec42c6c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "SEIAROTg",
+        "repo": "quadlet-nix",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "darwin": "darwin",
@@ -282,6 +297,7 @@
         "nixpkgs": "nixpkgs",
         "nixpkgs-stable": "nixpkgs-stable",
         "plasma-manager": "plasma-manager",
+        "quadlet-nix": "quadlet-nix",
         "vsc-extensions": "vsc-extensions"
       }
     },

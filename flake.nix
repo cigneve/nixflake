@@ -49,6 +49,10 @@
       flake = false;
     };
 
+    quadlet-nix = {
+      url = "github:SEIAROTg/quadlet-nix";
+    };
+    
   };
 
   outputs = inputs @ {
@@ -62,6 +66,7 @@
     disko,
     plasma-manager,
     vsc-extensions,
+    quadlet-nix,
     ...
   }: let
     inherit (builtins) attrValues;
@@ -150,8 +155,9 @@
             home-manager-module
             disko.nixosModules.disko
             inputs.musnix.nixosModules.musnix
+            quadlet-nix.nixosModules.quadlet
             {
-              home-manager.sharedModules = [plasma-manager.homeManagerModules.plasma-manager];
+              home-manager.sharedModules = [plasma-manager.homeManagerModules.plasma-manager inputs.quadlet-nix.homeManagerModules.quadlet];
             }
           ] else [
             home.darwinModules.home-manager

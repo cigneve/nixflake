@@ -70,11 +70,14 @@ in {
 
 
   # Track list of enabled modules for localmodconfig generation.
-  environment.systemPackages = [
-    pkgs.modprobed-db
-    pkgs.btrfs-progs
-    pkgs.compsize
+   environment.systemPackages = with pkgs;[
+     modprobed-db
+     btrfs-progs
+     compsize
   ];
+  services.spice-autorandr.enable = true;
+  services.spice-vdagentd.enable = true;
+  services.spice-webdavd.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

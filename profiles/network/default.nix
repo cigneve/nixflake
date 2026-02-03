@@ -3,7 +3,7 @@
   pkgs,
   ...
 }: {
-  imports = [./torrent.nix ./wireguard.nix ./tailscale.nix];
+  imports = [./torrent.nix ./wireguard.nix ./tailscale.nix ../ssh];
 
   networking.firewall.enable = true;
   networking.nftables.enable = true;

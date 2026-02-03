@@ -4,7 +4,7 @@ _: {
     ports = [777];
     settings = {
       KbdInteractiveAuthentication = false;
-      PasswordAuthentication = false;
+      PasswordAuthentication = true;
     };
   };
 }

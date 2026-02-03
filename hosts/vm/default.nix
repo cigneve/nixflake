@@ -17,7 +17,7 @@ in {
     ./disko.nix
     ../../profiles/zram # Use zram for swap
     # ../../profiles/laptop
-    # ../../profiles/network # sets up wireless
+    ../../profiles/network # sets up wireless
     ../../profiles/graphical
     # ../../profiles/misc/yubikey.nix
     ../../users/baba

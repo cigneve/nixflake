@@ -17,44 +17,17 @@
   almond = "ECCDBA";
   neon = "5A4689";
 in {
-  programs =
-    if pkgs.stdenv.isLinux
-    then {
-      foot.enable = true;
-      foot.settings = {
-        colors = {
-          foreground = lilac;
-          background = revolver;
-          regular0 = berry_saturated;
-          regular1 = bubblegum;
-          regular2 = mint;
-          regular3 = gold;
-          regular4 = berry_fade;
-          regular5 = berry_desaturated;
-          regular6 = neon;
-          regular7 = almond;
-          bright0 = berry_saturated;
-          bright1 = bubblegum;
-          bright2 = mint;
-          bright3 = gold;
-          bright4 = berry_fade;
-          bright5 = berry_desaturated;
-          bright6 = lilac;
-          bright7 = almond;
-        };
-      };
-    }
-    else {
-      ghostty = {
-        enable = true;
-        enableFishIntegration = true;
-        package = pkgs.ghostty-bin;
-        settings = {
-          command = "${pkgs.fish}/bin/fish";
-          theme = "Kanagawa Wave";
-          # You can override the theme by adding a file named theme
-          config-file = "?theme";
-        };
+  programs = {
+    ghostty = {
+      enable = true;
+      enableFishIntegration = true;
+      package = pkgs.ghostty;
+      settings = {
+        command = "${pkgs.fish}/bin/fish";
+        theme = "Kanagawa Wave";
+        # You can override the theme by adding a file named theme
+        config-file = "?theme";
       };
     };
+  };
 }

@@ -16,7 +16,7 @@ in {
           containerConfig = {
             image = "codeberg.org/readeck/readeck:latest";
 
-            publishPorts = ["8080:8080"];
+            publishPorts = ["8000:8000"];
             # Environment variables for custom ports or logs
             # Main data volume (SQLite DB + Archived articles)
             volumes = [

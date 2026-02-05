@@ -28,7 +28,7 @@ in {
   cigneve_mealie.enable = true;
   cigneve_karakeep.enable = true;
   cigneve_stalwart.enable = true;
-  # cigneve_immich.enable = true;
+  cigneve_immich.enable = true;
   cigneve_readeck.enable = true;
 
 

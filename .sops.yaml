@@ -1,11 +1,7 @@
 keys:
-  - &admin_michael age10e9tt2qwq90y5hvl35dau0sm5cm4qvegtw2a70v7sz5fy99de42s9d5nkf
-  - &server_batchn age1wnwfnrqhewjh39pmtyc8zhqw606znskt4h5p9s3pve4apd67gapqj6tr0k
-# …more server keys go here…
+  - &primary age108tyuha7ad6jzyt25h7uqd3sege3yezu6sr4qmnsg80yrvuzhuyqc4qww5
 creation_rules:
-  - path_regex: secrets/vm/[^/]+\.(yaml|json|env|ini)$
+  - path_regex: .*secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
     - age:
-      - *admin_michael
-      - *server_batchn
-
+      - *primary

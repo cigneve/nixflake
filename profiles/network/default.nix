@@ -53,14 +53,4 @@
 
   environment.systemPackages = with pkgs;[openvpn];
 
-  networking.extraHosts = ''
-    127.0.0.1 www.youtube.com
-    127.0.0.1 www.reddit.com
-    127.0.0.1 old.reddit.com
-    127.0.0.1 twitch.tv
-    127.0.0.1 instagram.com
-    127.0.0.1 www.instagram.com
-    127.0.0.1 gap.com.tr
-    127.0.0.1 aliexpress.com
-  '';
 }

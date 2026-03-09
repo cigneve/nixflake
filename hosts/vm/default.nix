@@ -23,6 +23,7 @@ in {
     ../../users/baba
     ../../users/root
     ../../profiles/services
+    ./sops.nix
   ];
 
   cigneve_mealie.enable = true;

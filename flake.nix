@@ -53,6 +53,12 @@
       url = "github:SEIAROTg/quadlet-nix";
     };
     
+
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
   outputs = inputs @ {
@@ -67,6 +73,7 @@
     plasma-manager,
     vsc-extensions,
     quadlet-nix,
+    sops-nix,
     ...
   }: let
     inherit (builtins) attrValues;
@@ -159,6 +166,7 @@
             {
               home-manager.sharedModules = [plasma-manager.homeManagerModules.plasma-manager inputs.quadlet-nix.homeManagerModules.quadlet];
             }
+            sops-nix.nixosModules.sops
           ] else [
             home.darwinModules.home-manager
             ])

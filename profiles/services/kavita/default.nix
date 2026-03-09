@@ -1,0 +1,4 @@
+{...}:
+{
+  services.kavita.enable = true;
+}

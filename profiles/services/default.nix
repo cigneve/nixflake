@@ -6,6 +6,7 @@
     ./mealie
     ./stalwart
     ./karakeep
+    ./kavita
   ];
   config = {
     users.users.services = {

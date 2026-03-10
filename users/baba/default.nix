@@ -145,7 +145,7 @@ in
         # Linux only
         ++ lib.optionals pkgs.stdenv.isLinux [
           # Broken on darwin
-          calibre
+          # calibre
           unrar
           distrobox
         ];

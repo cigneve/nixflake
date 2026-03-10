@@ -1,5 +1,5 @@
 {
-  sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+  sops.age.sshKeyPaths = [ "/home/baba/.ssh/id_ed25519" ];
   sops.defaultSopsFile = ./secrets/secrets.yaml;
   sops.defaultSopsFormat = "yaml";
   sops.secrets."cloudflared-creds" = {};

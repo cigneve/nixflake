@@ -1,0 +1,20 @@
+{ pkgs, lib, ... }:
+{
+  home-manager.users.baba = {
+    programs.fish = {
+      enable = lib.mkForce true;
+      plugins = [
+        {
+          name = "autopair";
+          src = pkgs.fishPlugins.autopair.src;
+        }
+        {
+          name = "fzf";
+          src = pkgs.fishPlugins.fzf-fish.src;
+        }
+      ];
+      shellInit = builtins.readFile ./config.fish;
+      shellAbbrs = { };
+    };
+  };
+}

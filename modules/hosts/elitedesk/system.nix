@@ -27,6 +27,7 @@
       ];
       boot.loader.systemd-boot.enable = true;
       system.stateVersion = "26.05";
+      boot.initrd.availableKernelModules = [ "virtio_scsi" "virtio_blk" "virtio_pci" "virtio_net" ];
     };
   };
 }

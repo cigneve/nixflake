@@ -13,7 +13,7 @@
   };
 
   disko.devices.disk.main = {
-    device = "/dev/sdb";
+    device = "/dev/sda";
     type = "disk";
 
     content.type = "gpt";
@@ -37,6 +37,7 @@
     };
 
     content.partitions.swap = {
+      name = "swap";
       size = "4G";
 
       content = {
@@ -62,6 +63,26 @@
           "/nix" = {
             mountOptions = ["subvol=nix" "noatime"];
             mountpoint = "/nix";
+          };
+        };
+      };
+    };
+  };
+
+  disko.devices.disk.storage = {
+    device = "/dev/sdb"; # Ensure this matches your HDD
+    type = "disk";
+    content = {
+      type = "gpt";
+      partitions = {
+        data = {
+          name = "data";
+          size = "100%";
+          content = {
+            type = "btrfs";
+            extraArgs = ["-f"];
+            # Mounts the HDD directly into your persistent storage directory
+            mountpoint = "/persistent/storage"; 
           };
         };
       };

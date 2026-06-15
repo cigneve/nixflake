@@ -9,7 +9,7 @@
 in {
   den.hosts.x86_64-linux.utm = {
     description = "UTM vm";
-    users.bab = {};
+    users.baba = {};
   };
 
   den.aspects.utm = {

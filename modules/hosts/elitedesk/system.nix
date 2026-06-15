@@ -6,7 +6,7 @@
 }: {
   den.hosts.x86_64-linux.elitedesk = {
     description = "Elitedesk NixOS virtual machine";
-    users.bab = {};
+    users.baba = {};
   };
 
   den.aspects.elitedesk = {

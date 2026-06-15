@@ -1,6 +1,6 @@
 {
   den,
-  addax,
+  cig,
   inputs,
   ...
 }: {
@@ -11,7 +11,7 @@
     };
   };
 
-  imports = [inputs.treefmt-nix.flakeModule];
+  # imports = [inputs.treefmt-nix.flakeModule];
 
   den.classes.treefmt = {};
 
@@ -26,10 +26,10 @@
 
   den.schema.flake-parts.includes = [
     den.policies.treefmt-to-flake-parts
-    addax.formatter-fp
+    cig.formatter-fp
   ];
 
-  addax.formatter-fp =
+  cig.formatter-fp = {
       treefmt = {
         # Used to find the project root
         # projectRootFile = "flake.nix";
@@ -94,5 +94,6 @@
           #   ];
           # };
         };
+    };
     };
 }

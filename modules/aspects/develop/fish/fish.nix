@@ -1,4 +1,4 @@
-{cig, ...}: {
+{cig, lib, pkgs, ...}: {
   cig.shells._.fish = {
     homeManager = {
       pkgs,

@@ -1,6 +1,8 @@
 {
   cig,
   den,
+  pkgs,
+  lib,
   ...
 }: let
   linuxPackages = pkgs.linuxPackages_latest;

@@ -118,7 +118,6 @@
     # inputs.nix-maid.nixosModules.default
     # inputs.hjem.nixosModules.default
 
-    inputs.git-hooks-nix.flakeModule
   ];
 
   systems = import inputs.systems;

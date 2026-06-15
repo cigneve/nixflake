@@ -1,4 +1,4 @@
-{cig, ...}: {
+{cig, pkgs, ...}: {
   fonts = let
     personalFonts = {
       monospace = "Comic Code Medium";

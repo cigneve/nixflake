@@ -1,53 +1,56 @@
 {
+  cig,
   pkgs,
   lib,
   ...
 }: {
-  environment.systemPackages = with pkgs; [
-    kdePackages.kdeconnect-kde
-  ];
+  cig.plasma.nixos = {
+    environment.systemPackages = with pkgs; [
+      kdePackages.kdeconnect-kde
+    ];
 
-  environment.plasma6.excludePackages = with pkgs.kdePackages; [
-    # plasma-browser-integration
-    konsole
-    oxygen
-    kate
-    elisa
-  ];
+    environment.plasma6.excludePackages = with pkgs.kdePackages; [
+      # plasma-browser-integration
+      konsole
+      oxygen
+      kate
+      elisa
+    ];
 
-  services = {
-    # Scaling factor for fonts and graphical elements on the screen
-    xserver = {
-      dpi = 244;
-      enable = true;
-      exportConfiguration = true;
-    };
-    libinput.enable = true;
-    desktopManager = {
-      plasma6.enable = true;
-    };
-    displayManager = {
-      sddm = {
+    services = {
+      # Scaling factor for fonts and graphical elements on the screen
+      xserver = {
+        dpi = 244;
         enable = true;
-        autoNumlock = true;
-
-        wayland = {
-          enable = true;
-          compositor = "kwin";
-        };
-
-        settings = {
-          Theme = {
-            # CursorTheme = "layan-border_cursors";
-          };
-        };
-        # theme = "breeze";
+        exportConfiguration = true;
       };
-      defaultSession = "plasma";
-    };
+      libinput.enable = true;
+      desktopManager = {
+        plasma6.enable = true;
+      };
+      displayManager = {
+        sddm = {
+          enable = true;
+          autoNumlock = true;
 
-    # ---------------------------------------------------------------------
-    # Video settings that go hand-in-hand with OpenGL
-    # ---------------------------------------------------------------------
+          wayland = {
+            enable = true;
+            compositor = "kwin";
+          };
+
+          settings = {
+            Theme = {
+              # CursorTheme = "layan-border_cursors";
+            };
+          };
+          # theme = "breeze";
+        };
+        defaultSession = "plasma";
+      };
+
+      # ---------------------------------------------------------------------
+      # Video settings that go hand-in-hand with OpenGL
+      # ---------------------------------------------------------------------
+    };
   };
 }

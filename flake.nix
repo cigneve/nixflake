@@ -2,15 +2,17 @@
   description = "My personal Nix infrastructure using dendritic pattern with Den framework.";
 
   inputs = {
+    den.url = "github:denful/den";
     flake-parts.url = "github:hercules-ci/flake-parts";
+    flake-file.url = "github:denful/flake-file";
     import-tree.url = "github:vic/import-tree";
 
     nixos.url = "nixpkgs/nixos-unstable";
     nixpkgs.url = "nixpkgs/nixpkgs-unstable";
     nixpkgs-stable.url = "nixpkgs/nixos-24.05";
 
-    home.url = "github:rycee/home-manager";
-    home.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.url = "github:rycee/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     nixos-wsl.url = "github:nix-community/NixOS-WSL";
     nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
@@ -26,7 +28,7 @@
     plasma-manager = {
       url = "github:nix-community/plasma-manager";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home";
+      inputs.home-manager.follows = "home-manager";
     };
 
     vsc-extensions = {

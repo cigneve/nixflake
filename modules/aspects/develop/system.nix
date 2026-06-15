@@ -1,10 +1,6 @@
-{ pkgs, lib, ... }:
+{cig, pkgs, lib, ... }:
 {
-  imports = [
-    ./fish/system.nix
-  ];
-
-  environment =
+  cig.aspects.develop._.system.nixos = {environment =
     let
       envVars = {
         PAGER = "less";
@@ -64,5 +60,5 @@
       else { variables = envVars; }
     );
 
-  documentation.man.enable = true;
+  documentation.man.enable = true;};
 }

@@ -37,6 +37,21 @@
         "type": "github"
       }
     },
+    "den": {
+      "locked": {
+        "lastModified": 1781539544,
+        "narHash": "sha256-Iepr4wcbF9o8o5vBRlNiymSaFhhGRbE1YA9GbGC59S8=",
+        "owner": "denful",
+        "repo": "den",
+        "rev": "2589d732f020970c83541b249d97bec4932ee163",
+        "type": "github"
+      },
+      "original": {
+        "owner": "denful",
+        "repo": "den",
+        "type": "github"
+      }
+    },
     "disko": {
       "inputs": {
         "nixpkgs": [
@@ -73,6 +88,39 @@
         "type": "github"
       }
     },
+    "flake-file": {
+      "locked": {
+        "lastModified": 1781217157,
+        "narHash": "sha256-N3q/SP2Ropk336e9KSgLh7kpROY6P70dprYdbPIfd5c=",
+        "owner": "denful",
+        "repo": "flake-file",
+        "rev": "ce63eaf7ebfe04a176653f66385a7f0a36380cee",
+        "type": "github"
+      },
+      "original": {
+        "owner": "denful",
+        "repo": "flake-file",
+        "type": "github"
+      }
+    },
+    "flake-parts": {
+      "inputs": {
+        "nixpkgs-lib": "nixpkgs-lib"
+      },
+      "locked": {
+        "lastModified": 1778716662,
+        "narHash": "sha256-m1Yf0wZ8j1OHjTc2UwHwyQRSnNeSgLJOd7q5Y45hzi4=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "f7c1a2d347e4c52d5fb8d10cb4d94b5884e546fb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
+      }
+    },
     "hardware": {
       "locked": {
         "lastModified": 1772972630,
@@ -88,18 +136,18 @@
         "type": "github"
       }
     },
-    "home": {
+    "home-manager": {
       "inputs": {
         "nixpkgs": [
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1772985285,
-        "narHash": "sha256-wEEmvfqJcl9J0wyMgMrj1TixOgInBW/6tLPhWGoZE3s=",
+        "lastModified": 1781533608,
+        "narHash": "sha256-Mgsu/x5cs8EqlhIQ7bMBo14LpkAYtgzDbG/S/eattJA=",
         "owner": "rycee",
         "repo": "home-manager",
-        "rev": "5be5d8245cbc7bc0c09fbb5f38f23f223c543f85",
+        "rev": "8aec76cc1e045f37b55d82ca3cee4910ae04d3db",
         "type": "github"
       },
       "original": {
@@ -137,6 +185,21 @@
       "original": {
         "owner": "homebrew",
         "repo": "homebrew-core",
+        "type": "github"
+      }
+    },
+    "import-tree": {
+      "locked": {
+        "lastModified": 1778781969,
+        "narHash": "sha256-Jjuz5CmSkur8KvLDoGa+vylEp+RkQtv4mt/qcMznpH0=",
+        "owner": "vic",
+        "repo": "import-tree",
+        "rev": "d321337efd0f23a9eb14a42adb7b2c29313ab274",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vic",
+        "repo": "import-tree",
         "type": "github"
       }
     },
@@ -229,6 +292,21 @@
         "type": "indirect"
       }
     },
+    "nixpkgs-lib": {
+      "locked": {
+        "lastModified": 1777168982,
+        "narHash": "sha256-GOkGPcboWE9BmGCRMLX3worL4EMnsnG8MyKmXNeYuhQ=",
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "rev": "f5901329dade4a6ea039af1433fb087bd9c1fe14",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "type": "github"
+      }
+    },
     "nixpkgs-stable": {
       "locked": {
         "lastModified": 1735563628,
@@ -247,7 +325,7 @@
     "plasma-manager": {
       "inputs": {
         "home-manager": [
-          "home"
+          "home-manager"
         ],
         "nixpkgs": [
           "nixpkgs"
@@ -285,11 +363,15 @@
     "root": {
       "inputs": {
         "darwin": "darwin",
+        "den": "den",
         "disko": "disko",
+        "flake-file": "flake-file",
+        "flake-parts": "flake-parts",
         "hardware": "hardware",
-        "home": "home",
+        "home-manager": "home-manager",
         "homebrew-cask": "homebrew-cask",
         "homebrew-core": "homebrew-core",
+        "import-tree": "import-tree",
         "musnix": "musnix",
         "nix-homebrew": "nix-homebrew",
         "nixos": "nixos",

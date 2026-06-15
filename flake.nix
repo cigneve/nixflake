@@ -57,6 +57,37 @@
     quadlet-nix = {
       url = "github:SEIAROTg/quadlet-nix";
     };
+    hjem-rum = {
+      url = "github:snugnug/hjem-rum";
+      # You may want hjem-rum to use your defined nixpkgs input to
+      # minimize redundancies.
+      inputs.nixpkgs.follows = "nixpkgs";
+      # Same goes for hjem, to avoid discrepancies between the version
+      # you use directly and the one hjem-rum uses.
+      # inputs.hjem.follows = "hjem";
+    };
+
+    systems.url = "github:nix-systems/x86_64-linux";
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+      inputs.systems.follows = "systems";
+    };
+    flake-compat = {
+      url = "github:nix-community/flake-compat";
+      # flake = false;
+    };
+    nix-formatter-pack = {
+      url = "github:Gerschtli/nix-formatter-pack";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+      };
+    };
 
     sops-nix = {
       url = "github:Mic92/sops-nix";

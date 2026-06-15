@@ -1,5 +1,4 @@
-{cig, pkgs, ...}: {
-  fonts = let
+{cig,  ...}:   let
     personalFonts = {
       monospace = "Comic Code Medium";
       serifAlias = "Cambria";
@@ -7,6 +6,8 @@
       sans = "Avenir Next LT Pro";
     };
   in {
+    cig.fonts.nixos = {pkgs,...}:{
+      fonts = {
     packages = with pkgs; [
       ubuntu-classic
       font-awesome
@@ -38,5 +39,5 @@
 
       </fontconfig>
     '';
-  };
+   }; };
 }

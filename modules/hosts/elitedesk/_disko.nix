@@ -13,7 +13,7 @@
   };
 
   disko.devices.disk.main = {
-    device = "/dev/vda";
+    device = "/dev/sdb";
     type = "disk";
 
     content.type = "gpt";

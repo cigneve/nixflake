@@ -82,11 +82,11 @@
     #   };
     # };
 
-    nix =
+    nix = 
       # let
       #   flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
       # in
-      {
+        {
         # package =
         #   lib.mkForce
         #     # pkgs.nix;
@@ -102,51 +102,42 @@
         # );
 
         # Garbage collecting.
-        gc = {
-          automatic = true;
-          dates = "weekly";
-          options = "--delete-older-than 7d";
-        };
-
-        nix = {
-          gc.automatic = true;
-          optimise.automatic = true;
-          settings = {
-            cores = 0;
-            # auto-optimise-store = true;
-            # sandbox = true;
-            allowed-users =
-              if pkgs.stdenv.isLinux
-              then ["@wheel"]
-              else ["@admin"];
-            trusted-users = ["root" "@wheel"];
+          gc = {
+            automatic = true;
+            dates = "weekly";
+            options = "--delete-older-than 7d";
           };
+
+          optimise.automatic = true;
           extraOptions = ''
             experimental-features = nix-command flakes
             keep-outputs = true
             keep-derivations = true
           '';
-        };
 
         settings = {
+          cores = 0;
+          # auto-optimise-store = true;
+          # sandbox = true;
+          trusted-users = ["root" "@wheel"];
           experimental-features = [
-            "auto-allocate-uids"
-            "blake3-hashes"
-            "ca-derivations"
-            "cgroups"
-            "dynamic-derivations"
-            "fetch-closure"
-            "fetch-tree"
+            # "auto-allocate-uids"
+            # "blake3-hashes"
+            # "ca-derivations"
+            # "cgroups"
+            # "dynamic-derivations"
+            # "fetch-closure"
+            # "fetch-tree"
             "flakes"
-            "git-hashing"
-            "impure-derivations"
+            # "git-hashing"
+            # "impure-derivations"
             #"local-overlay-store"
             "nix-command"
-            "parse-toml-timestamps"
-            "pipe-operators"
+            # "parse-toml-timestamps"
+            # "pipe-operators"
             # "pipe-operator"
-            "read-only-local-store"
-            "recursive-nix"
+            # "read-only-local-store"
+            # "recursive-nix"
             # "repl-automation"
             # Mounted SSH store (`mounted-ssh-store`)
             # Local overlay store (`local-overlay-store`)
@@ -154,34 +145,29 @@
             # Allow forcing trust settings for the Nix daemon (`daemon-trust-override`)
           ];
 
-          auto-allocate-uids = true;
+          # auto-allocate-uids = true;
 
           # Deduplicate and optimize nix store
-          auto-optimise-store = true;
+          # auto-optimise-store = true;
 
           # Opinionated: disable global registry
           #flake-registry = "";
           # Workaround for https://github.com/NixOS/nix/issues/9574
           # nix-path = config.nix.nixPath;
 
-          lazy-trees = true;
+          # lazy-trees = true;
 
-          lint-url-literals = "fatal";
+          # lint-url-literals = "fatal";
           # lint-short-path-literals = "warn";
           # lint-absolute-path-literals = "warn";
 
           warn-dirty = false;
 
           # Avoid unwanted garbage collection when using nix-direnv.
-          keep-outputs = true;
-          keep-derivations = true;
+          # keep-outputs = true;
+          # keep-derivations = true;
 
-          trusted-users = [
-            "root"
-            "@wheel"
-          ];
         };
-        # Completely disable channels.
         channel.enable = false;
       };
 
@@ -189,18 +175,18 @@
     boot = {
       loader = {
         systemd-boot.enable = true;
-        grub = {
-          enable = lib.mkForce true;
-          #device = "/dev/nvme0n1p5";
-          device = "nodev";
-          efiSupport = true;
-          #efiInstallAsRemovable = true; # in case canTouchEfiVariables doesn't work for your system
-          useOSProber = true;
-          configurationLimit = 10;
-        };
+        # grub = {
+        #   enable = lib.mkForce true;
+        #   #device = "/dev/nvme0n1p5";
+        #   device = "nodev";
+        #   efiSupport = true;
+        #   #efiInstallAsRemovable = true; # in case canTouchEfiVariables doesn't work for your system
+        #   useOSProber = true;
+        #   configurationLimit = 10;
+        # };
         efi = {
           canTouchEfiVariables = true;
-          efiSysMountPoint = "/boot/efi";
+          # efiSysMountPoint = "/boot/efi";
         };
         timeout = null; # Remain in boot menu indefinitely.
       };
@@ -275,6 +261,7 @@
 
     systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true"; # Don't create default ~/Sync folder.
 
+  };
     den.default.homeManager = {
       programs.home-manager.enable = true;
 
@@ -382,5 +369,5 @@
       #   }
       # ))
     ];
-  };
+
 }

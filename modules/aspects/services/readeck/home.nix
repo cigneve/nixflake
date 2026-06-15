@@ -4,7 +4,7 @@
   config,
   ...
 }: {
-  cig.services._.readeck.nixos.homeManager = {
+  cig.services._.readeck.homeManager = {
     pkgs,
     inputs',
     ...

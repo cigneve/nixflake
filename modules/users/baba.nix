@@ -8,20 +8,14 @@
   email = "contact@aktan.org";
   username = "baba";
 in {
-  den.aspects.baba.nixos = {
-    pkgs,
-    inputs',
-    ...
-  }: {
-    environment.systemPackages = with pkgs; [cachix];
-
+  den.aspects.baba.homeManager = {pkgs,inputs',...}:{
     # programs.gnupg.agent.pinentryPackage = pkgs.pinentry-curses;
-    home-manager.useGlobalPkgs = true; # is this equivalent to stateVersion 20.09?
-    home-manager.useUserPackages = true;
-    home-manager.extraSpecialArgs = {inherit inputs;};
-    home-manager.backupFileExtension = "backup";
+    useGlobalPkgs = true; # is this equivalent to stateVersion 20.09?
+    useUserPackages = true;
+    extraSpecialArgs = {inherit inputs;};
+    backupFileExtension = "backup";
 
-    home-manager.users.baba = {
+    users.baba = {
       imports = [
         ../../modules/features/user/git
         ../../modules/features/user/jj
@@ -159,6 +153,16 @@ in {
         enable = true;
       };
     };
+  };
+  den.aspects.baba.nixos = {
+    pkgs,
+    inputs',
+    ...
+  }: {
+    environment.systemPackages = with pkgs; [cachix];
+
+
+    
 
     users.users.baba =
       if pkgs.stdenv.isLinux

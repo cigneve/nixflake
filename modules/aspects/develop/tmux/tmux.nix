@@ -6,6 +6,10 @@
   # environment.shellAliases = { tx = "tmux new-session -A -s $USER"; };
 
   cig.tmux.homeManager = {
+    pkgs,
+    inputs',
+    ...
+  }: {
     programs.tmux = let
       tpm = pkgs.tmuxPlugins.mkTmuxPlugin {
         pluginName = "tpm";

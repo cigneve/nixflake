@@ -5,6 +5,10 @@
   ...
 }: {
   cig.services._.readeck.nixos.homeManager = {
+    pkgs,
+    inputs',
+    ...
+  }: {
     services = {
       virtualisation.quadlet = {
         containers.readeck = {

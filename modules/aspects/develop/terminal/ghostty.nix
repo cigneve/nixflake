@@ -20,6 +20,10 @@
 in {
   cig.terminal._.ghostty = {
     homeManager = {
+      pkgs,
+      inputs',
+      ...
+    }: {
       programs = {
         ghostty = {
           enable = true;

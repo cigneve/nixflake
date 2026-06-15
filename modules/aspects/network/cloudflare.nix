@@ -11,6 +11,10 @@
   '';
 in {
   cig.lab._.cloudflare.nixos = {
+    pkgs,
+    inputs',
+    ...
+  }: {
     environment.systemPackages = [pkgs.cloudflared];
     services.cloudflared = {
       enable = true;

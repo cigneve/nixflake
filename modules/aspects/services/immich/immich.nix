@@ -6,6 +6,10 @@
   ...
 }: {
   cig.services._.immich.homeManager = {
+    pkgs,
+    inputs',
+    ...
+  }: {
     virtualisation.quadlet = let
       envList = {
         UPLOAD_LOCATION = "./library";

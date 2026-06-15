@@ -1,5 +1,9 @@
 {lib, ...}: {
   cig.yazi.homeManager = {
+    pkgs,
+    inputs',
+    ...
+  }: {
     programs.yazi = {
       enable = true;
       enableFishIntegration = false;

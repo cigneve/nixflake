@@ -1,6 +1,10 @@
 {cig, ...}: {
   cig.shells._.fish = {
     homeManager = {
+      pkgs,
+      inputs',
+      ...
+    }: {
       programs.fish = {
         enable = lib.mkForce true;
         plugins = [

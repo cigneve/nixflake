@@ -4,6 +4,10 @@
   ...
 }: {
   cig.git.homeManager = {
+    pkgs,
+    inputs',
+    ...
+  }: {
     programs.gh = {
       enable = true;
       enableGitCredentialHelper = true;

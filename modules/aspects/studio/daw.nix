@@ -1,5 +1,9 @@
 {pkgs, ...}: {
   cig.studio._.daw.nixos = {
+    pkgs,
+    inputs',
+    ...
+  }: {
     environment.systemPackages = with pkgs; [
       reaper
       vital

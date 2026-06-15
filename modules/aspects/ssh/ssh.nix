@@ -1,5 +1,9 @@
 {cig, ...}: {
   cig.ssh.nixos = {
+    pkgs,
+    inputs',
+    ...
+  }: {
     services.openssh = {
       enable = true;
       ports = [777];

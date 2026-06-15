@@ -4,6 +4,10 @@
   ...
 }: {
   cig.videoEditing.nixos = {
+    pkgs,
+    inputs',
+    ...
+  }: {
     environment.systemPackages = with pkgs; [
       kdePackages.kdenlive
       obs-cli

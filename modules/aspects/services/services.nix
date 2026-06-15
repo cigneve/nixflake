@@ -5,6 +5,10 @@
   ...
 }: {
   cig.services.nixos = {
+    pkgs,
+    inputs',
+    ...
+  }: {
     users.users.services = {
       isNormalUser = true;
       group = "services_group";

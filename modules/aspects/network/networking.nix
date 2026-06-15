@@ -4,6 +4,10 @@
   ...
 }: {
   cig.networking.nixos = {
+    pkgs,
+    inputs',
+    ...
+  }: {
     networking.firewall.enable = true;
     networking.nftables.enable = true;
 

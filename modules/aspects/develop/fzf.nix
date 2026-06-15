@@ -4,6 +4,10 @@
   ...
 }: {
   cig.fzf.homeManager = {
+    pkgs,
+    inputs',
+    ...
+  }: {
     programs.fzf = {
       enable = true;
       defaultOptions = ["--reverse" "--ansi"];

@@ -1,6 +1,5 @@
 {
   inputs,
-  pkgs,
   lib,
   config,
   ...
@@ -9,7 +8,11 @@
   email = "contact@aktan.org";
   username = "baba";
 in {
-  den.aspects.baba = {
+  den.aspects.baba.nixos = {
+    pkgs,
+    inputs',
+    ...
+  }: {
     environment.systemPackages = with pkgs; [cachix];
 
     # programs.gnupg.agent.pinentryPackage = pkgs.pinentry-curses;

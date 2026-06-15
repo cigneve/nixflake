@@ -108,6 +108,26 @@
           options = "--delete-older-than 7d";
         };
 
+        nix = {
+          gc.automatic = true;
+          optimise.automatic = true;
+          settings = {
+            cores = 0;
+            # auto-optimise-store = true;
+            # sandbox = true;
+            allowed-users =
+              if pkgs.stdenv.isLinux
+              then ["@wheel"]
+              else ["@admin"];
+            trusted-users = ["root" "@wheel"];
+          };
+          extraOptions = ''
+            experimental-features = nix-command flakes
+            keep-outputs = true
+            keep-derivations = true
+          '';
+        };
+
         settings = {
           experimental-features = [
             "auto-allocate-uids"

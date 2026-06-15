@@ -167,7 +167,7 @@ in {
         description = name;
         isNormalUser = true;
         # mkpasswd -m sha-512 <password>
-        hashedPassword = "$y$j9T$9gXgYwkSGmkBZFHCL81gC1$FbetOSNYOC7rw546mRw6dZxlmgL.v0HDIZa/mWCbkQ0";
+        hashedPassword = "$y$j9T$93SZyV4swekRlckbIQTVO/$Vhc8I4Gt4tMMB9ImvabbkwJ9BzGnOxqq5tJ.jrxRfA5";
         openssh.authorizedKeys.keys = [
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINhYkvu/rVDYYlcM8Rq8HP3KPY2AX3mCvmyZ+/L1/yuh speed@hyrule.local"
         ];

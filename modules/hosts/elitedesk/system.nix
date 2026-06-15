@@ -23,8 +23,26 @@
     nixos = {
       imports = [
         inputs.disko.nixosModules.disko
+        inputs.impermanence.nixosModules.impermanence
         ./_disko.nix
       ];
+      environment.persistence."/persistent" = {
+        hideMounts = true;
+        directories = [
+          "/var/log"
+          "/var/lib/bluetooth"
+          "/var/lib/nixos"
+          "/var/lib/systemd/coredump"
+          "/home" # Persists all user home folders
+        ];
+        files = [
+          "/etc/machine-id"
+          "/etc/passwd"
+          "/etc/group"
+          "/etc/shadow"
+          "/etc/gshadow"
+        ];
+      };
       boot.loader.systemd-boot.enable = true;
       system.stateVersion = "26.05";
       boot.initrd.availableKernelModules = [ "virtio_scsi" "virtio_blk" "virtio_pci" "virtio_net" ];

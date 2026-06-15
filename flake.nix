@@ -2,6 +2,7 @@
   description = "My personal Nix infrastructure using dendritic pattern with Den framework.";
 
   inputs = {
+    impermanence.url = "github:nix-community/impermanence";
     den.url = "github:denful/den";
     flake-parts.url = "github:hercules-ci/flake-parts";
     flake-file.url = "github:denful/flake-file";

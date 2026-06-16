@@ -1,14 +1,11 @@
 keys:
   - &primary age1sdgx44evfe62xm7kmrl2hs3u3c2f3ltxqy4mpry5w45v9qakmyts3rl75d
   - &server age103fjfz87fg2aye2e6vwdgneqgmkdea9rw4gy7xxr298cm890guksv99ml5
+  - &server_ssh "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOJHxvqqXt9KKIJR2807T+y+13cdvbxf3ug1Z207VNTJ baba@elitedesk"
 creation_rules:
-  - path_regex: .*secrets/[^/]+\.(yaml|json|env|ini)$
+  - path_regex: .*secrets/[^/]*$
     key_groups:
     - age:
       - *primary
       - *server
-  - path_regex: .*$
-    key_groups:
-    - age:
-      - *primary
-      - *server
+      - *server_ssh

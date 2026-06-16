@@ -12,14 +12,15 @@
   den.aspects.elitedesk = {
     includes = with cig; [
       cig.ssh
-      fzf
       services
       services._.karakeep
       services._.kavita
+      services._.immich
       services._.mealie
       services._.readeck
       services._.stalwart
       security._.sops
+      lab._.cloudflare
       (den.batteries.vm-autologin "bab")
     ];
     nixos = {

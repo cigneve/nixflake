@@ -2,14 +2,29 @@
   inputs,
   cig,
   ...
-}: let
+}:
+let
   name = "Yusuf Said Aktan";
   email = "contact@aktan.org";
   username = "baba";
-in {
-  den.aspects.baba.includes = [cig.shells._.fish cig.editors._.helix cig.git cig.jj];
-  den.aspects.baba.homeManager = {pkgs,lib, inputs',...}:{
-    # programs.gnupg.agent.pinentryPackage = pkgs.pinentry-curses;
+in
+{
+  den.aspects.baba.includes = [
+    cig.shells._.fish
+    cig.editors._.helix
+    cig.git
+    cig.jj
+    cig.fzf
+  ];
+  den.aspects.baba.homeManager =
+    {
+      pkgs,
+      lib,
+      inputs',
+      ...
+    }:
+    {
+      # programs.gnupg.agent.pinentryPackage = pkgs.pinentry-curses;
 
       home.sessionVariables = {
         TERM = "foot";
@@ -34,7 +49,8 @@ in {
         enable = true;
       };
 
-      home.packages = with pkgs;
+      home.packages =
+        with pkgs;
         [
           home-manager
           # pinentry_mac
@@ -76,13 +92,13 @@ in {
           beancount
         ]
         ++
-        # Bilkent stuff
-        [
-          # Java
-          jdt-language-server
-          openjdk
-          gradle
-        ]
+          # Bilkent stuff
+          [
+            # Java
+            jdt-language-server
+            openjdk
+            gradle
+          ]
         # Linux only
         ++ lib.optionals pkgs.stdenv.isLinux [
           # Broken on darwin
@@ -100,7 +116,7 @@ in {
       home.stateVersion = "26.05";
 
       programs.git = {
-        settings.user = {inherit name email;};
+        settings.user = { inherit name email; };
         # signing = {
         #   # TODO: not me
         #   key = "F604E0EBDF3A34F2B9B472621238B9C4AD889640";
@@ -141,60 +157,63 @@ in {
       programs.watson = {
         enable = true;
       };
-  };
-  den.aspects.baba.nixos = {
-    pkgs,
-    lib,
-    inputs',
-    ...
-  }: {
-    environment.systemPackages = with pkgs; [cachix];
+    };
+  den.aspects.baba.nixos =
+    {
+      pkgs,
+      lib,
+      inputs',
+      ...
+    }:
+    {
+      environment.systemPackages = with pkgs; [ cachix ];
 
-    home-manager.useGlobalPkgs = true; # is this equivalent to stateVersion 20.09?
-    home-manager.useUserPackages = true;
-    home-manager.extraSpecialArgs = {inherit inputs;};
-    home-manager.backupFileExtension = "backup";
+      home-manager.useGlobalPkgs = true; # is this equivalent to stateVersion 20.09?
+      home-manager.useUserPackages = true;
+      home-manager.extraSpecialArgs = { inherit inputs; };
+      home-manager.backupFileExtension = "backup";
 
-    users.users.baba =
-      if pkgs.stdenv.isLinux
-      then {
-        uid = 1000;
-        description = name;
-        isNormalUser = true;
-        shell = pkgs.fish;
-        # mkpasswd -m sha-512 <password>
-        hashedPassword = "$6$TcpkJpYJiFiP.7ZF$.dg/CXEqaC646ad6m3oMIZHwCDZVjzydFebiA/K8HN4MFo0NGk7NmmnUqfS/4jSJLpKjO7ZL7g9iiIC3.AJI0.";
-        openssh.authorizedKeys.keys = [
-          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINhYkvu/rVDYYlcM8Rq8HP3KPY2AX3mCvmyZ+/L1/yuh speed@hyrule.local"
-        ];
-        # video is needed to control the backlight
-        extraGroups = [
-          "wheel"
-          "input"
-          "docker"
-          "video"
-          "audio"
-          "network"
-          "networkmanager"
-        ];
-      }
-      else {
-        name = "ysaktan";
-        home = "/Users/ysaktan";
-      };
+      users.users.baba =
+        if pkgs.stdenv.isLinux then
+          {
+            uid = 1000;
+            description = name;
+            isNormalUser = true;
+            shell = pkgs.fish;
+            # mkpasswd -m sha-512 <password>
+            hashedPassword = "$6$TcpkJpYJiFiP.7ZF$.dg/CXEqaC646ad6m3oMIZHwCDZVjzydFebiA/K8HN4MFo0NGk7NmmnUqfS/4jSJLpKjO7ZL7g9iiIC3.AJI0.";
+            openssh.authorizedKeys.keys = [
+              "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINhYkvu/rVDYYlcM8Rq8HP3KPY2AX3mCvmyZ+/L1/yuh speed@hyrule.local"
+            ];
+            # video is needed to control the backlight
+            extraGroups = [
+              "wheel"
+              "input"
+              "docker"
+              "video"
+              "audio"
+              "network"
+              "networkmanager"
+            ];
+          }
+        else
+          {
+            name = "ysaktan";
+            home = "/Users/ysaktan";
+          };
 
-    # # TODO: is this idiomatic?
-    # services = lib.optionalAttrs pkgs.stdenv.isLinux {
-    #   # Avoid typing the username on TTY and only prompt for the password
-    #   # https://wiki.archlinux.org/title/Getty#Prompt_only_the_password_for_a_default_user_in_virtual_console_login
-    #   getty.loginOptions = lib.mkIf pkgs.stdenv.isLinux "-p -- ${username}";
-    #   getty.extraArgs =
-    #     if pkgs.stdenv.isLinux
-    #     then [
-    #       "--noclear"
-    #       "--skip-login"
-    #     ]
-    #     else [];
-    # };
-  };
+      # # TODO: is this idiomatic?
+      # services = lib.optionalAttrs pkgs.stdenv.isLinux {
+      #   # Avoid typing the username on TTY and only prompt for the password
+      #   # https://wiki.archlinux.org/title/Getty#Prompt_only_the_password_for_a_default_user_in_virtual_console_login
+      #   getty.loginOptions = lib.mkIf pkgs.stdenv.isLinux "-p -- ${username}";
+      #   getty.extraArgs =
+      #     if pkgs.stdenv.isLinux
+      #     then [
+      #       "--noclear"
+      #       "--skip-login"
+      #     ]
+      #     else [];
+      # };
+    };
 }

@@ -248,7 +248,9 @@
     };
 
     programs.nano.enable = false;
-    users.defaultUserShell = pkgs.dash;
+    programs.fish.enable = true;
+    programs.zsh.enable = true;
+    environment.binsh = "${pkgs.dash}/bin/dash";
 
     programs.gnupg.agent = {
       enable = true;
@@ -270,6 +272,7 @@
     };
 
     den.schema.user.includes = [den.batteries.mutual-provider];
+    den.schema.user.classes = ["homeManager"];
 
     den.default.includes = [
       # ${user}.provides.${host} and ${host}.provides.${user}

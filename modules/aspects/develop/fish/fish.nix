@@ -1,7 +1,8 @@
-{cig, lib, pkgs, ...}: {
+{cig, pkgs, ...}: {
   cig.shells._.fish = {
     homeManager = {
       pkgs,
+      lib,
       inputs',
       ...
     }: {
@@ -20,12 +21,12 @@
         shellInit = builtins.readFile ./config.fish;
         shellAbbrs = {};
       };
-      nixos = {
-        programs.fish.enable = true;
-      };
-      darwin = {
-        programs.fish.enable = true;
-      };
+    };
+    nixos = {
+      programs.fish.enable = true;
+    };
+    darwin = {
+      programs.fish.enable = true;
     };
   };
 }

@@ -1,26 +1,15 @@
 {
   inputs,
-  lib,
-  config,
+  cig,
   ...
 }: let
   name = "Yusuf Said Aktan";
   email = "contact@aktan.org";
   username = "baba";
 in {
-  den.aspects.baba.homeManager = {pkgs,inputs',...}:{
+  den.aspects.baba.includes = [cig.shells._.fish cig.editors._.helix cig.git cig.jj];
+  den.aspects.baba.homeManager = {pkgs,lib, inputs',...}:{
     # programs.gnupg.agent.pinentryPackage = pkgs.pinentry-curses;
-    useGlobalPkgs = true; # is this equivalent to stateVersion 20.09?
-    useUserPackages = true;
-    extraSpecialArgs = {inherit inputs;};
-    backupFileExtension = "backup";
-
-    users.baba = {
-      imports = [
-        ../../modules/features/user/git
-        ../../modules/features/user/jj
-        ../../modules/features/user/direnv
-      ];
 
       home.sessionVariables = {
         TERM = "foot";
@@ -108,7 +97,7 @@ in {
       #   pinentryPackage = pkgs.pinentry-curses;
       # };
 
-      home.stateVersion = "23.05";
+      home.stateVersion = "26.05";
 
       programs.git = {
         settings.user = {inherit name email;};
@@ -152,17 +141,19 @@ in {
       programs.watson = {
         enable = true;
       };
-    };
   };
   den.aspects.baba.nixos = {
     pkgs,
+    lib,
     inputs',
     ...
   }: {
     environment.systemPackages = with pkgs; [cachix];
 
-
-    
+    home-manager.useGlobalPkgs = true; # is this equivalent to stateVersion 20.09?
+    home-manager.useUserPackages = true;
+    home-manager.extraSpecialArgs = {inherit inputs;};
+    home-manager.backupFileExtension = "backup";
 
     users.users.baba =
       if pkgs.stdenv.isLinux
@@ -170,6 +161,7 @@ in {
         uid = 1000;
         description = name;
         isNormalUser = true;
+        shell = pkgs.fish;
         # mkpasswd -m sha-512 <password>
         hashedPassword = "$6$TcpkJpYJiFiP.7ZF$.dg/CXEqaC646ad6m3oMIZHwCDZVjzydFebiA/K8HN4MFo0NGk7NmmnUqfS/4jSJLpKjO7ZL7g9iiIC3.AJI0.";
         openssh.authorizedKeys.keys = [
@@ -191,18 +183,18 @@ in {
         home = "/Users/ysaktan";
       };
 
-    # TODO: is this idiomatic?
-    services = lib.optionalAttrs pkgs.stdenv.isLinux {
-      # Avoid typing the username on TTY and only prompt for the password
-      # https://wiki.archlinux.org/title/Getty#Prompt_only_the_password_for_a_default_user_in_virtual_console_login
-      getty.loginOptions = lib.mkIf pkgs.stdenv.isLinux "-p -- ${username}";
-      getty.extraArgs =
-        if pkgs.stdenv.isLinux
-        then [
-          "--noclear"
-          "--skip-login"
-        ]
-        else [];
-    };
+    # # TODO: is this idiomatic?
+    # services = lib.optionalAttrs pkgs.stdenv.isLinux {
+    #   # Avoid typing the username on TTY and only prompt for the password
+    #   # https://wiki.archlinux.org/title/Getty#Prompt_only_the_password_for_a_default_user_in_virtual_console_login
+    #   getty.loginOptions = lib.mkIf pkgs.stdenv.isLinux "-p -- ${username}";
+    #   getty.extraArgs =
+    #     if pkgs.stdenv.isLinux
+    #     then [
+    #       "--noclear"
+    #       "--skip-login"
+    #     ]
+    #     else [];
+    # };
   };
 }

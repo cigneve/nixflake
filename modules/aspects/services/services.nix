@@ -22,14 +22,15 @@
       autoSubUidGidRange = true;
     };
     users.groups.services_group.gid = 1001;
-    # home-manager.users.services.home.stateVersion = "24.05";
-    _module.args = {
-      serverLib = {
-        volumeAndCreate = source: dest: {
-          containerConfig.volumes = ["${source}:${dest}"];
-          serviceConfig.ExecStartPre = ["${pkgs.coreutils}/bin/mkdir -p ${source}"];
-        };
-      };
-    };
+    home-manager.users.services.home.stateVersion = "26.05";
+    # todo send to children
+    # _module.args = {
+    #   serverLib = {
+    #     volumeAndCreate = source: dest: {
+    #       containerConfig.volumes = ["${source}:${dest}"];
+    #       serviceConfig.ExecStartPre = ["${pkgs.coreutils}/bin/mkdir -p ${source}"];
+    #     };
+    #   };
+    # };
   };
 }

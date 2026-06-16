@@ -1,6 +1,4 @@
 {
-  cig,
-  pkgs,
   ...
 }: {
   cig.fzf.homeManager = {

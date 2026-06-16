@@ -11,13 +11,15 @@
 
   den.aspects.elitedesk = {
     includes = with cig; [
+      cig.ssh
+      fzf
       services
-      services._.immich
       services._.karakeep
-      # services._.kavita
+      services._.kavita
       services._.mealie
       services._.readeck
       services._.stalwart
+      security._.sops
       (den.batteries.vm-autologin "bab")
     ];
     nixos = {
@@ -33,14 +35,12 @@
           "/var/lib/bluetooth"
           "/var/lib/nixos"
           "/var/lib/systemd/coredump"
+          "/etc/ssh"
           "/home" # Persists all user home folders
         ];
         files = [
           "/etc/machine-id"
-          "/etc/passwd"
-          "/etc/group"
-          "/etc/shadow"
-          "/etc/gshadow"
+
         ];
       };
       boot.loader.systemd-boot.enable = true;

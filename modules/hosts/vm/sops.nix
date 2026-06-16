@@ -1,9 +1,12 @@
 {
+  inputs,
   cig,
-  pkgs,
   ...
 }: {
-  cig.security._.sops = {
+  cig.security._.sops.nixos = {pkgs,...}:{
+    imports = [
+      inputs.sops-nix.nixosModules.sops
+    ];
     environment.systemPackages = with pkgs; [sops];
     sops.age.sshKeyPaths = ["/home/baba/.ssh/id_ed25519"];
     sops.defaultSopsFile = ./secrets/secrets.yaml;
@@ -14,6 +17,10 @@
       key = "";
       mode = "0440";
       group = "keys";
+    };
+    sops.secrets."kavitaToken" = {
+      format = "binary";
+      sopsFile = ./secrets/kavitaToken;
     };
   };
 }

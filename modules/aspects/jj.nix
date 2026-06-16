@@ -1,6 +1,5 @@
 {
   cig,
-  config,
   ...
 }: {
   cig.jj.homeManager = {
@@ -12,8 +11,6 @@
       enable = true;
       settings = {
         user = {
-          name = config.programs.git.settings.user.name;
-          email = config.programs.git.settings.user.email;
         };
         aliases = {
           tug = ["bookmark" "move" "--from" "heads(::@- & bookmarks())" "-to" "@-"];

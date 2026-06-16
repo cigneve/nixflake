@@ -4,8 +4,9 @@
     inputs',
     ...
   }: {
-    services.stalwart-mail = {
+    services.stalwart= {
       enable = true;
+      stateVersion = "26.05";
     };
   };
 }

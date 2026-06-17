@@ -27,12 +27,7 @@
           "${UUID}" = {
             credentialsFile = config.sops.secrets.cloudflare.path;
             default = "http_status:404";
-            ingress = {
-              # "immiss.aktan.org" = "http://localhost:8080";
-              "mealie.aktan.org" = "http://localhost:9000";
-              # "readereck.aktan.org" = "http://localhost:9005";
-            };
-            originRequest.noTLSVerify = true;
+            # originRequest.noTLSVerify = true;
             # warp-routing.enabled = true;
           };
         };

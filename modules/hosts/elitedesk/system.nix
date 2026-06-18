@@ -19,6 +19,8 @@
       services._.mealie
       services._.readeck
       services._.stalwart
+      services._.navidrome
+
       security._.sops
       lab._.cloudflare
       cig.network._.tailscale

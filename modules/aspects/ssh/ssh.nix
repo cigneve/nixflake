@@ -10,6 +10,7 @@
       settings = {
         KbdInteractiveAuthentication = false;
         PasswordAuthentication = true;
+        X11Forwarding = true;
       };
     };
   };

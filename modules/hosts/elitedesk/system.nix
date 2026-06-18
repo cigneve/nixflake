@@ -21,6 +21,7 @@
       services._.stalwart
       security._.sops
       lab._.cloudflare
+      cig.network._.tailscale
       (den.batteries.vm-autologin "bab")
     ];
     nixos = {

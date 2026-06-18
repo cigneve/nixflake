@@ -18,6 +18,17 @@
       '';
     in
     {
+      networking.firewall.enable = false;
+      networking.firewall.extraCommands = ''
+        iptables -t nat -A POSTROUTING -o ens18 -j MASQUERADE
+      '';
+      boot.kernel.sysctl = {
+        "net.ipv4.ip_forward" = 1;
+        "net.ipv6.conf.all.forwarding" = 1; # IPv6 trafiği de varsa
+        "net.ipv4.conf.all.rp_filter" = 0;
+        "net.ipv4.conf.default.rp_filter" = 0;
+        "net.ipv4.conf.ens18.rp_filter" = 0; # ens18 sizin ağ kartınızın adı
+      };
       environment.systemPackages = [ pkgs.cloudflared ];
       services.cloudflared = {
         enable = true;
@@ -28,7 +39,7 @@
             credentialsFile = config.sops.secrets.cloudflare.path;
             default = "http_status:404";
             # originRequest.noTLSVerify = true;
-            # warp-routing.enabled = true;
+            warp-routing.enabled = true;
           };
         };
       };

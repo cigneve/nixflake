@@ -3,10 +3,11 @@
   cig,
   den,
   ...
-}: {
+}:
+{
   den.hosts.x86_64-linux.elitedesk = {
     description = "Elitedesk NixOS virtual machine";
-    users.baba = {};
+    users.baba = { };
   };
 
   den.aspects.elitedesk = {
@@ -21,6 +22,14 @@
       services._.stalwart
       services._.navidrome
       services._.explo
+
+      services._.jellyfin
+      services._.prowlarr
+      services._.radarr
+      services._.sonarr
+      services._.lidarr
+      services._.readarr
+      services._.bazarr
 
       security._.sops
       lab._.cloudflare
@@ -50,7 +59,12 @@
       };
       boot.loader.systemd-boot.enable = true;
       system.stateVersion = "26.05";
-      boot.initrd.availableKernelModules = [ "virtio_scsi" "virtio_blk" "virtio_pci" "virtio_net" ];
+      boot.initrd.availableKernelModules = [
+        "virtio_scsi"
+        "virtio_blk"
+        "virtio_pci"
+        "virtio_net"
+      ];
     };
   };
 }

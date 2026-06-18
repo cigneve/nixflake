@@ -20,6 +20,7 @@
       services._.readeck
       services._.stalwart
       services._.navidrome
+      services._.explo
 
       security._.sops
       lab._.cloudflare
